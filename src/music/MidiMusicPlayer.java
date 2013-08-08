@@ -96,7 +96,7 @@ public class MidiMusicPlayer {
 	public void continueMidiMusic() {
 		if (this.currentMidi != null) {
 			try {
-				this.currentMidi.startMusic(currentPosition);
+				this.currentMidi.startMusic(this.currentPosition);
 			} catch (MidiUnavailableException e) {
 				System.err.println("Midi was unavailable!");
 				e.printStackTrace();
