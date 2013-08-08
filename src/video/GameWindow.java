@@ -65,8 +65,9 @@ public class GameWindow extends JFrame{
 	// METHODS ---------------------------------------------------
 	/**Adds a new GamePanel to the given direction.
 	 * 
-	 * @param newPanel
-	 * @param direction
+	 * @param newPanel	The GamePanel you want to add to the window.
+	 * @param direction	The direction where you want to place the panel. (For
+	 * example Borderlayout.NORTH)
 	 */
 	public void addGamePanel(GamePanel newPanel, String direction){
 		this.add(newPanel, direction);
