@@ -1,6 +1,7 @@
 package handlers;
 
-import racekingdoms.RaceKingdoms;
+import video.GameWindow;
+
 
 /**
  * This class calculates millisconds and calls all actors when a certain number 
@@ -20,6 +21,7 @@ public class StepHandler extends ActorHandler implements Runnable
 	private int stepduration;
 	private long lastMillis;
 	private boolean running;
+	private GameWindow window;
 	
 	
 	// CONSTRUCTOR	-------------------------------------------------------
@@ -31,15 +33,16 @@ public class StepHandler extends ActorHandler implements Runnable
 	 * 
 	 * @param stepDuration How long does a single step last in milliseconds.
 	 * In other words, how often are the actors updated.
-	 * @param applet The applet which created the stepHandler
+	 * @param window The which which created the stepHandler
 	 */
-	public StepHandler(int stepDuration)
+	public StepHandler(int stepDuration, GameWindow window)
 	{
 		super(false, null); // Stephandler doesn't have a superhandler
 		this.stepduration = stepDuration;
 		
 		this.lastMillis = 0;
 		this.running = false;
+		this.window = window;
 	}
 	
 	
@@ -60,8 +63,8 @@ public class StepHandler extends ActorHandler implements Runnable
 				super.act();
 				
 				// Updates the game according to the changes
-				this.applet.callScreenUpdate();
-				this.applet.callMousePositionUpdate();
+				this.window.callScreenUpdate();
+				this.window.callMousePositionUpdate();
 			}
 			// Stops running if dies
 			else
