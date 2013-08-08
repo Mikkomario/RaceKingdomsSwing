@@ -1,7 +1,7 @@
 package handlers;
 
 import handleds.Handled;
-import listeners.KeyListener;
+import listeners.AdvancedKeyListener;
 
 /**
  * This class handles a bunch of keylisteners
@@ -9,7 +9,7 @@ import listeners.KeyListener;
  * @author Gandalf.
  *         Created 14.12.2012.
  */
-public class KeyListenerHandler extends LogicalHandler implements KeyListener
+public class KeyListenerHandler extends LogicalHandler implements AdvancedKeyListener
 {
 
 	/**
@@ -53,19 +53,19 @@ public class KeyListenerHandler extends LogicalHandler implements KeyListener
 	@Override
 	protected Class<?> getSupportedClass()
 	{
-		return KeyListener.class;
+		return AdvancedKeyListener.class;
 	}
 	
 	
 	// OTHER METHODS	---------------------------------------------------
 	
 	// Casts a handled to listener
-	private KeyListener getListener(int index)
+	private AdvancedKeyListener getListener(int index)
 	{
 		Handled maybeListener = getHandled(index);
 		
-		if (maybeListener instanceof KeyListener)
-			return (KeyListener) maybeListener;
+		if (maybeListener instanceof AdvancedKeyListener)
+			return (AdvancedKeyListener) maybeListener;
 		else
 			return null;
 	}
@@ -75,7 +75,7 @@ public class KeyListenerHandler extends LogicalHandler implements KeyListener
 	 *
 	 * @param k The KeyListener added
 	 */
-	public void addKeyListener(KeyListener k)
+	public void addKeyListener(AdvancedKeyListener k)
 	{
 		//System.out.println("Adds a listener " + k.getClass().getName());
 		super.addHandled(k);

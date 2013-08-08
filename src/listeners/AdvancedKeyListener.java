@@ -9,7 +9,7 @@ import handleds.LogicalHandled;
  * @author Gandalf.
  *         Created 28.11.2012.
  */
-public interface KeyListener extends LogicalHandled
+public interface AdvancedKeyListener extends LogicalHandled
 {
 	/**
 	 * This method is called at each step when a key is down
