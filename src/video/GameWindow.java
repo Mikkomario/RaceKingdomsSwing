@@ -139,9 +139,16 @@ public class GameWindow extends JFrame{
 	 */
 	public void callMousePositionUpdate(){
 		Point mousePosition = MouseInfo.getPointerInfo().getLocation();
-		//this.mainmousehandler.setMousePosition(mousePosition.x, mousePosition.y);
+		this.mainmousehandler.setMousePosition(mousePosition.x, mousePosition.y);
 	}
 	
+	/**
+	 * This method should be called when the screen needs redrawing
+	 */
+	public void callScreenUpdate()
+	{
+		this.needsUpdating = true;
+	}
 	
 	// MAIN METHOD ---------------------------------------------------
 	/**Starts the program.
@@ -181,13 +188,13 @@ public class GameWindow extends JFrame{
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			//this.mainmousehandler.setMouseStatus(e.getX(), e.getY(), true, this.mouseButton);
+			mainmousehandler.setMouseStatus(e.getX(), e.getY(), true, e.getButton());
 			
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			//this.mainmousehandler.setMouseStatus(e.getX(), e.getY(), false, this.mouseButton);
+			mainmousehandler.setMouseStatus(e.getX(), e.getY(), false, e.getButton());
 			
 		}
 		
@@ -201,14 +208,16 @@ public class GameWindow extends JFrame{
 	private class BasicKeyListener implements KeyListener{
 
 		@Override
-		public void keyPressed(KeyEvent arg0) {
-			// TODO Auto-generated method stub
+		public void keyPressed(KeyEvent ke) {
+			mainkeyhandler.onKeyPressed(ke.getKeyChar(), ke.getKeyCode(), 
+					ke.getKeyChar() == KeyEvent.CHAR_UNDEFINED);
 			
 		}
 
 		@Override
-		public void keyReleased(KeyEvent arg0) {
-			// TODO Auto-generated method stub
+		public void keyReleased(KeyEvent ke) {
+			mainkeyhandler.onKeyReleased(ke.getKeyChar(), ke.getKeyCode(), 
+					ke.getKeyChar() == KeyEvent.CHAR_UNDEFINED);
 			
 		}
 
