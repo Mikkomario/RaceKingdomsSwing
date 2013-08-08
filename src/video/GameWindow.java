@@ -19,6 +19,8 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JFrame;
 
+import tests.MouseTest;
+
 /**
  * Creates the main window frame.
  * 
@@ -124,6 +126,18 @@ public class GameWindow extends JFrame{
 		this.setSize(this.width, this.height);
 	}
 	
+	private void test()
+	{
+		// Activates the handlers
+		this.testactorhandler.activate();
+		this.testkeylistenerhandler.activate();
+		this.testmouselistenerhandler.activate();
+		
+		// Runs tests
+		new MouseTest(this.stephandler, this.drawer, 
+		this.testkeylistenerhandler, this.testmouselistenerhandler).test();
+	}
+	
 	
 	// METHODS ---------------------------------------------------
 	/**Adds a new GamePanel to the given direction.
@@ -164,6 +178,7 @@ public class GameWindow extends JFrame{
 		toinenPaneeli.setBackgroundColor(123, 123, 0, 255);
 		testi.addGamePanel(paneeliTesti, BorderLayout.WEST);
 		testi.addGamePanel(toinenPaneeli, BorderLayout.EAST);
+		testi.test();
 	}
 	
 	/**Main window's helper class, which listens to what the mouse does.

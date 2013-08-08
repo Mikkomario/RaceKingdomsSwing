@@ -22,14 +22,12 @@ public class MouseTest extends AbstractTest implements listeners.AdvancedMouseLi
 	 * @param drawer The drawer that draws created drawables
 	 * @param keylistenerhandler The KeyListenerHandler that informs created listeners
 	 * @param mouselistenerhandler The MouseListenerHandler that informs created listeners
-	 * @param applet The main applet
 	 */
 	public MouseTest(ActorHandler actorhandler, DrawableHandler drawer, 
 			KeyListenerHandler keylistenerhandler, 
-			MouseListenerHandler mouselistenerhandler, 
-			PApplet applet)
+			MouseListenerHandler mouselistenerhandler)
 	{
-		super(actorhandler, drawer, keylistenerhandler, mouselistenerhandler, applet);
+		super(actorhandler, drawer, keylistenerhandler, mouselistenerhandler);
 		mouselistenerhandler.addMouseListener(this);
 		this.active = false;
 		this.isDead = false;
