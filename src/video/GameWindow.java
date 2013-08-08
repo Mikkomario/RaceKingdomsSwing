@@ -63,7 +63,11 @@ public class GameWindow extends JFrame{
 	
 	
 	// METHODS ---------------------------------------------------
-	
+	/**Adds a new GamePanel to the given direction.
+	 * 
+	 * @param newPanel
+	 * @param direction
+	 */
 	public void addGamePanel(GamePanel newPanel, String direction){
 		this.add(newPanel, direction);
 	}
