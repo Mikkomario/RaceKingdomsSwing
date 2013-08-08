@@ -2,6 +2,7 @@ package video;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
@@ -19,6 +20,7 @@ public class GamePanel extends JPanel{
 	private int height;
 	
 	// CONSTRUCTOR ---------------------------------------------------------
+	
 	/**Creates a new panel with default color being
 	 * 
 	 * @param width		Panel's width
@@ -27,38 +29,49 @@ public class GamePanel extends JPanel{
 	public GamePanel(int width, int height){
 		this.width = width;
 		this.height = height;
+		
 		//Let's format our panel
 		this.formatPanel();
+		
 		//And make it visible
 		this.setVisible(true);
-		System.out.println("Panel's width: "+this.width+" Panel's height: "+this.height);
 	}
+	
+	// IMPLEMENTED METHODS	----------------------------------------------
+	
+	@Override
+	public void paintComponent(Graphics g)
+	{
+		// The panel draws the background and all stuff inside it
+	}
+	
 	
 	// PRIVATE METHODS ---------------------------------------------------
 	
-	private void formatPanel(){
+	private void formatPanel()
+	{
 		//Let's set the panel's size...
 		this.setSizes(this.width, this.height);
 		//...And color
-		this.setBackground(new Color(0,0,0,255));
+		this.setBackground(new Color(0,0,0));
 	}
 	
-	// METHODS ---------------------------------------------------
+	// OTHER METHODS ---------------------------------------------------
 	
-	/**Changes the size of the game panel, for real.
+	/**
+	 * Changes the size of the game panel, for real.
 	 * 
 	 * @param width		Panel's new width
 	 * @param height	Panel's new height
 	 */
-	public void setSizes(int width, int height){
+	public void setSizes(int width, int height)
+	{
 		this.setSize(width, height);
 		Dimension preferred = new Dimension(width, height);
 		this.setPreferredSize(preferred);
 		this.setMinimumSize(preferred);
 		this.setMaximumSize(preferred);
 	}
-	
-
 	
 	/**Changes the panel's background color.
 	 * 
@@ -67,23 +80,22 @@ public class GamePanel extends JPanel{
 	 * @param blue
 	 * @param alpha
 	 */
-	public void setBackgroundColor(int red, int green, int blue, int alpha){
+	public void setBackgroundColor(int red, int green, int blue, int alpha)
+	{
 		this.setBackground(new Color(red, green, blue, alpha));
 	}
 	
-	/**Makes the panel visible.
-	 * 
+	/**
+	 * Makes the panel visible.
 	 */
 	public void makeVisible(){
 		this.setVisible(true);
 	}
 	
-	/**Makes the panel invisible.
-	 * 
+	/**
+	 * Makes the panel invisible.
 	 */
 	public void makeInvisible(){
 		this.setVisible(false);
 	}
-	
-
 }
