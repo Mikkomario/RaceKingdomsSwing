@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import handleds.Actor;
 import handleds.Handled;
-import listeners.MouseListener;
+import listeners.AdvancedMouseListener;
 
 /**
  * This class handles the informing of mouselsteners, it does not actively find 
@@ -21,9 +21,9 @@ implements Actor
 	private int mouseX, mouseY;
 	private boolean ldown, rdown, lpressed, rpressed, lreleased, rreleased;
 	
-	private ArrayList<MouseListener> entered;
-	private ArrayList<MouseListener> over;
-	private ArrayList<MouseListener> exited;
+	private ArrayList<AdvancedMouseListener> entered;
+	private ArrayList<AdvancedMouseListener> over;
+	private ArrayList<AdvancedMouseListener> exited;
 	
 	
 	
@@ -42,9 +42,9 @@ implements Actor
 		// Initializes attributes
 		this.mouseX = 0;
 		this.mouseY = 0;
-		this.entered = new ArrayList<MouseListener>();
-		this.over = new ArrayList<MouseListener>();
-		this.exited = new ArrayList<MouseListener>();
+		this.entered = new ArrayList<AdvancedMouseListener>();
+		this.over = new ArrayList<AdvancedMouseListener>();
+		this.exited = new ArrayList<AdvancedMouseListener>();
 		this.lpressed = false;
 		this.rpressed = false;
 		this.lreleased = false;
@@ -63,7 +63,7 @@ implements Actor
 		// Informs the listeners about the mouse's movements and buttons
 		for (int i = 0; i < getHandledNumber(); i++)
 		{
-			MouseListener l = getListener(i);
+			AdvancedMouseListener l = getListener(i);
 			
 			// Checks if informing is needed
 			if (!l.isActive())
@@ -118,7 +118,7 @@ implements Actor
 	@Override
 	protected Class<?> getSupportedClass()
 	{
-		return MouseListener.class;
+		return AdvancedMouseListener.class;
 	}
 	
 	
@@ -178,7 +178,7 @@ implements Actor
 			
 			for (int i = 0; i < getHandledNumber(); i++)
 			{
-				MouseListener l = getListener(i);
+				AdvancedMouseListener l = getListener(i);
 				
 				// Informs about the mouse's movement (if needed)
 				if (l.isActive())
@@ -252,12 +252,12 @@ implements Actor
 	 * @param index The index of the listener in the list
 	 * @return The listener from the given index
 	 */
-	protected MouseListener getListener(int index)
+	protected AdvancedMouseListener getListener(int index)
 	{
 		Handled maybeListener = getHandled(index);
 		
-		if (maybeListener instanceof MouseListener)
-			return (MouseListener) maybeListener;
+		if (maybeListener instanceof AdvancedMouseListener)
+			return (AdvancedMouseListener) maybeListener;
 		else
 			return null;
 	}
@@ -267,7 +267,7 @@ implements Actor
 	 *
 	 * @param m The MouseListener added
 	 */
-	public void addMouseListener(MouseListener m)
+	public void addMouseListener(AdvancedMouseListener m)
 	{
 		super.addHandled(m);
 	}

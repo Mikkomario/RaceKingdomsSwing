@@ -1,6 +1,6 @@
 package handlers;
 
-import listeners.MouseListener;
+import listeners.AdvancedMouseListener;
 
 /**
  * Informs multiple objects about mouse's movements and clicks
@@ -9,7 +9,7 @@ import listeners.MouseListener;
  *         Created 28.12.2012.
  */
 public class MouseListenerHandler extends AbstractMouseListenerHandler 
-	implements MouseListener
+	implements AdvancedMouseListener
 {
 	// CONSTRUCTOR	-------------------------------------------------------
 	

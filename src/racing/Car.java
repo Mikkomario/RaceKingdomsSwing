@@ -27,7 +27,7 @@ import drawnobjects.AdvancedPhysicDrawnObject;
  * @author Gandalf.
  *         Created 15.6.2013.
  */
-public class Car extends AdvancedPhysicDrawnObject implements listeners.KeyListener
+public class Car extends AdvancedPhysicDrawnObject implements listeners.AdvancedKeyListener
 {	
 	// ATTRIBUTES	-----------------------------------------------------
 	

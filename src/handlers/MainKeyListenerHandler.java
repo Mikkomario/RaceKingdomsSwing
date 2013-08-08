@@ -5,7 +5,7 @@ import handleds.Handled;
 
 import java.util.ArrayList;
 
-import listeners.KeyListener;
+import listeners.AdvancedKeyListener;
 
 /**
  * This class unites the actor and keyListening interfaces so that keyevents are 
@@ -57,7 +57,7 @@ public class MainKeyListenerHandler extends LogicalHandler implements Actor
 		// Informs all listeners of the last changes
 		for (int i = 0; i < getHandledNumber(); i++)
 		{
-			KeyListener listener = getListener(i);
+			AdvancedKeyListener listener = getListener(i);
 			
 			// Informs if a key was pressed
 			for (int ik = 0; ik < this.keysPressed.size(); ik++)
@@ -113,7 +113,7 @@ public class MainKeyListenerHandler extends LogicalHandler implements Actor
 	@Override
 	protected Class<?> getSupportedClass()
 	{
-		return KeyListener.class;
+		return AdvancedKeyListener.class;
 	}
 	
 	
@@ -188,16 +188,16 @@ public class MainKeyListenerHandler extends LogicalHandler implements Actor
 	 *
 	 * @param k The KeyListener to be added
 	 */
-	public void addListener(KeyListener k)
+	public void addListener(AdvancedKeyListener k)
 	{
 		super.addHandled(k);
 	}
 	
-	private KeyListener getListener(int index)
+	private AdvancedKeyListener getListener(int index)
 	{
 		Handled maybeListener = getHandled(index);
-		if (maybeListener instanceof KeyListener)
-			return (KeyListener) maybeListener;
+		if (maybeListener instanceof AdvancedKeyListener)
+			return (AdvancedKeyListener) maybeListener;
 		else
 			return null;
 	}

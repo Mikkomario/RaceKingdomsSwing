@@ -1,6 +1,21 @@
 package video;
 
+import handlers.ActorHandler;
+import handlers.DrawableHandler;
+import handlers.KeyListenerHandler;
+import handlers.MainKeyListenerHandler;
+import handlers.MainMouseListenerHandler;
+import handlers.MouseListenerHandler;
+import handlers.StepHandler;
+import helpAndEnums.DepthConstants;
+
 import java.awt.BorderLayout;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JFrame;
 
@@ -17,6 +32,19 @@ public class GameWindow extends JFrame{
 	private int width;
 	private int height;
 	
+	private MainKeyListenerHandler mainkeyhandler;
+	private MainMouseListenerHandler mainmousehandler;
+	private StepHandler stephandler;
+	private DrawableHandler drawer;
+	private KeyListenerHandler keylistenerhandler;
+	private MouseListenerHandler mouselistenerhandler;
+	private ActorHandler listeneractorhandler;
+	
+	private ActorHandler testactorhandler;
+	private KeyListenerHandler testkeylistenerhandler;
+	private MouseListenerHandler testmouselistenerhandler;
+
+	private boolean needsUpdating; 
 	// CONSTRUCTOR ---------------------------------------------------------
 	
 	/**Creates a new window frame with given width and height.
@@ -31,6 +59,39 @@ public class GameWindow extends JFrame{
 		this.formatWindow();
 		//And make it visible
 		this.setVisible(true);
+		
+		
+		//Let's implement some earlier features
+		this.stephandler = new StepHandler(15, this);
+		
+		this.listeneractorhandler = new ActorHandler(false, this.stephandler);
+		this.mainkeyhandler = new MainKeyListenerHandler(this.listeneractorhandler);
+		this.mainmousehandler = new MainMouseListenerHandler(this.listeneractorhandler);
+		
+		this.drawer = new DrawableHandler(false, true, DepthConstants.NORMAL, null);
+		this.keylistenerhandler = new KeyListenerHandler(false, null);
+		this.mouselistenerhandler = new MouseListenerHandler(false, 
+				this.listeneractorhandler, null);
+		
+		this.testactorhandler = new ActorHandler(true, this.stephandler);
+		this.testkeylistenerhandler = new KeyListenerHandler(false, this.keylistenerhandler);
+		this.testmouselistenerhandler = new MouseListenerHandler(false, 
+				this.testactorhandler, this.mouselistenerhandler);
+		
+		// Updates missing handling information
+		this.mainkeyhandler.addListener(this.keylistenerhandler);
+		this.mainmousehandler.addMouseListener(this.mouselistenerhandler);
+		
+		// Initializes other attributes
+		this.needsUpdating = true;
+		
+		// Inactivates the testhandlers
+		this.testactorhandler.inactivate();
+		this.testkeylistenerhandler.inactivate();
+		this.testmouselistenerhandler.inactivate();
+		
+		// Starts the game
+		new Thread(this.stephandler).start();
 	}
 	
 	/**Creates a new window frame with given width, height and name.
@@ -73,10 +134,27 @@ public class GameWindow extends JFrame{
 		this.add(newPanel, direction);
 	}
 	
+	/**Updates mouse's position in the game
+	 * 
+	 */
+	public void callMousePositionUpdate(){
+		Point mousePosition = MouseInfo.getPointerInfo().getLocation();
+		this.mainmousehandler.setMousePosition(mousePosition.x, mousePosition.y);
+	}
 	
+	/**
+	 * This method should be called when the screen needs redrawing
+	 */
+	public void callScreenUpdate()
+	{
+		this.needsUpdating = true;
+	}
 	
 	// MAIN METHOD ---------------------------------------------------
-	
+	/**Starts the program.
+	 * 
+	 * @param args
+	 */
 	public static void main(String [] args){
 		GameWindow testi = new GameWindow(800, 600, "Testi");
 		GamePanel paneeliTesti = new GamePanel(100, 100);
@@ -84,6 +162,70 @@ public class GameWindow extends JFrame{
 		toinenPaneeli.setBackgroundColor(123, 123, 0, 255);
 		testi.addGamePanel(paneeliTesti, BorderLayout.WEST);
 		testi.addGamePanel(toinenPaneeli, BorderLayout.EAST);
+	}
+	
+	/**Main window's helper class, which listens to what the mouse does.
+	 * 
+	 * @author Unto	Created 8.8.2013
+	 *
+	 */
+	private class BasicMouseListener implements MouseListener{
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			// Not needed
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// Not needed
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// Not needed
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			mainmousehandler.setMouseStatus(e.getX(), e.getY(), true, e.getButton());
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			mainmousehandler.setMouseStatus(e.getX(), e.getY(), false, e.getButton());
+			
+		}
+		
+	}
+	
+	/**Main window's helper class, which listens to what the keyboard does.
+	 * 
+	 * @author Unto	Created 8.8.2013
+	 *
+	 */
+	private class BasicKeyListener implements KeyListener{
+
+		@Override
+		public void keyPressed(KeyEvent ke) {
+			mainkeyhandler.onKeyPressed(ke.getKeyChar(), ke.getKeyCode(), 
+					ke.getKeyChar() == KeyEvent.CHAR_UNDEFINED);
+			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent ke) {
+			mainkeyhandler.onKeyReleased(ke.getKeyChar(), ke.getKeyCode(), 
+					ke.getKeyChar() == KeyEvent.CHAR_UNDEFINED);
+			
+		}
+
+		@Override
+		public void keyTyped(KeyEvent arg0) {
+			// Not needed
+		}
+		
 	}
 
 }

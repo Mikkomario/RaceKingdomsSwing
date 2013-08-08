@@ -8,7 +8,7 @@ import handleds.LogicalHandled;
  * @author Gandalf.
  *         Created 28.12.2012.
  */
-public interface MouseListener extends LogicalHandled
+public interface AdvancedMouseListener extends LogicalHandled
 {
 	/**
 	 * This method is called at each step when the left mouse button is down 
