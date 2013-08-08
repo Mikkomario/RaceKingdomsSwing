@@ -37,15 +37,15 @@ public class GameWindow extends JFrame{
 	 * 
 	 * @param width		Window's width.
 	 * @param height	Window's height.
-	 * @param WindowName	Frame's name.
+	 * @param WindowTitle	Window's title.
 	 */
-	public GameWindow(int width, int height, String WindowName){
+	public GameWindow(int width, int height, String WindowTitle){
 		this.width = width;
 		this.height = height;
 		//Let's format our window
 		this.formatWindow();
 		//Let's set our window's title
-		this.setTitle(WindowName);
+		this.setTitle(WindowTitle);
 		//And make it visible
 		this.setVisible(true);
 	}
