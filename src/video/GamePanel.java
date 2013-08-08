@@ -1,8 +1,12 @@
 package video;
 
+import handlers.DrawableHandler;
+import helpAndEnums.DepthConstants;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
@@ -18,6 +22,9 @@ public class GamePanel extends JPanel{
 	
 	private int width;
 	private int height;
+	private boolean needsUpdating;
+	private DrawableHandler drawer;
+	
 	
 	// CONSTRUCTOR ---------------------------------------------------------
 	
@@ -26,9 +33,14 @@ public class GamePanel extends JPanel{
 	 * @param width		Panel's width
 	 * @param height	Panel's height
 	 */
-	public GamePanel(int width, int height){
+	public GamePanel(int width, int height)
+	{
+		// Initializes attributes
 		this.width = width;
 		this.height = height;
+		this.needsUpdating = true;
+		this.drawer = new DrawableHandler(false, true, DepthConstants.NORMAL, 
+				null);
 		
 		//Let's format our panel
 		this.formatPanel();
@@ -42,7 +54,19 @@ public class GamePanel extends JPanel{
 	@Override
 	public void paintComponent(Graphics g)
 	{
-		// The panel draws the background and all stuff inside it
+		// The panel draws the background and all stuff inside it (if needed)
+		if (this.needsUpdating)
+		{
+			this.needsUpdating = false;
+			Graphics2D g2d = (Graphics2D) g;
+			
+			// Clears the former drawings
+			g2d.clearRect(0, 0, getWidth(), getHeight());
+			// g2d.clearRect(0, 0, getSize().width, getSize().height);
+			
+			if (!this.drawer.isDead())
+				this.drawer.drawSelf(g2d);
+		}
 	}
 	
 	
@@ -57,6 +81,14 @@ public class GamePanel extends JPanel{
 	}
 	
 	// OTHER METHODS ---------------------------------------------------
+	
+	/**
+	 * This method should be called when the screen needs redrawing
+	 */
+	public void callScreenUpdate()
+	{
+		this.needsUpdating = true;
+	}
 	
 	/**
 	 * Changes the size of the game panel, for real.
