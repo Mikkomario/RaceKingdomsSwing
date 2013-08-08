@@ -44,7 +44,9 @@ public class GameWindow extends JFrame{
 	private KeyListenerHandler testkeylistenerhandler;
 	private MouseListenerHandler testmouselistenerhandler;
 
-	private boolean needsUpdating; 
+	private boolean needsUpdating;
+	
+	
 	// CONSTRUCTOR ---------------------------------------------------------
 	
 	/**Creates a new window frame with given width and height.
