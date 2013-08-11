@@ -27,8 +27,8 @@ import tests.MouseTest;
  * @author Unto Created 8.8.2013
  * 
  */
-public class GameWindow extends JFrame{
-	
+public class GameWindow extends JFrame
+{	
 	// ATTRIBUTES ---------------------------------------------------------
 	
 	private int width;
@@ -46,6 +46,7 @@ public class GameWindow extends JFrame{
 	private KeyListenerHandler testkeylistenerhandler;
 	private MouseListenerHandler testmouselistenerhandler;
 
+	// TODO: Change this to a real update feature
 	private boolean needsUpdating;
 	
 	
@@ -55,15 +56,24 @@ public class GameWindow extends JFrame{
 	 * 
 	 * @param width		Window's width.
 	 * @param height	Window's height.
+	 * @param title The title shown in the window's border
 	 */
-	public GameWindow(int width, int height){
+	public GameWindow(int width, int height, String title)
+	{
+		System.out.println("Constructor starts");
+		
 		this.width = width;
 		this.height = height;
+		this.setTitle(title);
+		
 		//Let's format our window
 		this.formatWindow();
 		//And make it visible
 		this.setVisible(true);
 		
+		// Adds listener(s) to the window
+		addMouseListener(new BasicMouseListener());
+		addKeyListener(new BasicKeyListener());
 		
 		//Let's implement some earlier features
 		this.stephandler = new StepHandler(15, this);
@@ -78,6 +88,9 @@ public class GameWindow extends JFrame{
 				this.listeneractorhandler, null);
 		
 		this.testactorhandler = new ActorHandler(true, this.stephandler);
+		
+		System.out.println("CREATES STUFF");
+		
 		this.testkeylistenerhandler = new KeyListenerHandler(false, this.keylistenerhandler);
 		this.testmouselistenerhandler = new MouseListenerHandler(false, 
 				this.testactorhandler, this.mouselistenerhandler);
@@ -98,26 +111,10 @@ public class GameWindow extends JFrame{
 		new Thread(this.stephandler).start();
 	}
 	
-	/**Creates a new window frame with given width, height and name.
-	 * 
-	 * @param width		Window's width.
-	 * @param height	Window's height.
-	 * @param WindowTitle	Window's title.
-	 */
-	public GameWindow(int width, int height, String WindowTitle){
-		this.width = width;
-		this.height = height;
-		//Let's format our window
-		this.formatWindow();
-		//Let's set our window's title
-		this.setTitle(WindowTitle);
-		//And make it visible
-		this.setVisible(true);
-	}
-	
 	// PRIVATE METHODS ---------------------------------------------------
 	
-	private void formatWindow(){
+	private void formatWindow()
+	{
 		//Let's set our window's layout
 		this.setLayout(new BorderLayout());
 		//Let's make sure our window closes properly
@@ -129,6 +126,7 @@ public class GameWindow extends JFrame{
 	private void test()
 	{
 		// Activates the handlers
+		//System.out.println(this.testactorhandler);
 		this.testactorhandler.activate();
 		this.testkeylistenerhandler.activate();
 		this.testmouselistenerhandler.activate();
@@ -167,24 +165,33 @@ public class GameWindow extends JFrame{
 	}
 	
 	// MAIN METHOD ---------------------------------------------------
+	
 	/**Starts the program.
 	 * 
 	 * @param args
 	 */
-	public static void main(String [] args){
+	public static void main(String [] args)
+	{
+		System.out.println("Tries to create gamewindow");
 		GameWindow testi = new GameWindow(800, 600, "Testi");
+		System.out.println("Creates panels");
 		GamePanel paneeliTesti = new GamePanel(100, 100);
 		GamePanel toinenPaneeli = new GamePanel(200, 200);
+		
 		toinenPaneeli.setBackgroundColor(123, 123, 0, 255);
 		testi.addGamePanel(paneeliTesti, BorderLayout.WEST);
 		testi.addGamePanel(toinenPaneeli, BorderLayout.EAST);
+		
 		testi.test();
 	}
 	
-	/**Main window's helper class, which listens to what the mouse does.
+	
+	// SUBCLASSES	----------------------------------------------------
+	
+	/**
+	 * Main window's helper class, which listens to what the mouse does.
 	 * 
 	 * @author Unto	Created 8.8.2013
-	 *
 	 */
 	private class BasicMouseListener implements MouseListener{
 
@@ -204,17 +211,18 @@ public class GameWindow extends JFrame{
 		}
 
 		@Override
-		public void mousePressed(MouseEvent e) {
-			mainmousehandler.setMouseStatus(e.getX(), e.getY(), true, e.getButton());
-			
+		public void mousePressed(MouseEvent e)
+		{
+			GameWindow.this.mainmousehandler.setMouseStatus(e.getX(), e.getY(), 
+					true, e.getButton());
 		}
 
 		@Override
-		public void mouseReleased(MouseEvent e) {
-			mainmousehandler.setMouseStatus(e.getX(), e.getY(), false, e.getButton());
-			
+		public void mouseReleased(MouseEvent e)
+		{
+			GameWindow.this.mainmousehandler.setMouseStatus(e.getX(), e.getY(),
+					false, e.getButton());
 		}
-		
 	}
 	
 	/**Main window's helper class, which listens to what the keyboard does.
@@ -225,24 +233,23 @@ public class GameWindow extends JFrame{
 	private class BasicKeyListener implements KeyListener{
 
 		@Override
-		public void keyPressed(KeyEvent ke) {
-			mainkeyhandler.onKeyPressed(ke.getKeyChar(), ke.getKeyCode(), 
-					ke.getKeyChar() == KeyEvent.CHAR_UNDEFINED);
-			
+		public void keyPressed(KeyEvent ke)
+		{
+			GameWindow.this.mainkeyhandler.onKeyPressed(ke.getKeyChar(), 
+					ke.getKeyCode(), ke.getKeyChar() == KeyEvent.CHAR_UNDEFINED);
 		}
 
 		@Override
-		public void keyReleased(KeyEvent ke) {
-			mainkeyhandler.onKeyReleased(ke.getKeyChar(), ke.getKeyCode(), 
-					ke.getKeyChar() == KeyEvent.CHAR_UNDEFINED);
-			
+		public void keyReleased(KeyEvent ke)
+		{
+			GameWindow.this.mainkeyhandler.onKeyReleased(ke.getKeyChar(), 
+					ke.getKeyCode(), ke.getKeyChar() == KeyEvent.CHAR_UNDEFINED);
 		}
 
 		@Override
-		public void keyTyped(KeyEvent arg0) {
+		public void keyTyped(KeyEvent arg0)
+		{
 			// Not needed
 		}
-		
 	}
-
 }
