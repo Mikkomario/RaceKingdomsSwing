@@ -55,8 +55,6 @@ public class StepHandler extends ActorHandler implements Runnable
 		if (Math.abs(System.currentTimeMillis() - this.lastMillis) > 
 			this.stepduration)
 		{
-			//System.out.println("STEP");
-			
 			// Calls all actors
 			if (!isDead())
 			{

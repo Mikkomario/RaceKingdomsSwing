@@ -43,7 +43,7 @@ public class MainMouseListenerHandler extends AbstractMouseListenerHandler
 		{
 			if (mouseButton == MouseEvent.BUTTON1)
 				setLeftMouseDown(true);
-			else if (mouseButton == MouseEvent.BUTTON2)
+			else if (mouseButton == MouseEvent.BUTTON3)
 				setRightMouseDown(true);
 		}
 		else

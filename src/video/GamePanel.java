@@ -49,6 +49,7 @@ public class GamePanel extends JPanel{
 		this.setVisible(true);
 	}
 	
+	
 	// IMPLEMENTED METHODS	----------------------------------------------
 	
 	@Override
@@ -105,7 +106,8 @@ public class GamePanel extends JPanel{
 		this.setMaximumSize(preferred);
 	}
 	
-	/**Changes the panel's background color.
+	/**
+	 * Changes the panel's background color.
 	 * 
 	 * @param red
 	 * @param green
@@ -129,5 +131,13 @@ public class GamePanel extends JPanel{
 	 */
 	public void makeInvisible(){
 		this.setVisible(false);
+	}
+	
+	/**
+	 * @return The drawablehandler that draws the content of this panel
+	 */
+	public DrawableHandler getDrawer()
+	{
+		return this.drawer;
 	}
 }

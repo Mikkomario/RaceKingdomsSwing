@@ -56,10 +56,7 @@ implements Actor
 	
 	@Override
 	public void act()
-	{
-		//System.out.println(this.entered.size());
-		//System.out.println("Left " + this.ldown + " Right " + this.rdown);
-		
+	{	
 		// Informs the listeners about the mouse's movements and buttons
 		for (int i = 0; i < getHandledNumber(); i++)
 		{

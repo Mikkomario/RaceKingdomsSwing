@@ -11,7 +11,8 @@ import handlers.MouseListenerHandler;
  * @author: Unto 
  * 			Created 8.8.2013
  * */
-public class MouseTest extends AbstractTest implements listeners.AdvancedMouseListener {
+public class MouseTest extends AbstractTest implements listeners.AdvancedMouseListener
+{
 	private boolean active;
 	private boolean isDead;
 
@@ -39,7 +40,9 @@ public class MouseTest extends AbstractTest implements listeners.AdvancedMouseLi
 		activate();
 	}
 	
+	
 	// ---IMPLEMENTED NON-IMPORTANT METHODS--------------
+	
 	@Override
 	public boolean isActive() {
 		return this.active;
@@ -68,6 +71,7 @@ public class MouseTest extends AbstractTest implements listeners.AdvancedMouseLi
 		return true;
 	}
 
+	
 	// --------------------------------------------------------
 
 	@Override
