@@ -73,6 +73,8 @@ public class TestGameWindow extends GameWindow
 				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
 		new InputTest(this.testactorhandler, this.testpanel.getDrawer(), 
 				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
+		new GraphicTest(this.testactorhandler, this.testpanel.getDrawer(), 
+				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
 	}
 	
 	
