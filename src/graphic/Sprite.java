@@ -57,7 +57,7 @@ public class Sprite
 		
 		// Loads the image
 		// TODO: Check that this works
-		File img = new File("data/" + filename);
+		File img = new File("src/data/" + filename);
 		BufferedImage in = null;
 		
 		try

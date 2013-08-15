@@ -213,6 +213,7 @@ public class Car extends AdvancedPhysicDrawnObject implements listeners.Advanced
 	@Override
 	public int getOriginX()
 	{
+		//System.out.println(this.spritedrawer.getSprite());
 		return this.spritedrawer.getSprite().getOriginX();
 	}
 

@@ -98,7 +98,7 @@ public class MaskChecker
 		if (getMask() == null)
 			return true;
 		
-		// TODO: Check again
+		// TODO: Doesn't seem to work
 		int c = this.mask.getSubImage(0).getRGB(relativep.x, relativep.y);
 		return c == maskcolor;
 	}
