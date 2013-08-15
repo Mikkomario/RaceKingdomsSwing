@@ -94,12 +94,20 @@ public abstract class Handler implements Handled
 		
 		// Also erases the memory if all the actors were killed
 		if (returnValue)
-		{
-			this.handleds.clear();
-			this.killed = true;
-		}
+			killWithoutKillingHandleds();
 		
 		return returnValue;
+	}
+	
+	/**
+	 * Kills the handler but spares the handleds in the handler. This should 
+	 * be used instead of kill -method if, for example, the handleds are still 
+	 * used in another handler or if the handler was to change.
+	 */
+	public void killWithoutKillingHandleds()
+	{
+		this.handleds.clear();
+		this.killed = true;
 	}
 	
 	
