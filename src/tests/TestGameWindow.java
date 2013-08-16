@@ -75,7 +75,7 @@ public class TestGameWindow extends GameWindow
 		new InputTest(this.testactorhandler, this.testpanel.getDrawer(), 
 				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
 		*/
-		new CarTest(this.testactorhandler, this.testpanel.getDrawer(), 
+		new CollisionTest(this.testactorhandler, this.testpanel.getDrawer(), 
 				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
 	}
 	
