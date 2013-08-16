@@ -72,6 +72,7 @@ public class TestSpriteObject extends DrawnObject
 			return;
 		
 		// Draws the sprite
+		//System.out.println("Draws the sprite");
 		this.spritedrawer.drawSprite(g2d);
 	}
 }

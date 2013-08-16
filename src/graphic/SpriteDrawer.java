@@ -160,7 +160,11 @@ public class SpriteDrawer implements Actor
 	public void drawSprite(Graphics2D g2d)
 	{
 		// Draws the sprite
+		//g2d.drawRect(0, 0, getSprite().getWidth(), getSprite().getHeight());
+		//g2d.drawImage(getSprite().getStrip(), 0, 0, null);
 		g2d.drawImage(getSprite().getSubImage(getImageIndex()), 0, 0, null);
+		//g2d.drawImage(getSprite().getSubImage(getImageIndex()), 0, 0, 
+		//		getSprite().getWidth(), getSprite().getHeight(), null);
 	}
 	
 	// Handles the change of the image index

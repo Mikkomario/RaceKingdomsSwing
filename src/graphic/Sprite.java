@@ -19,7 +19,6 @@ public class Sprite
 {	
 	// ATTRIBUTES	-------------------------------------------------------
 	
-	private BufferedImage strip;
 	private BufferedImage[] images;
 	
 	private int origX, origY;
@@ -47,7 +46,7 @@ public class Sprite
 			String spritename)
 	{
 		// Checks the variables
-		if (filename == null || numberOfImages < 0)
+		if (filename == null || numberOfImages <= 0)
 			throw new IllegalArgumentException();
 		
 		// Initializes attributes
@@ -56,13 +55,12 @@ public class Sprite
 		this.spritename = spritename;
 		
 		// Loads the image
-		// TODO: Check that this works
 		File img = new File("src/data/" + filename);
-		BufferedImage in = null;
+		BufferedImage strip = null;
 		
 		try
 		{
-			in = ImageIO.read(img);
+			strip = ImageIO.read(img);
 		}
 		catch (IOException ioe)
 		{
@@ -70,33 +68,25 @@ public class Sprite
 			return;
 		}
 		
+		/*
 		this.strip = new BufferedImage(in.getWidth(), 
 				in.getHeight(), BufferedImage.TYPE_INT_ARGB);
-		/*
-		Graphics2D g = newImage.createGraphics();
-		g.drawImage(in, 0, 0, null);
-		g.dispose();
 		*/
-		/*
-		this.strip = applet.loadImage(filename);
-		if (this.strip == null)
-		{
-			System.err.println("Could not load the image: " + filename);
-			throw new FileNotFoundException();
-		}*/
+		//this.strip = in;
 		
 		// Creates the subimages
 		this.images = new BufferedImage[numberOfImages];
 		
+		// Calculates the subimage width
+		int sw = strip.getWidth() / numberOfImages;
+		
 		for (int i = 0; i < numberOfImages; i++)
 		{
 			// Calculates the needed variables
-			int sx, sw;
-			sw = this.strip.getWidth() / numberOfImages;
+			int sx;
 			sx = i*sw;
 			
-			this.images[i] = this.strip.getSubimage(sx, 0, sw, 
-					this.strip.getHeight());
+			this.images[i] = strip.getSubimage(sx, 0, sw, strip.getHeight());
 		}
 	}
 	
@@ -141,7 +131,7 @@ public class Sprite
 	public int getHeight()
 	{
 		//System.out.println(this.strip.height);
-		return this.strip.getHeight();
+		return getSubImage(0).getHeight();
 	}
 	
 	/**
@@ -169,4 +159,10 @@ public class Sprite
 		
 		return this.images[imageIndex];
 	}
+	/*
+	public BufferedImage getStrip()
+	{
+		return this.strip;
+	}
+	*/
 }
