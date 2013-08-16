@@ -72,8 +72,8 @@ public class Car extends AdvancedPhysicDrawnObject implements listeners.Advanced
 		this.sliding = false;
 		
 		this.maxdrivespeed = 10;		// How fast the car can drive (> 0)
-		this.turning = 0.01;			// How fast the car changes its direction (> 0)
-		this.acceleration = 0.05;		// How fast the car starts moving (> 0)
+		this.turning = 0.02;			// How fast the car changes its direction (> 0)
+		this.acceleration = 0.1;		// How fast the car starts moving (> 0)
 		this.maxturning = 0.4;			// How much the car can turn (> 0)
 		this.turningfriction = 0.03;	// How much turning affects the car's movement (>= 0)
 		this.turnrate = 1.5;			// How much speed is kept while turning (0+)
@@ -213,13 +213,19 @@ public class Car extends AdvancedPhysicDrawnObject implements listeners.Advanced
 	@Override
 	public int getOriginX()
 	{
-		//System.out.println(this.spritedrawer.getSprite());
+		// If the spritedrawer hasn't been initialized yet, just returns a 0
+		if (this.spritedrawer == null)
+			return 0;
 		return this.spritedrawer.getSprite().getOriginX();
 	}
 
 	@Override
 	public int getOriginY()
 	{
+		// If the spritedrawer hasn't been initialized yet, just returns a 0
+		if (this.spritedrawer == null)
+			return 0;
+		
 		return this.spritedrawer.getSprite().getOriginY();
 	}
 

@@ -1,5 +1,7 @@
 package graphic;
 
+import helpAndEnums.HelpMath;
+
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -98,7 +100,12 @@ public class MaskChecker
 		if (getMask() == null)
 			return true;
 		
-		// TODO: Doesn't seem to work
+		// Checks whether the point is within the mask and returns false if 
+		// it isn't
+		if (!HelpMath.pointIsInRange(relativep, 0, getMask().getWidth(), 0, 
+				getMask().getHeight()))
+			return false;
+
 		int c = this.mask.getSubImage(0).getRGB(relativep.x, relativep.y);
 		return c == maskcolor;
 	}
