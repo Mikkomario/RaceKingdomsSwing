@@ -159,6 +159,10 @@ public class Sprite
 		
 		return this.images[imageIndex];
 	}
+	
+	// TODO: If you get bored, try to implement filters into the project
+	// check: http://docs.oracle.com/javase/tutorial/2d/images/drawimage.html
+	
 	/*
 	public BufferedImage getStrip()
 	{

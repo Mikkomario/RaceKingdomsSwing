@@ -75,4 +75,23 @@ public class TestSpriteObject extends DrawnObject
 		//System.out.println("Draws the sprite");
 		this.spritedrawer.drawSprite(g2d);
 	}
+	
+	@Override
+	public boolean kill()
+	{
+		// Also kills the spritedrawer
+		getSpriteDrawer().kill();
+		return super.kill();
+	}
+	
+	
+	// GETTERS & SETTERS	----------------------------------------------
+	
+	/**
+	 * @return The spritedrawer that draws the object's sprite
+	 */
+	public SpriteDrawer getSpriteDrawer()
+	{
+		return this.spritedrawer;
+	}
 }

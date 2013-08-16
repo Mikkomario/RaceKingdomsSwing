@@ -47,5 +47,7 @@ public class SpriteTest extends AbstractTest
 	public void test()
 	{
 		this.spriteobj.setVisible();
+		this.spriteobj.setAngle(20);
+		this.spriteobj.setScale(0.8, 2);
 	}
 }
