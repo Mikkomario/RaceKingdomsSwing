@@ -45,7 +45,7 @@ public class WavSound
 			float defaultpan)
 	{
 		// TODO: Add listener handler functionalities?
-		// Or add a listner handling system?
+		// Or add a listner handling system? (perhaps later)
 		
 		// Initializes attributes
 		this.filename = filename;

@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 
 /**
- * Creates a HashMap containing all the 'MidiMusics' used in the project. The
+ * Creates a HashMap containing some MidiMusics. The
  * class also allows access to these objects.
  * 
  * @author Unto Created 10.7.2013
@@ -25,7 +25,10 @@ public abstract class MidiMusicBank {
 		this.initializeMidis();
 	}
 
+	
 	// ABSTRACT METHODS -----------------------------------------------------
+	
+	
 	/**
 	 * Creates Midis with the createMidi()-method.
 	 * 
@@ -33,6 +36,7 @@ public abstract class MidiMusicBank {
 	 */
 	public abstract void createMidis() throws FileNotFoundException;
 
+	
 	// METHODS ---------------------------------------------------
 
 	private void initializeMidis() {
