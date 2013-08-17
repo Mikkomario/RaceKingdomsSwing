@@ -20,6 +20,8 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  
 public class AePlayWave extends Thread
 {  
+	// ATTRIBUTES	------------------------------------------------------
+	
     private String filename;
     private float pan, volume;
     private final int EXTERNAL_BUFFER_SIZE = 524288; // 128Kb 
@@ -36,6 +38,9 @@ public class AePlayWave extends Thread
         this.volume = 0;
     } 
  
+	
+	// CONSTRUCTOR	-----------------------------------------------------
+	
 	/**
 	 * Creates a new playwave with custom settings
 	 *
@@ -49,7 +54,10 @@ public class AePlayWave extends Thread
         this.filename = wavfilename;
         this.pan = pan;
         this.volume = volume;
-    } 
+    }
+	
+	
+	// IMPLEMENTED METHODS	----------------------------------------------
  
     @Override
 	public void run()
@@ -129,7 +137,10 @@ public class AePlayWave extends Thread
         try
         { 
             while (nBytesRead != -1)
-            { 
+            {
+            	// TODO: Could the sound be temporrily stopped if there 
+            	// was a condition if (unpaused) here?
+            	
                 nBytesRead = audioInputStream.read(abData, 0, abData.length);
                 if (nBytesRead >= 0) 
                     auline.write(abData, 0, nBytesRead);
@@ -144,6 +155,8 @@ public class AePlayWave extends Thread
         // Closes the file after the sound has stopped playing
         finally
         { 
+        	// TODO: Inform the caller that the sound has stopped
+        	// TODO: But what information should be given...?
             auline.drain();
             auline.close();
         }
