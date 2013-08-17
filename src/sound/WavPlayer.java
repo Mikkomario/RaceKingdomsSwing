@@ -14,10 +14,12 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 /**
  * An external class that answers for playing the sound effects in this game.
  * 
+ * THIS CLASS IS NO LONGER USED IN THE PROJECT AND IS KEPT FOR A WHILE JUST 
+ * FOR REFERENCE
+ * 
  * @author http://www.anyexample.com/programming/java/java_play_wav_sound_file.xml
  * Modified by: Gandalf
  */
- 
 public class WavPlayer extends Thread
 {  
 	// ATTRIBUTES	------------------------------------------------------
