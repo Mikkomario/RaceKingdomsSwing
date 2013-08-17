@@ -1,6 +1,6 @@
 package listeners;
 
-import music.MidiMusic;
+import sound.MidiMusic;
 import handleds.LogicalHandled;
 
 /**

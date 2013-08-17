@@ -1,4 +1,4 @@
-package music;
+package sound;
 
 import java.io.FileNotFoundException;
 import java.util.HashMap;

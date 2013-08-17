@@ -1,4 +1,4 @@
-package music;
+package sound;
 
 import java.io.File;
 import java.io.IOException;

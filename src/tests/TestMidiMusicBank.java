@@ -2,7 +2,8 @@ package tests;
 
 import java.io.FileNotFoundException;
 
-import music.MidiMusicBank;
+import sound.MidiMusicBank;
+
 
 /**
  * This class holds a midi used in testing.

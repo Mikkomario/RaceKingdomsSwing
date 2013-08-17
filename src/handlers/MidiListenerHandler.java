@@ -1,8 +1,8 @@
 package handlers;
 
+import sound.MidiMusic;
 import handleds.Handled;
 import listeners.MidiListener;
-import music.MidiMusic;
 
 /**
  * MidiListenerHandler handles a number of midilisteners and informs them when 

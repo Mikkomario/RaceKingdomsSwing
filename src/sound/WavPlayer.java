@@ -1,4 +1,4 @@
-package music;
+package sound;
 
 import java.io.File;
 import java.io.IOException; 
@@ -18,28 +18,30 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * Modified by: Gandalf
  */
  
-public class AePlayWave extends Thread
+public class WavPlayer extends Thread
 {  
 	// ATTRIBUTES	------------------------------------------------------
 	
     private String filename;
     private float pan, volume;
-    private final int EXTERNAL_BUFFER_SIZE = 524288; // 128Kb 
+    private final int EXTERNAL_BUFFER_SIZE = 524288; // 128Kb
+    private boolean paused;
  
+    
+    // CONSTRUCTOR	-----------------------------------------------------
+    
     /**
      * Creates a new playwave with default settings
      *
      * @param wavfilename The path to the wav-audiofile
      */
-	public AePlayWave(String wavfilename)
+	public WavPlayer(String wavfilename)
 	{ 
         this.filename = wavfilename;
         this.pan = 0;
         this.volume = 0;
+        this.paused = false;
     } 
- 
-	
-	// CONSTRUCTOR	-----------------------------------------------------
 	
 	/**
 	 * Creates a new playwave with custom settings
@@ -49,11 +51,12 @@ public class AePlayWave extends Thread
 	 * 1 (right speaker only)] (0 by default)
 	 * @param volume How much the volume is adjusted in desibels (default 0)
 	 */
-	public AePlayWave(String wavfilename, float pan, float volume)
+	public WavPlayer(String wavfilename, float pan, float volume)
 	{ 
         this.filename = wavfilename;
         this.pan = pan;
         this.volume = volume;
+        this.paused = false;
     }
 	
 	
@@ -138,12 +141,13 @@ public class AePlayWave extends Thread
         { 
             while (nBytesRead != -1)
             {
-            	// TODO: Could the sound be temporrily stopped if there 
-            	// was a condition if (unpaused) here?
-            	
-                nBytesRead = audioInputStream.read(abData, 0, abData.length);
-                if (nBytesRead >= 0) 
-                    auline.write(abData, 0, nBytesRead);
+            	// TODO: Test this pause function since it is only based on a hunch
+            	if (!this.paused)
+            	{
+	                nBytesRead = audioInputStream.read(abData, 0, abData.length);
+	                if (nBytesRead >= 0) 
+	                    auline.write(abData, 0, nBytesRead);
+            	}
             }
         }
         catch (IOException e)
@@ -160,5 +164,24 @@ public class AePlayWave extends Thread
             auline.drain();
             auline.close();
         }
+    }
+    
+    
+    // OTHER METHODS	---------------------------------------------------
+    
+    /**
+     * Temporarily stops the sound from playing (if it was playing)
+     */
+    public void pause()
+    {
+    	this.paused = true;
+    }
+    
+    /**
+     * Continues a paused sound
+     */
+    public void unpause()
+    {
+    	this.paused = false;
     }
 }
