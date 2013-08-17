@@ -40,7 +40,7 @@ public abstract class AbstractBank
 	
 	/**
 	 * A method that adds the needed objects into the bank using the addObject 
-	 * method
+	 * method or another similar method
 	 */
 	protected abstract void initialize();
 	
@@ -95,6 +95,9 @@ public abstract class AbstractBank
 	/**
 	 * Uninitializes the contents of the bank. The bank will be reinitialized 
 	 * when something is tried to retrieve from it
+	 * 
+	 * NOTICE THAT THIS METHOD CAN CAUSE SERIOUS DAMAGE IF THE INSTANCES IN 
+	 * THE BANK ARE STILL IN USE WHEN THIS METHOD IS CALLED.
 	 */
 	public void uninitialize()
 	{

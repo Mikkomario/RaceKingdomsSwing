@@ -14,6 +14,8 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import common.BankObject;
+
 /**
  * WavSound represents a single sound that can be played during the program. 
  * Each sound has a name so it can be differentiated from other wavsounds.
@@ -21,7 +23,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * @author Gandalf.
  *         Created 17.8.2013.
  */
-public class WavSound
+public class WavSound implements BankObject
 {
 	// ATTRIBUTES	-----------------------------------------------------
 	
@@ -53,6 +55,16 @@ public class WavSound
 		this.defaultvolume = defaultvolume;
 		this.defaultpan = defaultpan;
 		this.players = new LinkedList<WavPlayer>();
+	}
+	
+	
+	// IMPLEMENTED METHODS	--------------------------------------------
+	
+	@Override
+	public void kill()
+	{
+		// Stops the current sounds
+		stopAll();
 	}
 	
 	

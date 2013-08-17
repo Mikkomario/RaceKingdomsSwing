@@ -1,7 +1,8 @@
 package sound;
 
 import java.io.FileNotFoundException;
-import java.util.HashMap;
+
+import common.AbstractBank;
 
 /**
  * Creates a HashMap containing some MidiMusics. The
@@ -10,24 +11,9 @@ import java.util.HashMap;
  * @author Unto Created 10.7.2013
  * 
  */
-public abstract class MidiMusicBank {
-
-	// ATTRIBUTES ---------------------------------------------------------
-
-	private HashMap<String, MidiMusic> midis;
-
-	// CONSTRUCTOR ---------------------------------------------------------
-	/**
-	 * Creates a new MidiMusicBank and loads all the Midis it needs.
-	 */
-	public MidiMusicBank() {
-		this.midis = new HashMap<String, MidiMusic>();
-		this.initializeMidis();
-	}
-
-	
+public abstract class MidiMusicBank extends AbstractBank
+{
 	// ABSTRACT METHODS -----------------------------------------------------
-	
 	
 	/**
 	 * Creates Midis with the createMidi()-method.
@@ -37,25 +23,40 @@ public abstract class MidiMusicBank {
 	public abstract void createMidis() throws FileNotFoundException;
 
 	
-	// METHODS ---------------------------------------------------
+	// IMPLEMENTED METHODS ---------------------------------------------------
 
-	private void initializeMidis() {
-		try {
+	@Override
+	protected void initialize()
+	{
+		// Creates the midis
+		try
+		{
 			createMidis();
-		} catch (FileNotFoundException fnfe) {
+		} catch (FileNotFoundException fnfe)
+		{
 			System.err.println("Could not load all of the Midis!");
 		}
 	}
+	
+	@Override
+	protected Class<?> getSupportedClass()
+	{
+		return MidiMusic.class;
+	}
+	
+	
+	// OTHER METHODS	--------------------------------------------------
 
 	/**
-	 * Creates and puts a Midi to the 'midis' HashMap.
+	 * Creates a midi and stores it in the bank
 	 * 
 	 * @param fileName	File's name and location
 	 * @param midiName	Name of the song in the bank.
 	 */
-	protected void createMidiMusic(String fileName, String midiName) {
+	protected void createMidiMusic(String fileName, String midiName)
+	{
 		MidiMusic newMidi = new MidiMusic(fileName);
-		this.midis.put(midiName, newMidi);
+		addObject(newMidi, midiName);
 	}
 
 	/**
@@ -65,14 +66,8 @@ public abstract class MidiMusicBank {
 	 * @return Returns the wanted midi if it is in the database, otherwise
 	 *         returns null.
 	 */
-	public MidiMusic getMidi(String midiName) {
-		if (this.midis.containsKey(midiName)) {
-			return this.midis.get(midiName);
-		} else {
-			System.out.println("Midi " + midiName
-					+ " doesn't exist in the bank!");
-			return null;
-		}
+	public MidiMusic getMidi(String midiName)
+	{
+		return (MidiMusic) getObject(midiName);
 	}
-
 }

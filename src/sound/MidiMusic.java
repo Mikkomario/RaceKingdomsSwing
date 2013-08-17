@@ -9,14 +9,16 @@ import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 
+import common.BankObject;
+
 /**
  * Musical objects which can be played.
  * 
  * @author Unto Created 10.7.2013
  * 
  */
-public class MidiMusic {
-
+public class MidiMusic implements BankObject
+{
 	// ATTRIBUTES ---------------------------------------------------------
 
 	private String fileName;
@@ -49,9 +51,18 @@ public class MidiMusic {
 			System.err.println("Problems whilst setting up sequencer!");
 			e.printStackTrace();
 		} 
-		
-
 	}
+	
+	
+	// IMPLEMENTED METHODS	-------------------------------------------
+	
+	@Override
+	public void kill()
+	{
+		// Stops the music from playing
+		stopMusic();
+	}
+	
 
 	// METHODS ---------------------------------------------------
 
@@ -84,9 +95,13 @@ public class MidiMusic {
 	/**
 	 * Stops playing the music.
 	 */
-	public void stopMusic() {
-		this.midiSequencer.stop();
-		this.midiSequencer.close();
+	public void stopMusic()
+	{
+		if (this.midiSequencer.isRunning())
+		{
+			this.midiSequencer.stop();
+			this.midiSequencer.close();
+		}
 	}
 
 	/**
@@ -94,10 +109,16 @@ public class MidiMusic {
 	 * 
 	 * @return Returns the tick-position where the song was paused.
 	 */
-	public long pauseMusic() {
-		this.midiSequencer.stop();
-		long pausePosition = this.midiSequencer.getTickPosition();
-		return pausePosition;
+	public long pauseMusic()
+	{
+		if (this.midiSequencer.isRunning())
+		{
+			this.midiSequencer.stop();
+			long pausePosition = this.midiSequencer.getTickPosition();
+			return pausePosition;
+		}
+		else
+			return 0;
 	}
 
 	/**
@@ -131,5 +152,4 @@ public class MidiMusic {
 	public void setLoopEnd(long loopEndPoint) {
 		this.midiSequencer.setLoopEndPoint(loopEndPoint);
 	}
-
 }

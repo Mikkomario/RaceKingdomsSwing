@@ -2,7 +2,8 @@ package graphic;
 
 
 import java.io.FileNotFoundException;
-import java.util.HashMap;
+
+import common.AbstractBank;
 
 /**
  * This class creates a group of sprites used in a project and gives them to the 
@@ -11,25 +12,8 @@ import java.util.HashMap;
  * @author Gandalf.
  *         Created 7.12.2012.
  */
-public abstract class SpriteBank
-{
-    // ATTRIBUTES	---------------------------------------------------------
-
-    private HashMap<String, Sprite> sprites;
-
-
-    // CONSTRUCTOR	---------------------------------------------------------
-
-    /**
-     * Creates a new spritebank and loads all the sprites needed in it
-     */
-    public SpriteBank()
-    {
-        this.sprites = new HashMap<String, Sprite>();
-        initializeSprites();
-    }
-    
-    
+public abstract class SpriteBank extends AbstractBank
+{    
     // ABSTRACT METHODS	-----------------------------------------------------
     
     /**
@@ -39,11 +23,19 @@ public abstract class SpriteBank
     public abstract void createSprites() throws FileNotFoundException;
 
 
-    // OTHER METHODS	-----------------------------------------------------
-
-    private void initializeSprites()
+    // IMPLEMENTED METHODS	-------------------------------------------------
+    
+    @Override
+	protected Class<?> getSupportedClass()
     {
-        try
+    	return Sprite.class;
+    }
+	
+	@Override
+	protected void initialize()
+	{
+		// Initializes the sprites
+		try
         {
             createSprites();
         }
@@ -51,23 +43,20 @@ public abstract class SpriteBank
         {
             System.err.println("All of the sprites could not be loaded!");
         }
-    }
+	}
+    
+    
+    // OTHER METHODS	-----------------------------------------------------
 
     /**
      * Returns a sprite from the spritebank
      *
-     * @param spriteName The name of the sprite looked
+     * @param spritename The name of the sprite looked
      * @return The sprite with the given name
      */
-    public Sprite getSprite(String spriteName)
+    public Sprite getSprite(String spritename)
     {
-        if (this.sprites.containsKey(spriteName))
-            return this.sprites.get(spriteName);
-        else
-        {
-        	System.out.println("Sprite " + spriteName + "does not exist in the bank");
-            return null;
-        }
+    	return (Sprite) getObject(spritename);
     }
     
     /**
@@ -84,6 +73,6 @@ public abstract class SpriteBank
     		int originy, String name) throws FileNotFoundException
     {
     	Sprite newsprite = new Sprite(filename, imgnumber, originx, originy, name);
-        this.sprites.put(newsprite.getName(), newsprite);
+        addObject(newsprite, name);
     }
 }

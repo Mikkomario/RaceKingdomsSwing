@@ -7,6 +7,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import common.BankObject;
+
 /**
  * This object represents a drawn image that can be animated. Sprites are
  * meant to be used in multiple objects and those objects should handle the
@@ -15,7 +17,7 @@ import javax.imageio.ImageIO;
  * @author Gandalf.
  *         Created 27.11.2012.
  */
-public class Sprite
+public class Sprite implements BankObject
 {	
 	// ATTRIBUTES	-------------------------------------------------------
 	
@@ -88,6 +90,18 @@ public class Sprite
 			
 			this.images[i] = strip.getSubimage(sx, 0, sw, strip.getHeight());
 		}
+	}
+	
+	
+	// IMPLEMENTED METHODS	-----------------------------------------------
+	
+	@Override
+	public void kill()
+	{
+		// Kills the object (clears the image data)
+		// TODO: This might cause problems in the other threads trying to draw 
+		// the sprite
+		this.images = null;
 	}
 	
 	

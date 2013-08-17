@@ -1,6 +1,6 @@
 package sound;
 
-import java.util.HashMap;
+import common.AbstractBank;
 
 /**
  * A wavsoundbank holds numerous wavsounds and gives them for the other objects 
@@ -9,39 +9,18 @@ import java.util.HashMap;
  * @author Gandalf.
  *         Created 17.8.2013.
  */
-public abstract class WavSoundBank
+public abstract class WavSoundBank extends AbstractBank
 {
-	// ATTRIBUTES ---------------------------------------------------------
-
-	private HashMap<String, WavSound> sounds;
+	// IMPLEMENTED METHODS	--------------------------------------------
 	
-
-	// CONSTRUCTOR ---------------------------------------------------------
-	
-	/**
-	 * Creates a new MidiMusicBank and loads all the Midis it needs.
-	 */
-	public WavSoundBank()
+	@Override
+	protected Class<?> getSupportedClass()
 	{
-		this.sounds = new HashMap<String, WavSound>();
-		this.initializeSounds();
+		return WavSound.class;
 	}
-
 	
-	// ABSTRACT METHODS -----------------------------------------------------
 	
-	/**
-	 * Creates Midis with the createSound()-method.
-	 */
-	public abstract void createSounds();
-
-	
-	// METHODS ---------------------------------------------------
-
-	private void initializeSounds()
-	{
-		createSounds();
-	}
+	// OTHER METHODS ---------------------------------------------------
 
 	/**
 	 * Creates and puts a sound to the bank
@@ -56,7 +35,7 @@ public abstract class WavSoundBank
 			float defpan)
 	{
 		WavSound newsound = new WavSound(filename, soundname, defvolume, defpan);
-		this.sounds.put(soundname, newsound);
+		addObject(newsound, soundname);
 	}
 
 	/**
@@ -67,15 +46,6 @@ public abstract class WavSoundBank
 	 */
 	public WavSound getSound(String soundname)
 	{
-		if (this.sounds.containsKey(soundname))
-		{
-			return this.sounds.get(soundname);
-		}
-		else
-		{
-			System.out.println("WavSound " + soundname
-					+ " doesn't exist in the bank!");
-			return null;
-		}
+		return (WavSound) getObject(soundname);
 	}
 }
