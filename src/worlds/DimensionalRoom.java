@@ -19,7 +19,7 @@ import backgrounds.TileMap;
  * @author Gandalf.
  *         Created 12.7.2013.
  */
-public class DimensionalRoom extends Room implements Collidable
+public class DimensionalRoom extends TiledRoom implements Collidable
 {
 	// ATTRIBUTES	------------------------------------------------------
 	

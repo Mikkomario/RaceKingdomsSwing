@@ -1,6 +1,5 @@
 package worlds;
 
-import graphic.SpriteBank;
 import handleds.Drawable;
 import handleds.Handled;
 import handleds.LogicalHandled;
@@ -14,13 +13,11 @@ import listeners.RoomListener;
 import common.GameObject;
 
 import backgrounds.Background;
-import backgrounds.TileMap;
 
 /**
  * Room represents a single restricted area in a game. A room contains a 
- * background and a tilemap as well as a group of objects. A room can start 
+ * background and a group of objects. A room can start 
  * and end and it will inform objects about such events.
- *
  *
  * @author Gandalf.
  *         Created 11.7.2013.
@@ -30,44 +27,27 @@ public class Room extends Handler
 	// ATTRIBUTES	-----------------------------------------------------
 	
 	private ArrayList<Background> backgrounds;
-	private ArrayList<SpriteBank> texturebanks;
-	private ArrayList<String> texturenames;
-	private TileMap tilemap;
 	private RoomListenerHandler listenerhandler;
-	//private int width, height;
 	private boolean active;
 	
 	
 	// CONSTRUCTOR	-----------------------------------------------------
 	
 	/**
-	 * Creates a new room, filled with backgrounds, tiles and objects. 
+	 * Creates a new room, filled with backgrounds, and objects. 
 	 * The room will remain inactive until started.
 	 *
 	 * @param backgrounds The background(s) used in the room. Use empty list or 
-	 * null if no backgrounds will be used. The backgrounds should cover the room's 
-	 * area that is not covered by tiles.
-	 * @param tilemap The tilemap used in the room (null if no tiles are used)
-	 * @param tiletexturebanks A list of spritebanks that contained the textures 
-	 * used in the tilemap
-	 * @param tiletexturenames A list of the names of the textures used in the 
-	 * tilemap 
+	 * null if no backgrounds will be used.
 	 */
-	public Room(ArrayList<Background> backgrounds, 
-			TileMap tilemap, ArrayList<SpriteBank> tiletexturebanks, 
-			ArrayList<String> tiletexturenames)
+	public Room(ArrayList<Background> backgrounds)
 	{
 		// Rooms aren't handled by anything by default
 		super(false, null);
 		
 		// Initializes attributes
-		//this.width = width;
-		//this.height = height;
-		this.tilemap = tilemap;
 		this.backgrounds = backgrounds;
 		this.active = true;
-		this.texturebanks = tiletexturebanks;
-		this.texturenames = tiletexturenames;
 		this.listenerhandler = new RoomListenerHandler(false, null);
 		
 		uninitialize();
@@ -85,7 +65,7 @@ public class Room extends Handler
 	@Override
 	public boolean kill()
 	{
-		// In addition to the normal killing process, kills the tilemap and 
+		// In addition to the normal killing process, kills the 
 		// backgrounds as well
 		if (this.backgrounds != null)
 		{
@@ -95,11 +75,6 @@ public class Room extends Handler
 			this.backgrounds.clear();
 			this.backgrounds = null;
 		}
-		if (this.tilemap != null)
-		{
-			this.tilemap.kill();
-			this.tilemap = null;
-		}
 		
 		return super.kill();
 	}
@@ -107,38 +82,6 @@ public class Room extends Handler
 	
 	// GETTERS & SETTERS	---------------------------------------------
 	
-	/*
-	/**
-	 * Changes the size of the room
-	 *
-	 * @param width The room's new width (in pixels)
-	 * @param height The room's new height (in pixels)
-	 */
-	/*
-	public void setSize(int width, int height)
-	{
-		this.width = width;
-		this.height = height;
-	}
-	
-	/**
-	 * @return The room's width (in pixels)
-	 */
-	/*
-	public int getWidth()
-	{
-		return this.width;
-	}
-	
-	/**
-	 * @return The room's height (in pixels)
-	 */
-	/*
-	public int getHeight()
-	{
-		return this.height;
-	}
-	*/
 	/**
 	 * Changes the backgrounds shown in the room
 	 *
@@ -156,24 +99,6 @@ public class Room extends Handler
 	public ArrayList<Background> getBackgrounds()
 	{
 		return this.backgrounds;
-	}
-	
-	/**
-	 * @return The tilemap used in the room
-	 */
-	public TileMap getTiles()
-	{
-		return this.tilemap;
-	}
-	
-	/**
-	 * Changes the room's tilemap
-	 *
-	 * @param tiles The new tilemap used in the room (null if no tiles are used)
-	 */
-	public void setTiles(TileMap tiles)
-	{
-		this.tilemap = tiles;
 	}
 	
 	/**
@@ -245,7 +170,10 @@ public class Room extends Handler
 		uninitialize();
 	}
 	
-	private void initialize()
+	/**
+	 * Here the room (re)initializes all its content
+	 */
+	protected void initialize()
 	{
 		// Sets the backgrounds visible and animated
 		if (this.backgrounds != null)
@@ -257,9 +185,6 @@ public class Room extends Handler
 				b.getSpriteDrawer().activate();
 			}
 		}
-		// Initializes the tilemap
-		if (this.tilemap != null)
-			this.tilemap.initialize(this.texturebanks, this.texturenames);
 		// Activates all the objects and sets them visible (if applicable)
 		for (int i = 0; i < getHandledNumber(); i++)
 		{
@@ -272,7 +197,10 @@ public class Room extends Handler
 		}
 	}
 	
-	private void uninitialize()
+	/**
+	 * Here the room uninitializes its content
+	 */
+	protected void uninitialize()
 	{
 		// Sets the backgrounds invisible and unanimated
 		if (this.backgrounds != null)
@@ -286,9 +214,6 @@ public class Room extends Handler
 					b.getSpriteDrawer().inactivate();
 			}
 		}
-		// Clears the tilemap
-		if (this.tilemap != null)
-			this.tilemap.clear();
 		// InActivates all the objects and sets them invisible (if applicable)
 		for (int i = 0; i < getHandledNumber(); i++)
 		{
