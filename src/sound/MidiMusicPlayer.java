@@ -8,13 +8,18 @@ import javax.sound.midi.MidiUnavailableException;
  * @author Unto Created 10.7.2013
  * 
  */
-public class MidiMusicPlayer {
-
+public class MidiMusicPlayer
+{
+	// TODO: Bytheway, try changing the tempo using setTempoFactor(float factor)
+	
 	// ATTRIBUTES ---------------------------------------------------------
+	
 	private MidiMusic currentMidi;
 	private long currentPosition;
 
+	
 	// CONSTRUCTOR ---------------------------------------------------------
+	
 	/**
 	 * Creates new MidiMusicPlayer.
 	 */
@@ -23,7 +28,9 @@ public class MidiMusicPlayer {
 		this.currentPosition = 0;
 	}
 
+	
 	// METHODS ---------------------------------------------------
+	
 	/**
 	 * Starts playing the given Midi from the start.
 	 * 
