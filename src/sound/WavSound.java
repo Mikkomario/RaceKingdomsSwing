@@ -1,6 +1,5 @@
 package sound;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -25,6 +24,8 @@ import common.BankObject;
  */
 public class WavSound implements BankObject
 {
+	// TODO: Add isplaying method
+	
 	// ATTRIBUTES	-----------------------------------------------------
 	
 	private LinkedList<WavPlayer> players;
@@ -37,7 +38,8 @@ public class WavSound implements BankObject
 	/**
 	 * Creates a new wawsound with the given information
 	 *
-	 * @param filename The location of the wav sound file
+	 * @param filename The location of the wav sound file (src/data/ is 
+	 * automatically included)
 	 * @param name The name of the sound that differentiates it from other 
 	 * sounds
 	 * @param defaultvolume How many desibels the volyme is adjusted at default
@@ -50,7 +52,7 @@ public class WavSound implements BankObject
 		// Or add a listner handling system? (perhaps later)
 		
 		// Initializes attributes
-		this.filename = filename;
+		this.filename = "/data/" + filename;
 		this.name = name;
 		this.defaultvolume = defaultvolume;
 		this.defaultpan = defaultpan;
@@ -260,6 +262,7 @@ public class WavSound implements BankObject
 	    @Override
 		public void run()
 	    {
+	    	/*
 	    	// Checks whether the file exists
 	        File soundFile = new File(WavSound.this.filename);
 
@@ -268,12 +271,15 @@ public class WavSound implements BankObject
 	            		WavSound.this.filename);
 	            return;
 	        }
+	        */
 	    
 	        // Reads the file as an audioinputstream
 	        AudioInputStream audioInputStream = null;
 	        try
 	        {
-	            audioInputStream = AudioSystem.getAudioInputStream(
+	        	//System.out.println("Loads the file " + WavSound.this.filename);
+	            //System.out.println(WavSound.this.getClass().getResourceAsStream(WavSound.this.filename));
+	        	audioInputStream = AudioSystem.getAudioInputStream(
 	            		this.getClass().getResourceAsStream(WavSound.this.filename));
 	        }
 	        catch (UnsupportedAudioFileException e1)
@@ -289,6 +295,12 @@ public class WavSound implements BankObject
 	            e1.printStackTrace();
 	            return;
 	        } 
+	        catch (NullPointerException npe)
+	        {
+	        	System.err.println("Could not find the file " + WavSound.this.filename);
+	        	npe.printStackTrace();
+	        	return;
+	        }
 	 
 	        // Opens the audioline
 	        AudioFormat format = audioInputStream.getFormat();

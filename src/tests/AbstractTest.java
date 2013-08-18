@@ -32,7 +32,6 @@ public abstract class AbstractTest
 	 * @param drawer The drawer that draws created drawables
 	 * @param keylistenerhandler The KeyListenerHandler that informs created listeners
 	 * @param mouselistenerhandler The MouseListenerHandler that informs created listeners
-	 * @param applet The main applet
 	 */
 	public AbstractTest(ActorHandler actorhandler, DrawableHandler drawer, 
 			KeyListenerHandler keylistenerhandler, 
