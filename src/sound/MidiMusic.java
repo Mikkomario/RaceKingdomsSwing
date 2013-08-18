@@ -30,10 +30,11 @@ public class MidiMusic implements BankObject
 	/**
 	 * Creates MidiMusic-object.
 	 * 
-	 * @param fileName	Where the midi's name and where it is located.
+	 * @param fileName	Where the midi's name and where it is located (src/data 
+	 * automatically included).
 	 */
 	public MidiMusic(String fileName) {
-		this.fileName = fileName;
+		this.fileName = "src/data/" + fileName;
 		// Let's try to create our midiSequence
 		try {
 			this.midiSequence = MidiSystem.getSequence(new File(this.fileName));

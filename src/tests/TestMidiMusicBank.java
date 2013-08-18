@@ -12,18 +12,12 @@ import sound.MidiMusicBank;
  * 			Created 12.7.2013
  * 
  */
-public class TestMidiMusicBank extends MidiMusicBank{
-
-	
-	//No constructor needed!?
-	
+public class TestMidiMusicBank extends MidiMusicBank
+{	
 	// IMPLEMENTED METHODS	------------------------------------------------
 	
 	@Override
 	public void createMidis() throws FileNotFoundException {
-		createMidiMusic("data/midis/testmidi.mid", "test");
+		createMidiMusic("midis/testmidi.mid", "test");
 	}
-	
-	
-
 }
