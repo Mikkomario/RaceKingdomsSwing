@@ -101,7 +101,10 @@ public class WavSoundTrack implements SoundListener
 	{
 		// Plays the next sound (if not paused, in which case delays the sound)
 		if (this.paused)
+		{
 			this.delayed = true;
+			//System.out.println("Delays");
+		}
 		else
 			playnextsound();
 	}
@@ -239,8 +242,8 @@ public class WavSoundTrack implements SoundListener
 			this.currentindex ++;
 			
 			// If the end of the track was reached, either repeats or stops
-			if (this.currentindex > this.soundnames.length 
-					|| this.currentindex > this.loopcounts.length)
+			if (this.currentindex >= this.soundnames.length 
+					|| this.currentindex >= this.loopcounts.length)
 			{
 				if (this.loops)
 					this.currentindex = 0;
