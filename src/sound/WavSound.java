@@ -1,5 +1,7 @@
 package sound;
 
+import handlers.SoundListenerHandler;
+
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -13,6 +15,8 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import listeners.SoundListener;
+
 import common.BankObject;
 
 /**
@@ -24,13 +28,12 @@ import common.BankObject;
  */
 public class WavSound implements BankObject
 {
-	// TODO: Add isplaying method
-	
 	// ATTRIBUTES	-----------------------------------------------------
 	
 	private LinkedList<WavPlayer> players;
 	private String filename, name;
 	private float defaultvolume, defaultpan;
+	private SoundListenerHandler listenerhandler;
 	
 	
 	// CONSTRUCTOR	----------------------------------------------------
@@ -47,16 +50,14 @@ public class WavSound implements BankObject
 	 */
 	public WavSound(String filename, String name, float defaultvolume, 
 			float defaultpan)
-	{
-		// TODO: Add listener handler functionalities?
-		// Or add a listner handling system? (perhaps later)
-		
+	{		
 		// Initializes attributes
 		this.filename = "/data/" + filename;
 		this.name = name;
 		this.defaultvolume = defaultvolume;
 		this.defaultpan = defaultpan;
 		this.players = new LinkedList<WavPlayer>();
+		this.listenerhandler = new SoundListenerHandler(false, null);
 	}
 	
 	
@@ -67,6 +68,8 @@ public class WavSound implements BankObject
 	{
 		// Stops the current sounds
 		stopAll();
+		// Kills the listenerhandler as well (not the listeners though)
+		this.listenerhandler.killWithoutKillingHandleds();
 	}
 	
 	
@@ -83,11 +86,16 @@ public class WavSound implements BankObject
 	
 	// OTHER METHODS	------------------------------------------------
 	
-	private void startsound(float volume, float pan, boolean loops)
+	private void startsound(float volume, float pan, boolean loops, SoundListener 
+			specificlistener)
 	{
-		WavPlayer newplayer = new WavPlayer(pan, volume, loops);
+		WavPlayer newplayer = new WavPlayer(pan, volume, loops, specificlistener);
 		newplayer.start();
 		this.players.add(newplayer);
+		// Also informs the listeners
+		if (specificlistener != null)
+			specificlistener.onSoundStart(getName());
+		this.listenerhandler.onSoundStart(getName());
 	}
 	
 	/**
@@ -95,18 +103,23 @@ public class WavSound implements BankObject
 	 *
 	 * @param volume How many desibels the sound's volume is increased / decreased
 	 * @param pan How much the sound is panned [-1, 1]
+	 * @param specificlistener A listener that listens to only this instance of 
+	 * the sound (null if no listener is needed)
 	 */
-	public void play(float volume, float pan)
+	public void play(float volume, float pan, SoundListener specificlistener)
 	{
-		startsound(volume, pan, false);
+		startsound(volume, pan, false, specificlistener);
 	}
 	
 	/**
 	 * Plays the sound using the default settings
+	 * 
+	 * @param specificlistener A listener that listens to only this instance of 
+	 * the sound (null if no listener is needed)
 	 */
-	public void play()
+	public void play(SoundListener specificlistener)
 	{
-		startsound(this.defaultvolume, this.defaultpan, false);
+		startsound(this.defaultvolume, this.defaultpan, false, specificlistener);
 	}
 	
 	/**
@@ -114,18 +127,24 @@ public class WavSound implements BankObject
 	 *
 	 * @param volume How many desibels the sound's volume is increased / decreased
 	 * @param pan How much the sound is panned [-1, 1]
+	 * 
+	 * @param specificlistener A listener that listens to only this instance of 
+	 * the sound (null if no listener is needed)
 	 */
-	public void loop(float volume, float pan)
+	public void loop(float volume, float pan, SoundListener specificlistener)
 	{
-		startsound(volume, pan, true);
+		startsound(volume, pan, true, specificlistener);
 	}
 	
 	/**
 	 * Loops the sound using the default settings
+	 * 
+	 * @param specificlistener A listener that listens to only this instance of 
+	 * the sound (null if no listener is needed)
 	 */
-	public void loop()
+	public void loop(SoundListener specificlistener)
 	{
-		startsound(this.defaultvolume, this.defaultpan, true);
+		startsound(this.defaultvolume, this.defaultpan, true, specificlistener);
 	}
 	
 	/**
@@ -209,6 +228,36 @@ public class WavSound implements BankObject
 			i.next().unpause();
 	}
 	
+	/**
+	 * @return Is there any instance of the sound currently playing or paused
+	 */
+	public boolean isPlaying()
+	{
+		// Paused sounds are also counted as playing
+		return this.players.isEmpty();
+	}
+	
+	/**
+	 * Adds a soundlistener to the informed listeners (will be called each time 
+	 * an instance of the sound starts or ends)
+	 *
+	 * @param l The listener to be informed
+	 */
+	public void addListener(SoundListener l)
+	{
+		this.listenerhandler.addListener(l);
+	}
+	
+	/**
+	 * Removes a soundlistener from the informed listeners
+	 *
+	 * @param l The listener to be removed
+	 */
+	public void removeListener(SoundListener l)
+	{
+		this.listenerhandler.removeListener(l);
+	}
+	
 	private void onSoundEnd(WavPlayer source)
 	{
 		// Removes the old player from the list of players
@@ -216,7 +265,14 @@ public class WavSound implements BankObject
 		
 		// If the sound should loop, plays it again
 		if (source.looping)
-			loop(source.volume, source.pan);
+			loop(source.volume, source.pan, source.listener);
+		// Otherwise, informs the listeners
+		else
+		{
+			if (source.listener != null)
+				source.listener.onSoundEnd(getName());
+			this.listenerhandler.onSoundEnd(getName());
+		}
 	}
 	
 	
@@ -233,8 +289,9 @@ public class WavSound implements BankObject
 		// ATTRIBUTES	------------------------------------------------------
 		
 	    private float pan, volume;
-	    private final int EXTERNAL_BUFFER_SIZE = 524288; // 128Kb
+	    private final int EXTERNAL_BUFFER_SIZE = 262144;//64kb //524288; // 128Kb
 	    private boolean paused, looping, stopped;
+	    private SoundListener listener;
 	 
 	    
 	    // CONSTRUCTOR	-----------------------------------------------------
@@ -246,14 +303,18 @@ public class WavSound implements BankObject
 		 * 1 (right speaker only)] (0 by default)
 		 * @param volume How much the volume is adjusted in desibels (default 0)
 		 * @param loops Should the sound be looped after it ends?
+		 * @param specificlistener A listener that listens specifically this 
+		 * instance of the sound
 		 */
-		public WavPlayer(float pan, float volume, boolean loops)
+		public WavPlayer(float pan, float volume, boolean loops, 
+				SoundListener specificlistener)
 		{
 	        this.pan = pan;
 	        this.volume = volume;
 	        this.paused = false;
 	        this.looping = loops;
 	        this.stopped = false;
+	        this.listener = specificlistener;
 	    }
 		
 		
@@ -352,7 +413,6 @@ public class WavSound implements BankObject
 	        	// to stop
 	            while (nBytesRead != -1 && !this.stopped)
 	            {
-	            	// TODO: Test this pause function since it is only based on a hunch
 	            	if (!this.paused)
 	            	{
 		                nBytesRead = audioInputStream.read(abData, 0, abData.length);
