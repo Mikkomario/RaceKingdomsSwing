@@ -55,4 +55,9 @@ public interface Sound
 	 * @param s The soundlistener to be removed
 	 */
 	public void removeListener(SoundListener s);
+	
+	/**
+	 * @return The name of the sound to differentiate it from other sounds
+	 */
+	public String getName();
 }

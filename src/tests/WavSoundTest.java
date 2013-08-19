@@ -123,19 +123,19 @@ public class WavSoundTest extends AbstractTest implements AdvancedKeyListener
 			// On a stops the sounds
 			else if (key == 'a')
 			{
-				this.testsound.stopAll();
+				this.testsound.stop();
 				System.out.println("Stops the sounds");
 			}
 			// On s pauses all sounds
 			else if (key == 's')
 			{
-				this.testsound.pauseAll();
+				this.testsound.pause();
 				System.out.println("Pauses the sounds");
 			}
 			// On w unpauses all sounds
 			else if (key == 'w')
 			{
-				this.testsound.unpauseAll();
+				this.testsound.unpause();
 				System.out.println("Unpauses the sounds");
 			}
 		}

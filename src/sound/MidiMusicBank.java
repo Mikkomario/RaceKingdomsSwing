@@ -55,7 +55,7 @@ public abstract class MidiMusicBank extends AbstractBank
 	 */
 	protected void createMidiMusic(String fileName, String midiName)
 	{
-		MidiMusic newMidi = new MidiMusic(fileName);
+		MidiMusic newMidi = new MidiMusic(fileName, midiName);
 		addObject(newMidi, midiName);
 	}
 

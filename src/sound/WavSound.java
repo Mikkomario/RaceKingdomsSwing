@@ -26,7 +26,7 @@ import common.BankObject;
  * @author Gandalf.
  *         Created 17.8.2013.
  */
-public class WavSound implements BankObject
+public class WavSound implements BankObject, Sound
 {
 	// ATTRIBUTES	-----------------------------------------------------
 	
@@ -67,21 +67,90 @@ public class WavSound implements BankObject
 	public boolean kill()
 	{
 		// Stops the current sounds
-		stopAll();
+		stop();
 		// Kills the listenerhandler as well (not the listeners though)
 		this.listenerhandler.killWithoutKillingHandleds();
 		return true;
 	}
 	
-	
-	// GETTERS & SETTERS	--------------------------------------------
-	
-	/**
-	 * @return The name of the sound
-	 */
+	@Override
 	public String getName()
 	{
 		return this.name;
+	}
+	
+	@Override
+	public void play(SoundListener specificlistener)
+	{
+		startsound(this.defaultvolume, this.defaultpan, false, specificlistener);
+	}
+	
+	@Override
+	public void loop(SoundListener specificlistener)
+	{
+		startsound(this.defaultvolume, this.defaultpan, true, specificlistener);
+	}
+	
+	/**
+	 * Stops all instances of the sound from playing
+	 */
+	@Override
+	public void stop()
+	{
+		// Stops all of the sounds playing
+		Iterator<WavPlayer> i = this.players.iterator();
+		
+		while (i.hasNext())
+			i.next().stopSound();
+	}
+
+	/**
+	 * Pauses all instances of the sound playing
+	 */
+	@Override
+	public void pause()
+	{
+		// Stops all of the sounds playing
+		Iterator<WavPlayer> i = this.players.iterator();
+		
+		while (i.hasNext())
+			i.next().pause();
+	}
+	
+	/**
+	 * Unpauses all the paused instances of the sound
+	 */
+	@Override
+	public void unpause()
+	{
+		// Stops all of the sounds playing
+		Iterator<WavPlayer> i = this.players.iterator();
+		
+		while (i.hasNext())
+			i.next().unpause();
+	}
+	
+	/**
+	 * Adds a soundlistener to the informed listeners (will be called each time 
+	 * an instance of the sound starts or ends)
+	 *
+	 * @param l The listener to be informed
+	 */
+	@Override
+	public void addListener(SoundListener l)
+	{
+		this.listenerhandler.addListener(l);
+	}
+	
+	/**
+	 * Removes a soundlistener from the informed listeners
+	 *
+	 * @param l The listener to be removed
+	 */
+	@Override
+	public void removeListener(SoundListener l)
+	{
+		this.listenerhandler.removeListener(l);
 	}
 	
 	
@@ -95,8 +164,8 @@ public class WavSound implements BankObject
 		this.players.add(newplayer);
 		// Also informs the listeners
 		if (specificlistener != null)
-			specificlistener.onSoundStart(getName());
-		this.listenerhandler.onSoundStart(getName());
+			specificlistener.onSoundStart(this);
+		this.listenerhandler.onSoundStart(this);
 	}
 	
 	/**
@@ -110,17 +179,6 @@ public class WavSound implements BankObject
 	public void play(float volume, float pan, SoundListener specificlistener)
 	{
 		startsound(volume, pan, false, specificlistener);
-	}
-	
-	/**
-	 * Plays the sound using the default settings
-	 * 
-	 * @param specificlistener A listener that listens to only this instance of 
-	 * the sound (null if no listener is needed)
-	 */
-	public void play(SoundListener specificlistener)
-	{
-		startsound(this.defaultvolume, this.defaultpan, false, specificlistener);
 	}
 	
 	/**
@@ -138,41 +196,18 @@ public class WavSound implements BankObject
 	}
 	
 	/**
-	 * Loops the sound using the default settings
-	 * 
-	 * @param specificlistener A listener that listens to only this instance of 
-	 * the sound (null if no listener is needed)
-	 */
-	public void loop(SoundListener specificlistener)
-	{
-		startsound(this.defaultvolume, this.defaultpan, true, specificlistener);
-	}
-	
-	/**
 	 * Stops the oldest playing instance of the sound
 	 */
-	public void stop()
+	public void stopOldest()
 	{
 		// Stops the oldest wavplayer
 		this.players.getFirst().stopSound();
 	}
 	
 	/**
-	 * Stops all instances of the sound from playing
-	 */
-	public void stopAll()
-	{
-		// Stops all of the sounds playing
-		Iterator<WavPlayer> i = this.players.iterator();
-		
-		while (i.hasNext())
-			i.next().stopSound();
-	}
-	
-	/**
 	 * Pauses the oldest unpaused instance of the sound
 	 */
-	public void pause()
+	public void pauseOldest()
 	{
 		Iterator<WavPlayer> i = this.players.iterator();
 		
@@ -188,21 +223,9 @@ public class WavSound implements BankObject
 	}
 	
 	/**
-	 * Pauses all instances of the sound playing
-	 */
-	public void pauseAll()
-	{
-		// Stops all of the sounds playing
-		Iterator<WavPlayer> i = this.players.iterator();
-		
-		while (i.hasNext())
-			i.next().pause();
-	}
-	
-	/**
 	 * Unpauses the oldest paused instance of the sound
 	 */
-	public void unpause()
+	public void unpauseOldest()
 	{
 		Iterator<WavPlayer> i = this.players.iterator();
 		
@@ -218,45 +241,12 @@ public class WavSound implements BankObject
 	}
 	
 	/**
-	 * Unpauses all the paused instances of the sound
-	 */
-	public void unpauseAll()
-	{
-		// Stops all of the sounds playing
-		Iterator<WavPlayer> i = this.players.iterator();
-		
-		while (i.hasNext())
-			i.next().unpause();
-	}
-	
-	/**
 	 * @return Is there any instance of the sound currently playing or paused
 	 */
 	public boolean isPlaying()
 	{
 		// Paused sounds are also counted as playing
 		return this.players.isEmpty();
-	}
-	
-	/**
-	 * Adds a soundlistener to the informed listeners (will be called each time 
-	 * an instance of the sound starts or ends)
-	 *
-	 * @param l The listener to be informed
-	 */
-	public void addListener(SoundListener l)
-	{
-		this.listenerhandler.addListener(l);
-	}
-	
-	/**
-	 * Removes a soundlistener from the informed listeners
-	 *
-	 * @param l The listener to be removed
-	 */
-	public void removeListener(SoundListener l)
-	{
-		this.listenerhandler.removeListener(l);
 	}
 	
 	private void onSoundEnd(WavPlayer source)
@@ -271,8 +261,8 @@ public class WavSound implements BankObject
 		else
 		{
 			if (source.listener != null)
-				source.listener.onSoundEnd(getName());
-			this.listenerhandler.onSoundEnd(getName());
+				source.listener.onSoundEnd(this);
+			this.listenerhandler.onSoundEnd(this);
 		}
 	}
 	

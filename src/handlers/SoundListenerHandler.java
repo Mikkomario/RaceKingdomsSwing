@@ -1,5 +1,6 @@
 package handlers;
 
+import sound.Sound;
 import handleds.Handled;
 import listeners.SoundListener;
 
@@ -36,7 +37,7 @@ public class SoundListenerHandler extends LogicalHandler implements SoundListene
 	}
 
 	@Override
-	public void onSoundStart(String soundname)
+	public void onSoundStart(Sound source)
 	{
 		// Cleans unnecessary handleds
 		removeDeadHandleds();
@@ -46,12 +47,12 @@ public class SoundListenerHandler extends LogicalHandler implements SoundListene
 		{
 			SoundListener s = getListener(i);
 			if (s.isActive())
-				s.onSoundStart(soundname);
+				s.onSoundStart(source);
 		}
 	}
 
 	@Override
-	public void onSoundEnd(String soundname)
+	public void onSoundEnd(Sound source)
 	{
 		// Cleans unnecessary handleds
 		removeDeadHandleds();
@@ -61,7 +62,7 @@ public class SoundListenerHandler extends LogicalHandler implements SoundListene
 		{
 			SoundListener s = getListener(i);
 			if (s.isActive())
-				s.onSoundEnd(soundname);
+				s.onSoundEnd(source);
 		}
 	}
 	

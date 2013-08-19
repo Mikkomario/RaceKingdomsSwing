@@ -1,5 +1,6 @@
 package sound;
 
+import handlers.SoundListenerHandler;
 import common.BankObject;
 
 import listeners.SoundListener;
@@ -11,9 +12,14 @@ import listeners.SoundListener;
  * @author Gandalf.
  *         Created 19.8.2013.
  */
-public class WavSoundTrack implements SoundListener, BankObject
+public class WavSoundTrack implements SoundListener, BankObject, Sound
 {
 	// ATTRIBUTES	------------------------------------------------------
+	
+	// TODO: Create a superclass for all the sounds that will handle the listener 
+	// informing
+	// TODO: Create a superclass for all the soundbanks so that this class 
+	// can create tracks from any sound type
 	
 	private String[] soundnames;
 	private int[] loopcounts;
@@ -21,6 +27,9 @@ public class WavSoundTrack implements SoundListener, BankObject
 	private int currentindex, currentloopcount;
 	private WavSound currentsound;
 	private boolean dead, paused, delayed, loops, playing;
+	private SoundListener specificlistener;
+	private SoundListenerHandler listenerhandler;
+	private String name;
 	
 	
 	// CONSTRUCTROR	------------------------------------------------------
@@ -35,8 +44,10 @@ public class WavSoundTrack implements SoundListener, BankObject
 	 * soundnames table)
 	 * @param soundbank The Wavsoundbank that contains each of the sounds used 
 	 * in the track
+	 * @param name The name of the track
 	 */
-	public WavSoundTrack(String[] soundnames, int[] loopcounts, WavSoundBank soundbank)
+	public WavSoundTrack(String[] soundnames, int[] loopcounts, 
+			WavSoundBank soundbank, String name)
 	{
 		// Initializes attributes
 		this.soundbank = soundbank;
@@ -50,6 +61,9 @@ public class WavSoundTrack implements SoundListener, BankObject
 		this.delayed = false;
 		this.loops = false;
 		this.playing = false;
+		this.listenerhandler = new SoundListenerHandler(false, null);
+		this.specificlistener = null;
+		this.name = name;
 	}
 	
 	
@@ -89,17 +103,20 @@ public class WavSoundTrack implements SoundListener, BankObject
 		// Stops the sound as well
 		stop();
 		this.dead = true;
+		// Also kills the handler (without killing the listeners)
+		this.listenerhandler.killWithoutKillingHandleds();
+		
 		return true;
 	}
 
 	@Override
-	public void onSoundStart(String soundname)
+	public void onSoundStart(Sound source)
 	{
 		// Does nothing
 	}
 
 	@Override
-	public void onSoundEnd(String soundname)
+	public void onSoundEnd(Sound source)
 	{
 		// Plays the next sound (if not paused, in which case delays the sound)
 		if (this.paused)
@@ -109,6 +126,108 @@ public class WavSoundTrack implements SoundListener, BankObject
 		}
 		else
 			playnextsound();
+	}
+	
+	/**
+	 * Stops the track from playing
+	 */
+	@Override
+	public void stop()
+	{
+		// Stops the current sound and the track
+		this.playing = false;
+		this.delayed = false;
+		this.paused = false;
+		this.currentsound.stop();
+		
+		// Informs the listeners
+		if (this.specificlistener != null)
+			this.specificlistener.onSoundEnd(this);
+		this.listenerhandler.onSoundEnd(this);
+	}
+	
+	/**
+	 * Pauses the track. The track can be continued from the same spot with 
+	 * unpause method
+	 */
+	@Override
+	public void pause()
+	{
+		this.paused = true;
+		this.currentsound.pause();
+	}
+	
+	/**
+	 * Unpauses the track from the last state
+	 */
+	@Override
+	public void unpause()
+	{
+		this.paused = false;
+		// Continues the track if it was delayed
+		if (this.delayed)
+			playnextsound();
+	}
+	
+	/**
+	 * Plays through the track once
+	 */
+	@Override
+	public void play(SoundListener specificlistener)
+	{
+		// Doesn't work if the track was killed
+		if (isDead())
+			return;
+		
+		// Stops the former play of the track if needed
+		if (this.playing)
+			stop();
+		
+		// Updates information
+		this.currentindex = 0;
+		this.currentloopcount = this.loopcounts[this.currentindex];
+		this.currentsound = this.soundbank.getSound(this.soundnames[this.currentindex]);
+		this.paused = false;
+		this.delayed = false;
+		this.loops = false;
+		this.playing = true;
+		this.specificlistener = specificlistener;
+		
+		// Informs the listeners
+		if (this.specificlistener != null)
+			this.specificlistener.onSoundStart(this);
+		this.listenerhandler.onSoundStart(this);
+		
+		// Plays the first sound
+		this.currentsound.play(this);
+	}
+	
+	/**
+	 * Plays through the track repeatedly until stopped
+	 */
+	@Override
+	public void loop(SoundListener specificlistener)
+	{
+		play(specificlistener);
+		this.loops = true;
+	}
+	
+	@Override
+	public void addListener(SoundListener s)
+	{
+		this.listenerhandler.addListener(s);
+	}
+
+	@Override
+	public void removeListener(SoundListener s)
+	{
+		this.listenerhandler.removeListener(s);
+	}
+
+	@Override
+	public String getName()
+	{
+		return this.name;
 	}
 	
 	
@@ -150,75 +269,8 @@ public class WavSoundTrack implements SoundListener, BankObject
 		this.loopcounts = loopcounts;
 	}	
 	
+	
 	// OTHER METHODS	--------------------------------------------------
-	
-	/**
-	 * Plays through the track once
-	 */
-	public void play()
-	{
-		// Doesn't work if the track was killed
-		if (isDead())
-			return;
-		
-		// Stops the former play of the track if needed
-		if (this.playing)
-			stop();
-		
-		// Updates information
-		this.currentindex = 0;
-		this.currentloopcount = this.loopcounts[this.currentindex];
-		this.currentsound = this.soundbank.getSound(this.soundnames[this.currentindex]);
-		this.paused = false;
-		this.delayed = false;
-		this.loops = false;
-		this.playing = true;
-		
-		// Plays the first sound
-		this.currentsound.play(this);
-	}
-	
-	/**
-	 * Plays through the track repeatedly until stopped
-	 */
-	public void loop()
-	{
-		play();
-		this.loops = true;
-	}
-	
-	/**
-	 * Stops the track from playing
-	 */
-	public void stop()
-	{
-		// Stops the current sound and the track
-		this.playing = false;
-		this.delayed = false;
-		this.paused = false;
-		this.currentsound.stopAll();
-	}
-	
-	/**
-	 * Pauses the track. The track can be continued from the same spot with 
-	 * unpause method
-	 */
-	public void pause()
-	{
-		this.paused = true;
-		this.currentsound.pauseAll();
-	}
-	
-	/**
-	 * Unpauses the track from the last state
-	 */
-	public void unpause()
-	{
-		this.paused = false;
-		// Continues the track if it was delayed
-		if (this.delayed)
-			playnextsound();
-	}
 	
 	private void playnextsound()
 	{
@@ -250,7 +302,10 @@ public class WavSoundTrack implements SoundListener, BankObject
 				if (this.loops)
 					this.currentindex = 0;
 				else
+				{
+					stop();
 					return;
+				}
 			}
 			
 			this.currentloopcount = this.loopcounts[this.currentindex];

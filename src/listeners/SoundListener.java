@@ -1,5 +1,6 @@
 package listeners;
 
+import sound.Sound;
 import handleds.LogicalHandled;
 
 /**
@@ -12,17 +13,13 @@ public interface SoundListener extends LogicalHandled
 {
 	/**
 	 * This method is called when a sound the listener listens to is played
-	 *
-	 * @param soundname The name of the sound that differentiates it from 
-	 * different sounds (same as the sound's name in the soundbank)
+	 * @param source the sound that just started
 	 */
-	public void onSoundStart(String soundname);
+	public void onSoundStart(Sound source);
 	
 	/**
 	 * This method is called when a sound the listener listens to ends
-	 *
-	 * @param soundname The name of the sound that differentiates it from 
-	 * different sounds (same as the sound's name in the soundbank)
+	 * @param source The sound that just ended
 	 */
-	public void onSoundEnd(String soundname);
+	public void onSoundEnd(Sound source);
 }

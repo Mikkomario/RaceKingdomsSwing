@@ -51,7 +51,8 @@ public class WavSoundTrackTest extends AbstractTest implements AdvancedKeyListen
 		this.dead = false;
 		this.active = false;
 		this.soundbank = new TestWavSoundBank();
-		this.testtrack = new WavSoundTrack(soundnames, loopcounts, this.soundbank);
+		this.testtrack = new WavSoundTrack(soundnames, loopcounts, 
+				this.soundbank, "testtrack");
 		
 		// Adds the test to the handler
 		keylistenerhandler.addKeyListener(this);
@@ -119,13 +120,13 @@ public class WavSoundTrackTest extends AbstractTest implements AdvancedKeyListen
 			// On d plays the sound
 			if (key == 'd')
 			{
-				this.testtrack.play();
+				this.testtrack.play(null);
 				System.out.println("Plays a track");
 			}
 			// On e loops the sound
 			else if (key == 'e')
 			{
-				this.testtrack.loop();
+				this.testtrack.loop(null);
 				System.out.println("Loops a track");
 			}
 			// On a stops the sounds

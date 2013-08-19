@@ -1,7 +1,5 @@
 package sound;
 
-import javax.sound.midi.MidiUnavailableException;
-
 /**
  * Plays a MidiMusic and has tools to loop, pause and continue the music.
  * 
@@ -10,12 +8,14 @@ import javax.sound.midi.MidiUnavailableException;
  */
 public class MidiMusicPlayer
 {
+	// TODO: This class will have quite many changes since many of the 
+	// things are / will be handled in the midimusic class
 	// TODO: Bytheway, try changing the tempo using setTempoFactor(float factor)
 	
 	// ATTRIBUTES ---------------------------------------------------------
 	
 	private MidiMusic currentMidi;
-	private long currentPosition;
+	//private long currentPosition;
 
 	
 	// CONSTRUCTOR ---------------------------------------------------------
@@ -25,7 +25,7 @@ public class MidiMusicPlayer
 	 */
 	public MidiMusicPlayer() {
 		this.currentMidi = null;
-		this.currentPosition = 0;
+		//this.currentPosition = 0;
 	}
 
 	
@@ -38,20 +38,19 @@ public class MidiMusicPlayer
 	 * @param loopCount	How many times the song loops. If loopCount is <0, the
 	 * loop will be continuous.
 	 */
-	public void playMidiMusic(MidiMusic newMidi, int loopCount) {
-		if (this.currentMidi == null) {
+	public void playMidiMusic(MidiMusic newMidi, int loopCount)
+	{
+		if (this.currentMidi == null)
+		{
 			this.currentMidi = newMidi;
-		} else {
-			this.currentMidi.stopMusic();
+		}
+		else
+		{
+			this.currentMidi.stop();
 			this.currentMidi = newMidi;
 		}
 		this.currentMidi.setLoopCount(loopCount);
-		try {
-			this.currentMidi.startMusic(0);
-		} catch (MidiUnavailableException e) {
-			System.err.println("Midi was unavailable!");
-			e.printStackTrace();
-		}
+		this.currentMidi.startMusic(0, null);
 	}
 
 	/**
@@ -78,7 +77,7 @@ public class MidiMusicPlayer
 	public void stopMidiMusic() {
 		if (this.currentMidi != null) {
 			// Stops and closes the sequencer
-			this.currentMidi.stopMusic();
+			this.currentMidi.stop();
 			// Removes the current midi
 			this.currentMidi = null;
 		} else {
@@ -90,9 +89,11 @@ public class MidiMusicPlayer
 	 * Pauses music and records the tick-position, where music was paused.
 	 * 
 	 */
-	public void pauseMidiMusic() {
-		if (this.currentMidi != null) {
-			this.currentPosition = this.currentMidi.pauseMusic();
+	public void pauseMidiMusic()
+	{
+		if (this.currentMidi != null)
+		{
+			this.currentMidi.pause();
 		}
 	}
 
@@ -101,6 +102,8 @@ public class MidiMusicPlayer
 	 * made.
 	 */
 	public void continueMidiMusic() {
+		this.currentMidi.unpause();
+		/*
 		if (this.currentMidi != null) {
 			try {
 				this.currentMidi.startMusic(this.currentPosition);
@@ -108,7 +111,7 @@ public class MidiMusicPlayer
 				System.err.println("Midi was unavailable!");
 				e.printStackTrace();
 			}
-		}
+		}*/
 	}
 
 	/**

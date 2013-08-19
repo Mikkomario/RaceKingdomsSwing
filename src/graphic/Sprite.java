@@ -96,12 +96,13 @@ public class Sprite implements BankObject
 	// IMPLEMENTED METHODS	-----------------------------------------------
 	
 	@Override
-	public void kill()
+	public boolean kill()
 	{
 		// Kills the object (clears the image data)
 		// TODO: This might cause problems in the other threads trying to draw 
 		// the sprite
 		this.images = null;
+		return true;
 	}
 	
 	

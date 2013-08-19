@@ -34,7 +34,8 @@ public abstract class WavSoundTrackBank extends AbstractBank
 	protected void createTrack(String[] soundnames, int[] loopcounts, 
 			WavSoundBank soundbank, String trackname)
 	{
-		WavSoundTrack newtrack = new WavSoundTrack(soundnames, loopcounts, soundbank);
+		WavSoundTrack newtrack = new WavSoundTrack(soundnames, loopcounts, 
+				soundbank, trackname);
 		addObject(newtrack, trackname);
 	}
 	
