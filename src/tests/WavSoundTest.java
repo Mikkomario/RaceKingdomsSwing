@@ -111,13 +111,13 @@ public class WavSoundTest extends AbstractTest implements AdvancedKeyListener
 			// On d plays the sound
 			if (key == 'd')
 			{
-				this.testsound.play();
+				this.testsound.play(null);
 				System.out.println("Plays a sound");
 			}
 			// On e loops the sound
 			else if (key == 'e')
 			{
-				this.testsound.loop();
+				this.testsound.loop(null);
 				System.out.println("Loops a sound");
 			}
 			// On a stops the sounds

@@ -14,7 +14,7 @@ import java.util.List;
  */
 public abstract class Handler implements Handled
 {
-	// TODO: Add the supported class system
+	// TODO: Add isdead or removedeadhandleds checks somewhere
 	
 	// ATTRIBUTES	-----------------------------------------------------
 	
