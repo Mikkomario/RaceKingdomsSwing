@@ -1,7 +1,5 @@
 package sound;
 
-import handlers.SoundListenerHandler;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -15,7 +13,6 @@ import javax.sound.midi.Sequencer;
 
 import listeners.SoundListener;
 
-import common.BankObject;
 
 /**
  * Musical objects which can be played.
@@ -23,7 +20,7 @@ import common.BankObject;
  * @author Unto Created 10.7.2013
  * 
  */
-public class MidiMusic implements BankObject, Sound, MetaEventListener
+public class MidiMusic extends Sound implements MetaEventListener
 {
 	/* TODO: Add the following for listener informing
 	 * 
@@ -36,13 +33,12 @@ public class MidiMusic implements BankObject, Sound, MetaEventListener
 	
 	// ATTRIBUTES ---------------------------------------------------------
 
-	private String fileName, name;
+	private String fileName;
 	private Sequence midiSequence;
 	private Sequencer midiSequencer;
-	private SoundListenerHandler listenerhandler;
-	private SoundListener specificlistener;
 	private long pauseposition;
 
+	
 	// CONSTRUCTOR ---------------------------------------------------------
 
 	/**
@@ -54,11 +50,10 @@ public class MidiMusic implements BankObject, Sound, MetaEventListener
 	 */
 	public MidiMusic(String fileName, String name)
 	{
+		super(name);
+		
 		// Initializes attributes
 		this.fileName = "src/data/" + fileName;
-		this.listenerhandler = new SoundListenerHandler(false, null);
-		this.specificlistener = null;
-		this.name = name;
 		this.pauseposition = 0;
 		
 		// tries to create the midisequence
@@ -91,47 +86,31 @@ public class MidiMusic implements BankObject, Sound, MetaEventListener
 	// IMPLEMENTED METHODS	-------------------------------------------
 	
 	@Override
-	public boolean kill()
-	{
-		// Stops the music from playing
-		stop();
-		// Also kills the listenerhandler (not the listeners though)
-		this.listenerhandler.killWithoutKillingHandleds();
-		this.specificlistener = null;
-		
-		return true;
-	}
-	
-	@Override
-	public void play(SoundListener specificlistener)
+	public void playSound()
 	{
 		// Plays the music once from the very beginning
 		setLoopCount(0);
 		setLoopStart(0);
 		setLoopEnd(-1);
-		startMusic(0, specificlistener);
+		startMusic(0);
 	}
 
 	@Override
-	public void loop(SoundListener specificlistener)
+	public void loopSound()
 	{
 		// Loops the music continuously
 		setLoopCount(-1);
 		setLoopStart(0);
 		setLoopEnd(-1);
-		startMusic(0, specificlistener);
+		startMusic(0);
 	}
 
 	@Override
-	public void stop()
+	public void stopSound()
 	{
 		// Stops the music from playing and informs the listeners
 		if (this.midiSequencer.isRunning())
-		{
-			if (this.specificlistener != null)
-				this.specificlistener.onSoundEnd(this);
-			this.listenerhandler.onSoundEnd(this);
-			
+		{	
 			this.midiSequencer.stop();
 			this.midiSequencer.close();
 		}
@@ -153,26 +132,8 @@ public class MidiMusic implements BankObject, Sound, MetaEventListener
 		if (!this.midiSequencer.isRunning())
 		{
 			// Starts the music from the spot it was at
-			startMusic(this.pauseposition, this.specificlistener);
+			startMusic(this.pauseposition);
 		}
-	}
-
-	@Override
-	public void addListener(SoundListener s)
-	{
-		this.listenerhandler.addListener(s);
-	}
-
-	@Override
-	public void removeListener(SoundListener s)
-	{
-		this.listenerhandler.removeListener(s);
-	}
-	
-	@Override
-	public String getName()
-	{
-		return this.name;
 	}
 	
 	@Override
@@ -181,15 +142,29 @@ public class MidiMusic implements BankObject, Sound, MetaEventListener
 		// Checks if a midi ended and informs the listeners
 		// TODO: Check this again...
 		if (event.getType() == 47)
-		{
-			if (this.specificlistener != null)
-				this.specificlistener.onSoundEnd(this);
-			this.listenerhandler.onSoundEnd(this);
-		}
+			informSoundEnd();
 	}
 	
 
 	// METHODS ---------------------------------------------------
+	
+	/**
+	 * Starts playing the music-file from the given position.
+	 * 
+	 * @param startPosition	 Playback's starting tick-position.
+	 * @param specificlistener A listener that will be informed about the 
+	 * events caused by this specific play (null if not needed)
+	 */
+	public void startMusic(long startPosition, SoundListener specificlistener)
+	{
+		// Stops old music if still playing
+		if (isPlaying())
+			stop();
+		
+		// Informs listeners and starts the music
+		informSoundStart(specificlistener);
+		startMusic(startPosition);
+	}
 
 	/**
 	 * @return Returns the length of a Midi-sequence in ticks.
@@ -198,25 +173,10 @@ public class MidiMusic implements BankObject, Sound, MetaEventListener
 		return this.midiSequence.getTickLength();
 	}
 
-	/**
-	 * Starts playing the music-file from the given position.
-	 * 
-	 * @param startPosition	 Playback's starting tick-position.
-	 * @param specificlistener A listener that specifically listens to this 
-	 * instance of music (null if not needed)
-	 * @throws MidiUnavailableException
-	 */
-	public void startMusic(long startPosition, SoundListener specificlistener)
+	private void startMusic(long startPosition)
 	{
 		// If a sound is already playing, stops it
-		// TODO: Check that this works during unpause as well
-		stop();
-		
-		// Informs the listeners
-		this.specificlistener = specificlistener;
-		if (this.specificlistener != null)
-			this.specificlistener.onSoundStart(this);
-		this.listenerhandler.onSoundStart(this);
+		//stop();
 		
 		//Now let's try to set our sequence
 		try

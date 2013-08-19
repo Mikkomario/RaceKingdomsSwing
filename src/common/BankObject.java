@@ -15,4 +15,9 @@ public interface BankObject
 	 * @return Was the process successfull
 	 */
 	public boolean kill();
+	
+	/**
+	 * @return Is the object dead (true) or alive (false)
+	 */
+	public boolean isDead();
 }

@@ -25,6 +25,7 @@ public class Sprite implements BankObject
 	
 	private int origX, origY;
 	private String spritename;
+	private boolean dead;
 	
 	
 	// CONSTRUCTOR	-------------------------------------------------------
@@ -55,6 +56,7 @@ public class Sprite implements BankObject
 		this.origX = originX;
 		this.origY = originY;
 		this.spritename = spritename;
+		this.dead = false;
 		
 		// Loads the image
 		File img = new File("src/data/" + filename);
@@ -102,7 +104,14 @@ public class Sprite implements BankObject
 		// TODO: This might cause problems in the other threads trying to draw 
 		// the sprite
 		this.images = null;
+		this.dead = true;
 		return true;
+	}
+	
+	@Override
+	public boolean isDead()
+	{
+		return this.dead;
 	}
 	
 	

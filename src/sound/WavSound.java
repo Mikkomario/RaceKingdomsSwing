@@ -1,7 +1,5 @@
 package sound;
 
-import handlers.SoundListenerHandler;
-
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -17,8 +15,6 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 import listeners.SoundListener;
 
-import common.BankObject;
-
 /**
  * WavSound represents a single sound that can be played during the program. 
  * Each sound has a name so it can be differentiated from other wavsounds.
@@ -26,14 +22,13 @@ import common.BankObject;
  * @author Gandalf.
  *         Created 17.8.2013.
  */
-public class WavSound implements BankObject, Sound
+public class WavSound extends Sound
 {
 	// ATTRIBUTES	-----------------------------------------------------
 	
 	private LinkedList<WavPlayer> players;
-	private String filename, name;
+	private String filename;
 	private float defaultvolume, defaultpan;
-	private SoundListenerHandler listenerhandler;
 	
 	
 	// CONSTRUCTOR	----------------------------------------------------
@@ -50,52 +45,36 @@ public class WavSound implements BankObject, Sound
 	 */
 	public WavSound(String filename, String name, float defaultvolume, 
 			float defaultpan)
-	{		
+	{
+		super(name);
+		
 		// Initializes attributes
 		this.filename = "/data/" + filename;
-		this.name = name;
 		this.defaultvolume = defaultvolume;
 		this.defaultpan = defaultpan;
 		this.players = new LinkedList<WavPlayer>();
-		this.listenerhandler = new SoundListenerHandler(false, null);
 	}
 	
 	
 	// IMPLEMENTED METHODS	--------------------------------------------
 	
 	@Override
-	public boolean kill()
+	public void playSound()
 	{
-		// Stops the current sounds
-		stop();
-		// Kills the listenerhandler as well (not the listeners though)
-		this.listenerhandler.killWithoutKillingHandleds();
-		return true;
+		startsound(this.defaultvolume, this.defaultpan, false);
 	}
 	
 	@Override
-	public String getName()
+	public void loopSound()
 	{
-		return this.name;
-	}
-	
-	@Override
-	public void play(SoundListener specificlistener)
-	{
-		startsound(this.defaultvolume, this.defaultpan, false, specificlistener);
-	}
-	
-	@Override
-	public void loop(SoundListener specificlistener)
-	{
-		startsound(this.defaultvolume, this.defaultpan, true, specificlistener);
+		startsound(this.defaultvolume, this.defaultpan, true);
 	}
 	
 	/**
 	 * Stops all instances of the sound from playing
 	 */
 	@Override
-	public void stop()
+	public void stopSound()
 	{
 		// Stops all of the sounds playing
 		Iterator<WavPlayer> i = this.players.iterator();
@@ -130,42 +109,21 @@ public class WavSound implements BankObject, Sound
 			i.next().unpause();
 	}
 	
-	/**
-	 * Adds a soundlistener to the informed listeners (will be called each time 
-	 * an instance of the sound starts or ends)
-	 *
-	 * @param l The listener to be informed
-	 */
 	@Override
-	public void addListener(SoundListener l)
+	public boolean isPlaying()
 	{
-		this.listenerhandler.addListener(l);
-	}
-	
-	/**
-	 * Removes a soundlistener from the informed listeners
-	 *
-	 * @param l The listener to be removed
-	 */
-	@Override
-	public void removeListener(SoundListener l)
-	{
-		this.listenerhandler.removeListener(l);
+		// Paused sounds are also counted as playing
+		return this.players.isEmpty();
 	}
 	
 	
 	// OTHER METHODS	------------------------------------------------
 	
-	private void startsound(float volume, float pan, boolean loops, SoundListener 
-			specificlistener)
+	private void startsound(float volume, float pan, boolean loops)
 	{
-		WavPlayer newplayer = new WavPlayer(pan, volume, loops, specificlistener);
+		WavPlayer newplayer = new WavPlayer(pan, volume, loops);
 		newplayer.start();
 		this.players.add(newplayer);
-		// Also informs the listeners
-		if (specificlistener != null)
-			specificlistener.onSoundStart(this);
-		this.listenerhandler.onSoundStart(this);
 	}
 	
 	/**
@@ -178,7 +136,8 @@ public class WavSound implements BankObject, Sound
 	 */
 	public void play(float volume, float pan, SoundListener specificlistener)
 	{
-		startsound(volume, pan, false, specificlistener);
+		startsound(volume, pan, false);
+		informSoundStart(specificlistener);
 	}
 	
 	/**
@@ -192,7 +151,8 @@ public class WavSound implements BankObject, Sound
 	 */
 	public void loop(float volume, float pan, SoundListener specificlistener)
 	{
-		startsound(volume, pan, true, specificlistener);
+		startsound(volume, pan, true);
+		informSoundStart(specificlistener);
 	}
 	
 	/**
@@ -202,6 +162,7 @@ public class WavSound implements BankObject, Sound
 	{
 		// Stops the oldest wavplayer
 		this.players.getFirst().stopSound();
+		informSoundEnd();
 	}
 	
 	/**
@@ -240,15 +201,6 @@ public class WavSound implements BankObject, Sound
 		}
 	}
 	
-	/**
-	 * @return Is there any instance of the sound currently playing or paused
-	 */
-	public boolean isPlaying()
-	{
-		// Paused sounds are also counted as playing
-		return this.players.isEmpty();
-	}
-	
 	private void onSoundEnd(WavPlayer source)
 	{
 		// Removes the old player from the list of players
@@ -257,13 +209,9 @@ public class WavSound implements BankObject, Sound
 		// If the sound should loop, plays it again
 		if (source.looping)
 			loop(source.volume, source.pan, source.listener);
-		// Otherwise, informs the listeners
-		else
-		{
-			if (source.listener != null)
-				source.listener.onSoundEnd(this);
-			this.listenerhandler.onSoundEnd(this);
-		}
+		// Otherwise, informs the listeners (if the sound stopped naturally
+		else if (!source.stopped)
+			informSoundEnd();
 	}
 	
 	
@@ -294,18 +242,14 @@ public class WavSound implements BankObject, Sound
 		 * 1 (right speaker only)] (0 by default)
 		 * @param volume How much the volume is adjusted in desibels (default 0)
 		 * @param loops Should the sound be looped after it ends?
-		 * @param specificlistener A listener that listens specifically this 
-		 * instance of the sound
 		 */
-		public WavPlayer(float pan, float volume, boolean loops, 
-				SoundListener specificlistener)
+		public WavPlayer(float pan, float volume, boolean loops)
 		{
 	        this.pan = pan;
 	        this.volume = volume;
 	        this.paused = false;
 	        this.looping = loops;
 	        this.stopped = false;
-	        this.listener = specificlistener;
 	    }
 		
 		
