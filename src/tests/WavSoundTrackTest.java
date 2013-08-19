@@ -16,6 +16,11 @@ import handlers.DrawableHandler;
  */
 public class WavSoundTrackTest extends AbstractTest implements AdvancedKeyListener
 {
+	// TODO: Create an universal sound interface
+	// also create a track that plays tracks and wavsounds alike. Try creating 
+	// one for midis as well. Oh, and also create a 'release' function with 
+	// which a sound or a track can be released from an infinite loop (loopcount < 0)
+	
 	// ATTRIBUTES	-----------------------------------------------------
 	
 	private boolean dead, active;

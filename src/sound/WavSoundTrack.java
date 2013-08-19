@@ -1,5 +1,7 @@
 package sound;
 
+import common.BankObject;
+
 import listeners.SoundListener;
 
 /**
@@ -9,7 +11,7 @@ import listeners.SoundListener;
  * @author Gandalf.
  *         Created 19.8.2013.
  */
-public class WavSoundTrack implements SoundListener
+public class WavSoundTrack implements SoundListener, BankObject
 {
 	// ATTRIBUTES	------------------------------------------------------
 	

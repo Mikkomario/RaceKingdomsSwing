@@ -64,12 +64,13 @@ public class WavSound implements BankObject
 	// IMPLEMENTED METHODS	--------------------------------------------
 	
 	@Override
-	public void kill()
+	public boolean kill()
 	{
 		// Stops the current sounds
 		stopAll();
 		// Kills the listenerhandler as well (not the listeners though)
 		this.listenerhandler.killWithoutKillingHandleds();
+		return true;
 	}
 	
 	

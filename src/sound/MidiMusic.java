@@ -19,6 +19,15 @@ import common.BankObject;
  */
 public class MidiMusic implements BankObject
 {
+	/* TODO: Add the following for listener informing
+	 * 
+	 * Check: http://www.java2s.com/Code/Java/Development-Class/
+	 * AnexamplethatplaysaMidisequence.htm
+	 * 
+	 *  public void meta(MetaMessage event)
+	 *  {if (event.getType() == MidiPlayer.END_OF_TRACK_MESSAGE) {
+	 */
+	
 	// ATTRIBUTES ---------------------------------------------------------
 
 	private String fileName;
@@ -58,10 +67,11 @@ public class MidiMusic implements BankObject
 	// IMPLEMENTED METHODS	-------------------------------------------
 	
 	@Override
-	public void kill()
+	public boolean kill()
 	{
 		// Stops the music from playing
 		stopMusic();
+		return true;
 	}
 	
 
