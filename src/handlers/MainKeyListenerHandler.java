@@ -54,6 +54,9 @@ public class MainKeyListenerHandler extends LogicalHandler implements Actor
 	@Override
 	public void act()
 	{
+		// Cleans unnecessary handleds
+		removeDeadHandleds();
+		
 		// Informs all listeners of the last changes
 		for (int i = 0; i < getHandledNumber(); i++)
 		{

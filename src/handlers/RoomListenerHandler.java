@@ -39,6 +39,9 @@ public class RoomListenerHandler extends LogicalHandler implements RoomListener
 	@Override
 	public void onRoomStart(Room room)
 	{
+		// Cleans unnecessary handleds
+		removeDeadHandleds();
+		
 		// Informs all the listeners about the event
 		for (int i = 0; i < getHandledNumber(); i++)
 		{
@@ -50,6 +53,9 @@ public class RoomListenerHandler extends LogicalHandler implements RoomListener
 	@Override
 	public void onRoomEnd(Room room)
 	{
+		// Cleans unnecessary handleds
+		removeDeadHandleds();
+		
 		// Informs all the listeners about the event
 		for (int i = 0; i < getHandledNumber(); i++)
 		{

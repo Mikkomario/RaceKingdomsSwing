@@ -106,6 +106,9 @@ public class CollidableHandler extends Handler implements Collidable
 	@Override
 	public Collidable pointCollides(int x, int y)
 	{
+		// Removes dead collidables
+		removeDeadHandleds();
+		
 		// Returns true if any object collides with the point
 		for (int i = 0; i < getHandledNumber(); i++)
 		{

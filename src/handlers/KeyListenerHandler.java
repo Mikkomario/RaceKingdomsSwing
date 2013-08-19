@@ -26,6 +26,9 @@ public class KeyListenerHandler extends LogicalHandler implements AdvancedKeyLis
 	@Override
 	public void onKeyDown(int key, int keyCode, boolean coded)
 	{
+		// Cleans unnecessary handleds
+		removeDeadHandleds();
+		
 		for (int i = 0; i < getHandledNumber(); i++)
 		{
 			getListener(i).onKeyDown(key, keyCode, coded);
@@ -35,6 +38,9 @@ public class KeyListenerHandler extends LogicalHandler implements AdvancedKeyLis
 	@Override
 	public void onKeyPressed(int key, int keyCode, boolean coded)
 	{
+		// Cleans unnecessary handleds
+		removeDeadHandleds();
+		
 		for (int i = 0; i < getHandledNumber(); i++)
 		{
 			getListener(i).onKeyPressed(key, keyCode, coded);
@@ -44,6 +50,9 @@ public class KeyListenerHandler extends LogicalHandler implements AdvancedKeyLis
 	@Override
 	public void onKeyReleased(int key, int keyCode, boolean coded)
 	{
+		// Cleans unnecessary handleds
+		removeDeadHandleds();
+		
 		for (int i = 0; i < getHandledNumber(); i++)
 		{
 			getListener(i).onKeyReleased(key, keyCode, coded);

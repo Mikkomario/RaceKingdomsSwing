@@ -14,8 +14,6 @@ import java.util.List;
  */
 public abstract class Handler implements Handled
 {
-	// TODO: Add isdead or removedeadhandleds checks somewhere
-	
 	// ATTRIBUTES	-----------------------------------------------------
 	
 	private ArrayList<Handled> handleds;
@@ -61,19 +59,18 @@ public abstract class Handler implements Handled
 	@Override
 	public boolean isDead()
 	{
-		// Also checks if some of the handleds should be removed
-		removeDeadHandleds();
-		
 		// The handler is dead if it was killed
 		if (this.killed)
-		{
 			return true;
-		}
 		
 		// or if autodeath is on and it's empty (but has had an object in it previously)
-		if (this.autodeath && this.started && this.handleds.isEmpty())
+		if (this.autodeath)
 		{
-			return true;
+			// Removes dead handleds to be sure
+			removeDeadHandleds();
+			
+			if (this.started && this.handleds.isEmpty())
+				return true;
 		}
 		
 		return false;
@@ -91,6 +88,9 @@ public abstract class Handler implements Handled
 			if (!this.handleds.get(i).kill())
 				returnValue = false;
 		}
+		
+		// Removes the dead handleds from the handleds
+		removeDeadHandleds();
 		
 		// Also erases the memory if all the actors were killed
 		if (returnValue)
@@ -176,16 +176,16 @@ public abstract class Handler implements Handled
 			this.handleds.remove(h);
 	}
 	
-	private void removeDeadHandleds()
+	/**
+	 * Removes possible dead handleds from the handled objects
+	 */
+	protected void removeDeadHandleds()
 	{
 		// Removes all the dead handleds from the list to save processing time
 		for (int i = 0; i < this.handleds.size(); i++)
 		{	
 			if (this.handleds.get(i).isDead())
-			{
-				System.out.println("Removed " + this.handleds.get(i).getClass().getName());
 				this.handleds.remove(i);
-			}
 		}
 	}
 	

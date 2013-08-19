@@ -40,6 +40,9 @@ public class MidiListenerHandler extends LogicalHandler implements MidiListener
 	@Override
 	public void onMidiPlayed(MidiMusic midi)
 	{
+		// Cleans unnecessary handleds
+		removeDeadHandleds();
+		
 		// Informs all active listeners
 		for (int i = 0; i < getHandledNumber(); i++)
 		{
@@ -52,6 +55,9 @@ public class MidiListenerHandler extends LogicalHandler implements MidiListener
 	@Override
 	public void onMidiStopped(MidiMusic midi)
 	{
+		// Cleans unnecessary handleds
+		removeDeadHandleds();
+		
 		// Informs all active listeners
 		for (int i = 0; i < getHandledNumber(); i++)
 		{
@@ -64,6 +70,9 @@ public class MidiListenerHandler extends LogicalHandler implements MidiListener
 	@Override
 	public void onMidiPaused(MidiMusic midi)
 	{
+		// Cleans unnecessary handleds
+		removeDeadHandleds();
+		
 		// Informs all active listeners
 		for (int i = 0; i < getHandledNumber(); i++)
 		{
@@ -76,6 +85,9 @@ public class MidiListenerHandler extends LogicalHandler implements MidiListener
 	@Override
 	public void onMidiUnpaused(MidiMusic midi)
 	{
+		// Cleans unnecessary handleds
+		removeDeadHandleds();
+		
 		// Informs all active listeners
 		for (int i = 0; i < getHandledNumber(); i++)
 		{

@@ -47,6 +47,9 @@ public class DrawableHandler extends Handler implements Drawable
 	@Override
 	public void drawSelf(Graphics2D g2d)
 	{
+		// Removes any dead handleds
+		removeDeadHandleds();
+		
 		// This calls for all active actor's act method
 		for (int i = 0; i < getHandledNumber(); i++)
 		{

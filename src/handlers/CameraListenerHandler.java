@@ -32,6 +32,9 @@ public class CameraListenerHandler extends LogicalHandler implements CameraListe
 	@Override
 	public void informCameraPosition(int posx, int posy, int w, int h, int angle)
 	{
+		// Cleans the unneeded handleds
+		removeDeadHandleds();
+		
 		// Informs all sublisteners about the change
 		for (int i = 0; i < getHandledNumber(); i++)
 		{

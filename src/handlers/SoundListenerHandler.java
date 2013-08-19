@@ -38,6 +38,9 @@ public class SoundListenerHandler extends LogicalHandler implements SoundListene
 	@Override
 	public void onSoundStart(String soundname)
 	{
+		// Cleans unnecessary handleds
+		removeDeadHandleds();
+		
 		// Informs all the listeners about the event
 		for (int i = 0; i < getHandledNumber(); i++)
 		{
@@ -50,6 +53,9 @@ public class SoundListenerHandler extends LogicalHandler implements SoundListene
 	@Override
 	public void onSoundEnd(String soundname)
 	{
+		// Cleans unnecessary handleds
+		removeDeadHandleds();
+		
 		// Informs all the listeners about the event
 		for (int i = 0; i < getHandledNumber(); i++)
 		{

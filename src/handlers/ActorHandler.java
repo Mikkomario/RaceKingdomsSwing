@@ -33,16 +33,14 @@ public class ActorHandler extends LogicalHandler implements Actor
 	@Override
 	public void act()
 	{
-		//System.out.println(this.actors.size());
+		// Checks the liveliness of the actors
+		removeDeadHandleds();
+		
 		// This calls for all active actor's act method
 		for (int i = 0; i < getHandledNumber(); i++)
 		{
-			//System.out.println("Tries to act");
 			if (getActor(i).isActive())
-			{
-				//System.out.println("Acts");
 				getActor(i).act();
-			}
 		}
 	}
 	

@@ -56,7 +56,7 @@ implements Actor
 	
 	@Override
 	public void act()
-	{	
+	{
 		// Informs the listeners about the mouse's movements and buttons
 		for (int i = 0; i < getHandledNumber(); i++)
 		{
