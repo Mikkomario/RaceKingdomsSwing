@@ -63,10 +63,8 @@ public class GamePanel extends JPanel{
 			
 			// Clears the former drawings
 			g2d.clearRect(0, 0, getWidth(), getHeight());
-			// g2d.clearRect(0, 0, getSize().width, getSize().height);
 			
-			if (!this.drawer.isDead())
-				this.drawer.drawSelf(g2d);
+			this.drawer.drawSelf(g2d);
 		}
 	}
 	
