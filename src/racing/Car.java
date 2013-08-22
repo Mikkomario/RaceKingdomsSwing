@@ -233,7 +233,8 @@ public class Car extends AdvancedPhysicDrawnObject implements listeners.Advanced
 	public void drawSelfBasic(Graphics2D g2d)
 	{
 		// Draws the sprite
-		this.spritedrawer.drawSprite(g2d);
+		if (this.spritedrawer != null)
+			this.spritedrawer.drawSprite(g2d);
 	}
 	
 	@Override

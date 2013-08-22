@@ -158,6 +158,7 @@ public abstract class Sound implements BankObject
 		if (this.dead || !this.playing)
 			return;
 		
+		this.playing = false;
 		// Stops the sound
 		stopSound();
 		// Informs the listeners about the event

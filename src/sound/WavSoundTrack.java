@@ -89,11 +89,14 @@ public class WavSoundTrack extends Sound implements SoundListener
 	@Override
 	public void onSoundEnd(Sound source)
 	{
+		// If the sound was stopped, doesn't do anything
+		if (!isPlaying())
+			return;
 		// Plays the next sound (if not paused, in which case delays the sound)
 		if (this.paused)
 		{
 			this.delayed = true;
-			//System.out.println("Delays");
+			System.out.println("Delays");
 		}
 		else
 			playnextsound();
@@ -118,6 +121,7 @@ public class WavSoundTrack extends Sound implements SoundListener
 	@Override
 	public void pause()
 	{
+		// TODO: Pausing doesn't always seem to work
 		this.paused = true;
 		this.currentsound.pause();
 	}
@@ -128,10 +132,14 @@ public class WavSoundTrack extends Sound implements SoundListener
 	@Override
 	public void unpause()
 	{
+		// TODO: Unpausing doesn't always seem to work (when not delayed)
 		this.paused = false;
 		// Continues the track if it was delayed
 		if (this.delayed)
 			playnextsound();
+		// Otherwise just continues the former sound
+		else
+			this.currentsound.unpause();
 	}
 	
 	/**

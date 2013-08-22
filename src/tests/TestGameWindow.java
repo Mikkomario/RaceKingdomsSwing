@@ -69,6 +69,8 @@ public class TestGameWindow extends GameWindow
 		this.testmouselistenerhandler.activate();
 		
 		// Runs tests
+		new FpsApsTest(this.testactorhandler, this.testpanel.getDrawer(), 
+				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
 		/*
 		new MouseTest(this.testactorhandler, this.testpanel.getDrawer(), 
 				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
@@ -85,7 +87,11 @@ public class TestGameWindow extends GameWindow
 		new MidiTest(this.testactorhandler, this.testpanel.getDrawer(), 
 				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
 		*/
+		/*
 		new WavSoundTrackTest(this.testactorhandler, this.testpanel.getDrawer(), 
+				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
+		*/
+		new CollisionTest(this.testactorhandler, this.testpanel.getDrawer(), 
 				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
 	}
 	
