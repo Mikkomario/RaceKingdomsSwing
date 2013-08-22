@@ -2,7 +2,7 @@ package tests;
 
 import listeners.AdvancedKeyListener;
 import sound.WavSoundBank;
-import sound.WavSoundTrack;
+import sound.SoundTrack;
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
 
@@ -24,7 +24,7 @@ public class WavSoundTrackTest extends AbstractTest implements AdvancedKeyListen
 	
 	private boolean dead, active;
 	private WavSoundBank soundbank;
-	private WavSoundTrack testtrack;
+	private SoundTrack testtrack;
 	private static String[] soundnames = {"qrq", "darkness", "unit", 
 										"darkness", "noo"};
 	private static int[] loopcounts = {1, 0, 2, 1, 0};
@@ -50,7 +50,7 @@ public class WavSoundTrackTest extends AbstractTest implements AdvancedKeyListen
 		this.dead = false;
 		this.active = false;
 		this.soundbank = new TestWavSoundBank();
-		this.testtrack = new WavSoundTrack(soundnames, loopcounts, 
+		this.testtrack = new SoundTrack(soundnames, loopcounts, 
 				this.soundbank, "testtrack");
 		
 		// Adds the test to the handler

@@ -1,7 +1,5 @@
 package sound;
 
-import common.AbstractBank;
-
 /**
  * A wavsoundbank holds numerous wavsounds and gives them for the other objects 
  * to use
@@ -9,7 +7,7 @@ import common.AbstractBank;
  * @author Gandalf.
  *         Created 17.8.2013.
  */
-public abstract class WavSoundBank extends AbstractBank
+public abstract class WavSoundBank extends SoundBank
 {
 	// IMPLEMENTED METHODS	--------------------------------------------
 	
@@ -44,6 +42,7 @@ public abstract class WavSoundBank extends AbstractBank
 	 * @param soundname The name of the sound in the bank
 	 * @return The sound with the given name or null if no such sound was found
 	 */
+	@Override
 	public WavSound getSound(String soundname)
 	{
 		return (WavSound) getObject(soundname);

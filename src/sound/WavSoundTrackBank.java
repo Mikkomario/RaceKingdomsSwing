@@ -16,7 +16,7 @@ public abstract class WavSoundTrackBank extends AbstractBank
 	@Override
 	protected Class<?> getSupportedClass()
 	{
-		return WavSoundTrack.class;
+		return SoundTrack.class;
 	}
 
 	
@@ -34,7 +34,7 @@ public abstract class WavSoundTrackBank extends AbstractBank
 	protected void createTrack(String[] soundnames, int[] loopcounts, 
 			WavSoundBank soundbank, String trackname)
 	{
-		WavSoundTrack newtrack = new WavSoundTrack(soundnames, loopcounts, 
+		SoundTrack newtrack = new SoundTrack(soundnames, loopcounts, 
 				soundbank, trackname);
 		addObject(newtrack, trackname);
 	}
@@ -46,8 +46,8 @@ public abstract class WavSoundTrackBank extends AbstractBank
 	 * @return a track with the given name or null if no track with the given name 
 	 * exists in the bank
 	 */
-	public WavSoundTrack getTrack(String trackname)
+	public SoundTrack getTrack(String trackname)
 	{
-		return (WavSoundTrack) getObject(trackname);
+		return (SoundTrack) getObject(trackname);
 	}
 }

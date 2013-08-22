@@ -41,7 +41,7 @@ public class MidiTest extends AbstractTest implements AdvancedKeyListener
 		//Let's start setting up our test
 		keylistenerhandler.addKeyListener(this);
 		this.testBank = new TestMidiMusicBank();
-		this.midiMusic = this.testBank.getMidi("test");
+		this.midiMusic = this.testBank.getSound("test");
 		this.paused = false;
 		this.isActive = false;
 		this.isDead = false;

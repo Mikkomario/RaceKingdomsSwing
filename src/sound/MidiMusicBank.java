@@ -2,8 +2,6 @@ package sound;
 
 import java.io.FileNotFoundException;
 
-import common.AbstractBank;
-
 /**
  * Creates a HashMap containing some MidiMusics. The
  * class also allows access to these objects.
@@ -11,7 +9,7 @@ import common.AbstractBank;
  * @author Unto Created 10.7.2013
  * 
  */
-public abstract class MidiMusicBank extends AbstractBank
+public abstract class MidiMusicBank extends SoundBank
 {
 	// ABSTRACT METHODS -----------------------------------------------------
 	
@@ -66,7 +64,8 @@ public abstract class MidiMusicBank extends AbstractBank
 	 * @return Returns the wanted midi if it is in the database, otherwise
 	 *         returns null.
 	 */
-	public MidiMusic getMidi(String midiName)
+	@Override
+	public MidiMusic getSound(String midiName)
 	{
 		return (MidiMusic) getObject(midiName);
 	}
