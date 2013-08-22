@@ -9,18 +9,15 @@ import listeners.SoundListener;
  * @author Gandalf.
  *         Created 19.8.2013.
  */
-public class WavSoundTrack extends Sound implements SoundListener
+public class SoundTrack extends Sound implements SoundListener
 {
 	// ATTRIBUTES	------------------------------------------------------
 	
-	// TODO: Create a superclass for all the soundbanks so that this class 
-	// can create tracks from any sound type
-	
 	private String[] soundnames;
 	private int[] loopcounts;
-	private WavSoundBank soundbank;
+	private SoundBank soundbank;
 	private int currentindex, currentloopcount;
-	private WavSound currentsound;
+	private Sound currentsound;
 	private boolean paused, delayed, loops;
 	
 	
@@ -38,8 +35,8 @@ public class WavSoundTrack extends Sound implements SoundListener
 	 * in the track
 	 * @param name The name of the track
 	 */
-	public WavSoundTrack(String[] soundnames, int[] loopcounts, 
-			WavSoundBank soundbank, String name)
+	public SoundTrack(String[] soundnames, int[] loopcounts, 
+			SoundBank soundbank, String name)
 	{
 		super(name);
 		
@@ -121,7 +118,6 @@ public class WavSoundTrack extends Sound implements SoundListener
 	@Override
 	public void pause()
 	{
-		// TODO: Pausing doesn't always seem to work
 		this.paused = true;
 		this.currentsound.pause();
 	}
@@ -184,7 +180,7 @@ public class WavSoundTrack extends Sound implements SoundListener
 	 *
 	 * @param bank The new soundbank to be used
 	 */
-	public void setSoundBank(WavSoundBank bank)
+	public void setSoundBank(SoundBank bank)
 	{
 		this.soundbank = bank;
 	}
@@ -230,7 +226,8 @@ public class WavSoundTrack extends Sound implements SoundListener
 		if (this.currentloopcount > 0)
 		{
 			this.currentloopcount --;
-			this.currentsound = this.soundbank.getSound(this.soundnames[this.currentindex]);
+			this.currentsound = this.soundbank.getSound(
+					this.soundnames[this.currentindex]);
 			this.currentsound.play(this);
 		}
 		// Or plays the next sound
