@@ -250,4 +250,26 @@ public class MidiMusic extends Sound implements MetaEventListener
 	public void setLoopEnd(long loopEndPoint) {
 		this.midiSequencer.setLoopEndPoint(loopEndPoint);
 	}
+	
+	/**Sets a new tempo for the midi. 1.0 is the default TempoFactor.
+	 * 
+	 * @param newTempoFactor	New tempoFactor for the midi.
+	 */
+	public void setTempoFactor (float newTempoFactor){
+		this.midiSequencer.setTempoFactor(newTempoFactor);
+	}
+	
+	/**Sets the TempoFactor to 1.0, which is the default.
+	 */
+	public void resetTempoFactor(){
+		this.midiSequencer.setTempoFactor(1);
+	}
+	
+	/**Returns the current TempoFactor.
+	 * 
+	 * @return	Returns the current TempoFactor as a float.
+	 */
+	public float getTempoFactor(){
+		return this.midiSequencer.getTempoFactor();
+	}
 }

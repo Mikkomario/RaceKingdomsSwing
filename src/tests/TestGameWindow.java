@@ -83,16 +83,18 @@ public class TestGameWindow extends GameWindow
 		new WavSoundTest(this.testactorhandler, this.testpanel.getDrawer(), 
 				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
 		*/
-		/*
+		
 		new MidiTest(this.testactorhandler, this.testpanel.getDrawer(), 
 				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
-		*/
+		
 		/*
 		new WavSoundTrackTest(this.testactorhandler, this.testpanel.getDrawer(), 
 				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
 		*/
+		/*
 		new CollisionTest(this.testactorhandler, this.testpanel.getDrawer(), 
 				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
+		*/
 	}
 	
 	

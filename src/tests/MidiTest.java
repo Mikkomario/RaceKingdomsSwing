@@ -3,7 +3,7 @@ package tests;
 import java.awt.event.KeyEvent;
 
 import listeners.AdvancedKeyListener;
-import sound.MidiMusicPlayer;
+import sound.MidiMusic;
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
 
@@ -17,7 +17,7 @@ public class MidiTest extends AbstractTest implements AdvancedKeyListener
 	// ATTRIBUTES	------------------------------------------------------
 	
 	private TestMidiMusicBank testBank;
-	private MidiMusicPlayer midiPlayer;
+	private MidiMusic midiMusic;
 	private boolean paused;
 	private boolean isActive;
 	private boolean isDead;
@@ -41,7 +41,7 @@ public class MidiTest extends AbstractTest implements AdvancedKeyListener
 		//Let's start setting up our test
 		keylistenerhandler.addKeyListener(this);
 		this.testBank = new TestMidiMusicBank();
-		this.midiPlayer = new MidiMusicPlayer();
+		this.midiMusic = this.testBank.getMidi("test");
 		this.paused = false;
 		this.isActive = false;
 		this.isDead = false;
@@ -93,27 +93,39 @@ public class MidiTest extends AbstractTest implements AdvancedKeyListener
 		if(!coded){
 			if(key == KeyEvent.VK_ENTER){
 				//Starts playing the midi
-				this.midiPlayer.playMidiMusic(this.testBank.getMidi("test"), 0);
+				this.midiMusic.startMusic(0, null);
 				//When you start playing a new song, it isn't paused right from the get-go.
 				this.paused = false;
+				//And let's reset the tempo
+				this.midiMusic.resetTempoFactor();
 				System.out.println("You pressed ENTER, so the music should start!");
 			}
 			else if (key == 'p'){
 				//Pauses and continues playing music.
 				if(this.paused){
-					this.midiPlayer.continueMidiMusic();
+					this.midiMusic.unpause();
 					this.paused = false;
 					System.out.println("You pressed p, so music should continue.");
 				}else{
-					this.midiPlayer.pauseMidiMusic();
+					this.midiMusic.pause();
 					this.paused = true;
 					System.out.println("You pressed p, so music should pause.");
 				}
 			}
 			else if (key == 's'){
 				//Stops playing the music
-				this.midiPlayer.stopMidiMusic();
+				this.midiMusic.stop();
 				System.out.println("You pressed s, so everything should stop.");
+			}
+			else if (key == 't'){
+				//Doubles the tempo and resets it
+				if(this.midiMusic.getTempoFactor() > 1){
+					this.midiMusic.resetTempoFactor();
+					System.out.println("You pressed t, so music should return to normal.");
+				}else{
+					this.midiMusic.setTempoFactor(2);
+					System.out.println("You pressed t, so tempo should increase.");
+				}
 			}
 		}
 		
