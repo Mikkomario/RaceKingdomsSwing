@@ -134,7 +134,7 @@ public class MidiMusic extends Sound implements MetaEventListener
 	@Override
 	public void meta(MetaMessage event)
 	{
-		System.out.println(event.getType());
+		//System.out.println(event.getType());
 		// Checks if a midi ended and informs the listeners
 		if (event.getType() == 47)
 		{
