@@ -244,7 +244,10 @@ public class SoundTrack extends Sound implements SoundListener
 					this.currentindex = 0;
 				else
 				{
-					stop();
+					// TODO: Check if this still works (was stop() previously)
+					this.delayed = false;
+					this.paused = false;
+					informSoundEnd();
 					return;
 				}
 			}
