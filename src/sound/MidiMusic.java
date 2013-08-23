@@ -76,7 +76,8 @@ public class MidiMusic extends Sound implements MetaEventListener
 		{
 			this.midiSequencer = MidiSystem.getSequencer();
 		}
-		catch (MidiUnavailableException e) {
+		catch (MidiUnavailableException e)
+		{
 			System.err.println("Problems whilst setting up sequencer!");
 			e.printStackTrace();
 		} 
@@ -110,7 +111,9 @@ public class MidiMusic extends Sound implements MetaEventListener
 	{
 		// Stops the music from playing and informs the listeners
 		if (this.midiSequencer.isRunning())
-		{	
+		{
+			// Doesn't listen to the sequencer anymore
+			this.midiSequencer.removeMetaEventListener(this);
 			this.midiSequencer.stop();
 			this.midiSequencer.close();
 		}
@@ -139,10 +142,15 @@ public class MidiMusic extends Sound implements MetaEventListener
 	@Override
 	public void meta(MetaMessage event)
 	{
+		//System.out.println(event.getType());
 		// Checks if a midi ended and informs the listeners
-		// TODO: Check this again...
 		if (event.getType() == 47)
+		{
+			// Doesn't listen to the sequencer anymore
+			this.midiSequencer.removeMetaEventListener(this);
+			// Informs that the music stopped
 			informSoundEnd();
+		}
 	}
 	
 
@@ -175,8 +183,8 @@ public class MidiMusic extends Sound implements MetaEventListener
 
 	private void startMusic(long startPosition)
 	{
-		// If a sound is already playing, stops it
-		//stop();
+		// Adds the music as a listener to the sequencer
+		this.midiSequencer.addMetaEventListener(this);
 		
 		//Now let's try to set our sequence
 		try
