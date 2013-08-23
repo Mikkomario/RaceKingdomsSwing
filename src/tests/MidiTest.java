@@ -21,7 +21,7 @@ public class MidiTest extends AbstractTest implements AdvancedKeyListener
 	private boolean paused;
 	private boolean isActive;
 	private boolean isDead;
-	
+	private boolean looping;
 	
 	// CONSTRUCTOR	------------------------------------------------------
 
@@ -45,6 +45,7 @@ public class MidiTest extends AbstractTest implements AdvancedKeyListener
 		this.paused = false;
 		this.isActive = false;
 		this.isDead = false;
+		this.looping = false;
 	}
 
 	// IMPLEMENTED METHOD	---------------------------------------------
@@ -125,6 +126,20 @@ public class MidiTest extends AbstractTest implements AdvancedKeyListener
 				}else{
 					this.midiMusic.setTempoFactor(2);
 					System.out.println("You pressed t, so tempo should increase.");
+				}
+			}
+			else if (key == 'l'){
+				//Sets new start and end points for looping
+				if(this.looping){
+					this.midiMusic.setLoopCount(0);
+					this.midiMusic.setDefaultLoopPoints();
+					this.looping = false;
+					System.out.println("You pressed l, so looping should end.");
+				}else{
+					this.midiMusic.setLoopCount(-1);
+					this.midiMusic.setLoopEnd(this.midiMusic.getSequenceLength() - 1000);
+					this.looping = true;
+					System.out.println("You pressed l, so looping should start.");
 				}
 			}
 		}
