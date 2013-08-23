@@ -22,14 +22,6 @@ import listeners.SoundListener;
  */
 public class MidiMusic extends Sound implements MetaEventListener
 {
-	/* TODO: Add the following for listener informing
-	 * 
-	 * Check: http://www.java2s.com/Code/Java/Development-Class/
-	 * AnexamplethatplaysaMidisequence.htm
-	 * 
-	 *  public void meta(MetaMessage event)
-	 *  {if (event.getType() == MidiPlayer.END_OF_TRACK_MESSAGE) {
-	 */
 	
 	// ATTRIBUTES ---------------------------------------------------------
 
@@ -142,7 +134,7 @@ public class MidiMusic extends Sound implements MetaEventListener
 	@Override
 	public void meta(MetaMessage event)
 	{
-		//System.out.println(event.getType());
+		System.out.println(event.getType());
 		// Checks if a midi ended and informs the listeners
 		if (event.getType() == 47)
 		{
@@ -257,6 +249,14 @@ public class MidiMusic extends Sound implements MetaEventListener
 	 */
 	public void setLoopEnd(long loopEndPoint) {
 		this.midiSequencer.setLoopEndPoint(loopEndPoint);
+	}
+	
+	/**Resets loop's start-point to 0 and end-point to the end of the sequence.
+	 * 
+	 */
+	public void setDefaultLoopPoints() {
+		this.midiSequencer.setLoopStartPoint(0);
+		this.midiSequencer.setLoopEndPoint(this.getSequenceLength());
 	}
 	
 	/**Sets a new tempo for the midi. 1.0 is the default TempoFactor.
