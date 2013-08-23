@@ -86,7 +86,7 @@ public class MidiMusic extends Sound implements MetaEventListener
 	// IMPLEMENTED METHODS	-------------------------------------------
 	
 	@Override
-	public void playSound()
+	protected void playSound()
 	{
 		// Plays the music once from the very beginning
 		setLoopCount(0);
@@ -96,7 +96,7 @@ public class MidiMusic extends Sound implements MetaEventListener
 	}
 
 	@Override
-	public void loopSound()
+	protected void loopSound()
 	{
 		// Loops the music continuously
 		setLoopCount(-1);
@@ -106,7 +106,7 @@ public class MidiMusic extends Sound implements MetaEventListener
 	}
 
 	@Override
-	public void stopSound()
+	protected void stopSound()
 	{
 		// Stops the music from playing and informs the listeners
 		if (this.midiSequencer.isRunning())
@@ -129,7 +129,7 @@ public class MidiMusic extends Sound implements MetaEventListener
 	@Override
 	public void unpause()
 	{
-		if (!this.midiSequencer.isRunning())
+		if (!this.midiSequencer.isRunning()&&isPlaying())
 		{
 			// Starts the music from the spot it was at
 			startMusic(this.pauseposition);

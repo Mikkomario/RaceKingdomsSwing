@@ -55,7 +55,7 @@ public abstract class Sound implements BankObject
 	/**
 	 * Stops the sound from playing
 	 */
-	public abstract void stopSound();
+	protected abstract void stopSound();
 	
 	/**
 	 * Pauses the sound from playing
