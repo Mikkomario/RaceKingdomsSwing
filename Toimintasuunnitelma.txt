@@ -1,0 +1,110 @@
+Race Kingdoms - Suunnitelma
+
+Arkkitehtuurimuutokset						(10)			Gandalf
+	* Toimintojen säikeistäminen							DONE
+	* Spritejen käyttö										EI MUUTOKSIA
+Piirtäminen / graafinen esittäminen			(10)			DONE
+	* TESTAA												Gandalf, DONE
+User Input									(10)			Unto testaa (DONE)
+	* Nuolinäppäimet										DONE
+	* Slidenäppäin											DONE
+	* Ohjusnäppäin
+	* Nitronäppäin											DONE
+Fysiikka (auto)								(10)			Unto testaa
+	* Liikkuminen											DONE
+	* Voimat ja niiden lisääminen							KORJAA!
+	* Kitka													DONE
+	* Kääntyminen / rotaatio								DONE
+	* Autofysiikat											
+		- Auton renkaiden kitka								DONE
+			* Sivuttaissuuntainen kitka						DONE
+		- Nopeusvektorien suunnan määrittäminen				DONE
+		- Kääntymisen aiheuttama kitka, tms.				DONE
+Kamera										(10)			Gandalf pohja, Unto toteuttaa
+	* Seuraaminen											DONE...
+		- Fixed vai jotain muuta?
+		- Käytä kamerana physicobjectia niin menee hyvin
+	* Zoomaus												DONE
+Törmäys										(9)
+	* Auto voisi pyörähtää törmätessään. Tähän tarvitaan 
+	törmäyspisteen tietoja.									DONE
+	* Auton kääntäminen tietyn pisteen ympäri:				DONE
+		- Käännä autoa origon ympäri
+		- Laske, kuinka paljon piste siirtyi mihkäkin suuntaanc DONE
+			* vanha törmäyspiste auton koordinaatistossa - 
+			Käännöksen jälkeinen törmäyspiste auton 
+			koordinaatistosta
+		- Siirrä autoa saman verran siihen 
+		suuntaan (vanha - uusi)
+	* Interaktiiviset ei-titaniummaiset objectit			ERITTÄIN BUGINEN
+		- Työntäminen
+		- Vaiheittain:
+			1) Objekti a tulee liikemäärällä x
+			2) Törmää objektiin b, jolla on vastakkaissuuntaista liikemäärää y verran
+			3) Jos objektilla a on enemmän liikemäärää kuin mitä tarvitaan objektin 
+			b liikuttamiseen samaan suuntaan samalla nopeudella kuin a:lla oli ennen
+				3.1) Liikutetaan objektia b objektin a nopeudella (voima)
+				3.2) Vähennetään a:n liikemäärästä se, mitä kului b:n liikuttamiseen (vastavoima)
+			4) Jos näin ei ollut
+				4.1) Pysäytetään objekti a (vastavoima)
+				4.2) Liikutetaan objektia b sen verran kuin a:lla oli liikemäärää (voima)
+Kartan luku									(8)
+	* VAATII SUUNNITTELUA
+	* Tarvitaan tilet										DONE
+		- 50*50 objekteja. Hyvin hyvin yksinkertaisia
+			* Pitäisköhän tehdä simpleDrawnObject luokka 
+			niitä varten
+	* Tarvitaan myös background								DONE
+		- Sama kuin tile mutta isompi
+	* Luetaan väreistä törmäys
+		- Itse asiassa luetaan 
+Karttageneraattori							(8)
+	* Tilester tyyppinen ohjelma, jolla maalataan tilejä kuvaan ja samalla tehdään tallennuspikselikuvaa
+	* Solukohtaiset värikoodit vai universaalit?
+	* Tilekoko n. 50x (auto n. 100 px)
+Musiikin ja äänien soittaminen				(9)
+	* Taustamusiikki										...
+	* Äänet
+	* Äänenvoimakkuudet
+
+ALPHA READY
+
+HUD											(7)
+	* Kartta
+	* Aika
+	* Nitro
+	* Kesto?
+Erilaiset Maastot							(7)
+	* Asfaltti
+	* Muta
+	* Lumi
+	* Vesi
+		- Myös virtaava
+	* Jää
+	* Sora / Kivi
+	* Kasvillisuus
+Auton hajoaminen							(6)
+Kisan voittaminen							(6)
+Menut										(5)
+Dialogit									(5)
+Rahan Hankkiminen							(5)
+Aikarajoitus								(4)
+Slide										(4)
+Hazardit									(4)
+
+BETA READY
+
+Checkpointit								(3)
+Itemit										(3)
+Osien vaihtaminen							(3)
+Radan pituuden määrittäminen				(2)
+Kuskien palkkaus							(2)
+Kuskien vaikutus							(2)
+Upgradet									(1)
+Expa										(1)
+Level Up									(1)
+Seinien hajottaminen						(1)
+Cutscenet									(1)
+Slidetysjäljet								(1)
+
+GOLD READY
