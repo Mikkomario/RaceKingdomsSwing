@@ -132,9 +132,13 @@ public class MidiTest extends AbstractTest implements AdvancedKeyListener
 				//Sets new start and end points for looping
 				if(this.looping){
 					this.midiMusic.setLoopCount(0);
+					this.midiMusic.setDefaultLoopPoints();
+					this.looping = false;
 					System.out.println("You pressed l, so looping should end.");
 				}else{
 					this.midiMusic.setLoopCount(-1);
+					this.midiMusic.setLoopEnd(this.midiMusic.getSequenceLength() - 1000);
+					this.looping = true;
 					System.out.println("You pressed l, so looping should start.");
 				}
 			}
