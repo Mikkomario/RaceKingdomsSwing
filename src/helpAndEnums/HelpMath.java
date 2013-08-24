@@ -3,15 +3,14 @@ package helpAndEnums;
 import java.awt.Point;
 
 /**
- * This class only handles some mathematical problems
+ * This class calculates some mathematical problems
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 28.11.2012.
  */
 public class HelpMath
 {
 	/**
-	 * 
 	 * Calculates the direction from one point to another (in degrees)
 	 *
 	 * @param x1 the first point's x coordinate
@@ -28,8 +27,8 @@ public class HelpMath
 	}
 	
 	/**
-	 * 
-	 * Calculates the direction from one point to another around the x-axis (in degrees)
+	 * Calculates the direction from one point to another around the x-axis (in degrees). 
+	 * Should only be used in 3D projects.
 	 *
 	 * @param z1 the first point's z coordinate
 	 * @param y1 the first point's y coordinate
@@ -43,8 +42,8 @@ public class HelpMath
 	}
 	
 	/**
-	 * 
-	 * Calculates the direction from one point to another around the Y-axis (in degrees)
+	 * Calculates the direction from one point to another around the Y-axis (in degrees). 
+	 * Should only be used in 3D projects.
 	 *
 	 * @param x1 the first point's z coordinate
 	 * @param z1 the first point's x coordinate
@@ -58,7 +57,6 @@ public class HelpMath
 	}
 	
 	/**
-	 * 
 	 * Calculates the direction from one point to another (in degrees) around z-axis
 	 *
 	 * @param x1 the first point's x coordinate
@@ -73,7 +71,6 @@ public class HelpMath
 	}
 	
 	/**
-	 * 
 	 * Calculates a distance between two points.
 	 *
 	 * @param x1 First point's x coordinate
@@ -91,8 +88,8 @@ public class HelpMath
 	}
 	
 	/**
-	 * 
-	 * Calculates a distance between two points in three dimensions
+	 * Calculates a distance between two points in three dimensions. 
+	 * Should only be used in 3D projects.
 	 *
 	 * @param x1 First point's x coordinate
 	 * @param y1 First point's y coordinate
@@ -115,12 +112,12 @@ public class HelpMath
 	}
 	
 	/**
-	 * 
-	 * Returns the x-coordinate of a point that is length pixels away to direction 
-	 * angle from the origin
+	 * Returns the x-coordinate of a point that is <b>length</b> pixels away to direction 
+	 * <b>angle</b> from the origin
 	 *
-	 * @param length How far from the origin the point is (pxl)
-	 * @param direction To what direction from the origin the point is (degrees)
+	 * @param length How far from the origin the point is (pixels)
+	 * @param direction Towards which direction from the origin the point is 
+	 * (degrees) [0, 360[
 	 * @return The point's x-coordinate
 	 */
 	public static double lendirX(double length, double direction)
@@ -129,12 +126,12 @@ public class HelpMath
 	}
 	
 	/**
-	 * 
-	 * Returns the y-coordinate of a point that is length pixels away to direction 
-	 * angle from the origin
+	 * Returns the y-coordinate of a point that is <b>length</b> pixels away 
+	 * to direction <b>angle</b> from the origin
 	 *
-	 * @param length How far from the origin the point is (pxl)
-	 * @param direction To what direction from the origin the point is (degrees)
+	 * @param length How far from the origin the point is (pixels)
+	 * @param direction Towards which direction from the origin the point is 
+	 * (degrees) [0, 360[
 	 * @return The point's y-coordinate
 	 */
 	public static double lendirY(double length, double direction)
@@ -143,11 +140,11 @@ public class HelpMath
 	}
 	
 	/**
-	 * 
-	 * Changes the direction to a value between 0 and 360. For example -10 becomes 350.
+	 * Changes the direction to a value between 0 and 360. 
+	 * For example -10 becomes 350.
 	 *
-	 * @param direction The direction to be adjusted
-	 * @return The adjusted direction
+	 * @param direction The direction to be adjusted (in degrees)
+	 * @return The adjusted direction (in degrees)
 	 */
 	public static double checkDirection(double direction)
 	{
@@ -160,7 +157,6 @@ public class HelpMath
 	}
 	
 	/**
-	 * 
 	 * Tells whether a point is between the given values
 	 *
 	 * @param point The point tested
@@ -170,18 +166,20 @@ public class HelpMath
 	 * @param maxy The largest possible y
 	 * @return Is the point between the values
 	 */
-	public static boolean pointIsInRange(Point point, int minx, int maxx, int miny, int maxy)
+	public static boolean pointIsInRange(Point point, int minx, int maxx, 
+			int miny, int maxy)
 	{
-		return (point.x > minx && point.y > miny && point.x < maxx && point.y < maxy);
+		return (point.x > minx && point.y > miny && point.x 
+				< maxx && point.y < maxy);
 	}
 	
 	/**
 	 * Calculates a force vector that has been created by projecting a force 
 	 * vector to a certain direction
 	 *
-	 * @param basicdirection The direction of the force to be projected (angles)
+	 * @param basicdirection The direction of the force vector to be projected (degrees)
 	 * @param basicforce The length of the force vector to be projected
-	 * @param newdirection The new direction to which the vector is projected
+	 * @param newdirection The new direction to which the vector is projected (degrees)
 	 * @return The length of the new projected force vector
 	 */
 	public static double getDirectionalForce(double basicdirection, 
@@ -195,8 +193,8 @@ public class HelpMath
 	/**
 	 * Rotates a point around the origin and returns the new position
 	 *
-	 * @param originx The x-coordinate of the rotation origin
-	 * @param originy The y-coordinate of the rotation origin
+	 * @param originx The x-coordinate of the rotation origin (pixels)
+	 * @param originy The y-coordinate of the rotation origin (pixels)
 	 * @param p The point which will be rotated
 	 * @param rotation How many degrees the point is rotated around the origin
 	 * @return The new position after the rotation
@@ -231,9 +229,9 @@ public class HelpMath
 	 * Calculates the directional difference between the two angles. The 
 	 * difference is somewhere between 0 and 180 degrees.
 	 *
-	 * @param angle1 The first angle
-	 * @param angle2 The second angle
-	 * @return The difference between the two angles in degrees (0-180)
+	 * @param angle1 The first angle (degrees) [0, 360[
+	 * @param angle2 The second angle (degrees) [0, 360[
+	 * @return The difference between the two angles in degrees [0, 180[
 	 */
 	public static double getAngleDifference180(double angle1, double angle2)
 	{
@@ -251,9 +249,9 @@ public class HelpMath
 	 * Calculates the directional difference between the two angles. The 
 	 * difference is somewhere between 0 and 90 degrees.
 	 *
-	 * @param angle1 The first angle
-	 * @param angle2 The second angle
-	 * @return The difference between the two angles in degrees (0-90)
+	 * @param angle1 The first angle (degrees) [0, 360[
+	 * @param angle2 The second angle (degrees) [0, 360[
+	 * @return The difference between the two angles in degrees [0, 90[
 	 */
 	public static double getAngleDifference90(double angle1, double angle2)
 	{

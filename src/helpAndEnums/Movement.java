@@ -1,10 +1,10 @@
 package helpAndEnums;
 
 /**
- * Represents movement the object can have. Has some uselful methods for 
- * calculating movements
+ * Movement Represents movement the object can have. Movement itself resembles a 
+ * two dimensional vector.
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 4.7.2013.
  */
 public class Movement
@@ -18,10 +18,10 @@ public class Movement
 	// CONSTRUCTOR	------------------------------------------------------
 	
 	/**
-	 * Creates a new movement with the given information
+	 * Creates a new movement with the given proportions
 	 *
-	 * @param hspeed The horizontal speed in the movement
-	 * @param vspeed The vertical speed in the movement
+	 * @param hspeed The horizontal speed in the movement (pixels / step)
+	 * @param vspeed The vertical speed in the movement (pixels / step)
 	 */
 	public Movement(double hspeed, double vspeed)
 	{
@@ -33,8 +33,8 @@ public class Movement
 	/**
 	 * Alternate method for creating a movement. Uses direction and speed.
 	 *
-	 * @param direction The direction of the movement
-	 * @param speed The movement's speed
+	 * @param direction The direction of the movement (degrees) [0, 360[
+	 * @param speed The movement's speed (pixels / step)
 	 * @return The movement with the given information
 	 */
 	public static Movement createMovement(double direction, double speed)
@@ -48,7 +48,7 @@ public class Movement
 	// GETTERS & SETTERS	----------------------------------------------
 	
 	/**
-	 * @return The horizontal component of the movement
+	 * @return The horizontal component of the movement (pixels / step)
 	 */
 	public double getHSpeed()
 	{
@@ -56,7 +56,7 @@ public class Movement
 	}
 	
 	/**
-	 * @return The vertical component of the movement
+	 * @return The vertical component of the movement (pixels / step)
 	 */
 	public double getVSpeed()
 	{
@@ -66,7 +66,7 @@ public class Movement
 	/**
 	 * Changes the horizontal speed of the movement
 	 *
-	 * @param hspeed The new horizontal speed of the movement
+	 * @param hspeed The new horizontal speed of the movement (pixels / step)
 	 */
 	public void setHSpeed(double hspeed)
 	{
@@ -76,7 +76,7 @@ public class Movement
 	/**
 	 * Changes the vertical speed of the movement
 	 *
-	 * @param vspeed The new vertical speed of the movement
+	 * @param vspeed The new vertical speed of the movement (pixels / step)
 	 */
 	public void setVSpeed(double vspeed)
 	{
@@ -84,7 +84,7 @@ public class Movement
 	}
 	
 	/**
-	 * @return The movement's direction
+	 * @return The movement's direction (degrees) [0, 360[
 	 */
 	public double getDirection()
 	{
@@ -92,11 +92,10 @@ public class Movement
 	}
 	
 	/**
-	 * @return The movement's total speed
+	 * @return The movement's total speed (pixels / step)
 	 */
 	public double getSpeed()
 	{
-		//return Math.abs(getHSpeed()) + Math.abs(getVSpeed());
 		return HelpMath.pointDistance(0, 0, getHSpeed(), getVSpeed());
 	}
 	
@@ -112,18 +111,17 @@ public class Movement
 	/**
 	 * Changes the movement's direction
 	 *
-	 * @param direction The new direction of the movement
+	 * @param direction The new direction of the movement (degrees) [0, 360[
 	 */
 	public void setDirection(double direction)
 	{
-		// TODO: Doesn't work with small values
 		setDirSpeed(direction, getSpeed());
 	}
 	
 	/**
 	 * Changes the speed of the movement
 	 *
-	 * @param speed The movement's new speed
+	 * @param speed The movement's new speed (pixels / step)
 	 */
 	public void setSpeed(double speed)
 	{
@@ -134,7 +132,7 @@ public class Movement
 	/**
 	 * Increases the movement's speed by the given amount
 	 *
-	 * @param accelration How much the speed increases (positive number)
+	 * @param accelration How much the speed increases (pixels / step) (0+)
 	 */
 	public void addSpeed(double accelration)
 	{
@@ -145,7 +143,7 @@ public class Movement
 	/**
 	 * Lessens the movement's speed by the given amount
 	 * 
-	 * @param speedloss How much speed is lost
+	 * @param speedloss How much speed is lost (pixels / step) (0+)
 	 */
 	public void diminishSpeed(double speedloss)
 	{
@@ -176,7 +174,8 @@ public class Movement
 	/**
 	 * Returns a movement projected to the given direction
 	 *
-	 * @param direction The direction to which the movement is projected
+	 * @param direction The direction to which the movement is projected 
+	 * (degrees) [0, 360[
 	 * @return The projected movement
 	 */
 	public Movement getDirectionalMovement(double direction)
@@ -187,7 +186,8 @@ public class Movement
 	}
 	
 	/**
-	 * returns a movement created multiplying the current movement with a certain multiplier
+	 * returns a movement created by multiplying the current movement with a 
+	 * certain multiplier
 	 *
 	 * @param multiplier The multiplier used in creating the new movement
 	 * @return The movement multiplied using the multiplier
@@ -200,11 +200,13 @@ public class Movement
 	/**
 	 * Diminishes the the movement's one component while keeping other the same
 	 *
-	 * @param direction The direction to which the speedloss affects
-	 * @param speedloss How much (directional) speed is lost
+	 * @param direction The direction to which the speedloss affects 
+	 * (direction) [0, 360[
+	 * @param speedloss How much (directional) speed is lost (pixels / step)
 	 * @return The movement where the speedloss has been added
 	 */
-	public Movement getDirectionalllyDiminishedMovement(double direction, double speedloss)
+	public Movement getDirectionalllyDiminishedMovement(double direction, 
+			double speedloss)
 	{
 		// Divides the movement into two ("x" and "y") movements
 		Movement dirmovement = getDirectionalMovement(direction);
@@ -243,36 +245,7 @@ public class Movement
 			return;
 		}
 		
-		// TODO: Tried this new way to do this. Remove if doesn't work
 		this.hspeed = HelpMath.lendirX(speed, direction);
 		this.vspeed = HelpMath.lendirY(speed, direction);
-		
-		/*
-		double checkdir = HelpMath.checkDirection(direction);
-		double alpha = checkdir % 90;
-		double firstspeed = alpha / 90.0 * speed;
-		double secondspeed = speed - firstspeed;
-		
-		if (checkdir >= 270)
-		{
-			this.hspeed = firstspeed;
-			this.vspeed = secondspeed;
-		}
-		else if (checkdir >= 180)
-		{
-			this.hspeed = -secondspeed;
-			this.vspeed = firstspeed;
-		}
-		else if (checkdir >= 90)
-		{
-			this.hspeed = -firstspeed;
-			this.vspeed = -secondspeed;
-		}
-		else
-		{
-			this.hspeed = secondspeed;
-			this.vspeed = -firstspeed;
-		}
-		*/
 	}
 }

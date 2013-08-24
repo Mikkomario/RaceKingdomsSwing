@@ -85,6 +85,7 @@ Testit / TODO
 	* Sprite filterit
 	* toStringit
 	* Korjaa @see javadocit
+	* Lis‰‰ friction modifierit maeriaaleihin?
 
 ALPHA READY
 

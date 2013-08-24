@@ -4,9 +4,9 @@ import java.awt.Point;
 
 /**
  * DoublePoint is a point that holds the data in a double format. Doublepoint 
- * should be used in situations that require very good accuracy
+ * should be used in situations that require very good accuracy.
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 30.6.2013.
  */
 public class DoublePoint
@@ -76,7 +76,7 @@ public class DoublePoint
 	
 	/**
 	 * @return The doublepoint as a normal point. The double values are converted 
-	 * into int values so some data could be lost
+	 * into int values so some data will be lost
 	 */
 	public Point getAsPoint()
 	{

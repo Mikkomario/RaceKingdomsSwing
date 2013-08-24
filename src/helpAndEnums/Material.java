@@ -4,8 +4,10 @@ package helpAndEnums;
  * Material tells which material the object is made from. Each material has 
  * its own density
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 6.7.2013.
+ * @see <a href="http://en.wikipedia.org/wiki/Density#Water">Densities wiki</a>
+ * @see <a href="http://www.avlandesign.com/density_metal.htm">Densities avlandesing</a>
  */
 public enum Material
 {
@@ -134,6 +136,5 @@ public enum Material
 			default: return 1000;
 		}
 	}
-	
 	// Also, check frictions at: http://www.taulukot.com/index.php?search_id=mekaniikka_termodynamiikka&lng=fi
 }

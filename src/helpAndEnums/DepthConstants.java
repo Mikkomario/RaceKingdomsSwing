@@ -3,7 +3,7 @@ package helpAndEnums;
 /**
  * This static class offers constants used in defining object's depth
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 1.7.2013.
  */
 public class DepthConstants
