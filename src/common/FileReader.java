@@ -6,9 +6,9 @@ import java.util.Scanner;
 
 /**
  * Filereader is an abstract class that allows the subclasses to read files 
- * and react to them somehow.
+ * and react to their content.
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 19.7.2013.
  */
 public abstract class FileReader
@@ -16,9 +16,11 @@ public abstract class FileReader
 	// ABSTRACT METHODS	--------------------------------------------------
 	
 	/**
-	 * This method is called each time a line is read from a file
+	 * This method is called each time a line is read from a file with the 
+	 * readFile method
 	 *
 	 * @param line The line read from the file
+	 * @see readFile
 	 */
 	protected abstract void onLine(String line);
 	
@@ -38,15 +40,19 @@ public abstract class FileReader
 	}
 	
 	/**
-	 * Reads a file and makes the object react to it somehow
+	 * Reads a file and makes the object react to it somehow. Skips all the 
+	 * empty lines in the file and calls the onLine method at each line read.<br>
+	 * Doesn't read a file that doesn't exist and prints an error message if 
+	 * no file was found
 	 *
-	 * @param filename
-	 * @param applet
+	 * @param filename The name of the file read (src/data/ is added 
+	 * automatically to the beginning)
+	 * @see onLine
 	 */
 	protected void readFile(String filename)
 	{
 		// First checks if the file actually exists
-		File file = new File(filename);
+		File file = new File("src/data/" + filename);
 		Scanner scanner = null;
 		
 		// Tries to open the file
@@ -56,7 +62,7 @@ public abstract class FileReader
 		}
 		catch (FileNotFoundException e)
 		{
-			System.err.println("File " + filename + " does not exist!");
+			System.err.println("File src/data/" + filename + " does not exist!");
 			return;
 		}
 		

@@ -4,10 +4,12 @@ import java.util.HashMap;
 
 /**
  * Abstractbank is the superclass of all the bank objects providing some 
- * necessary methods for the subclasses
+ * necessary methods for the subclasses. The class also handles neccessary 
+ * data handling.
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 17.8.2013.
+ * @see BankObject
  */
 public abstract class AbstractBank
 {
@@ -20,7 +22,8 @@ public abstract class AbstractBank
 	// CONSTRUCTOR	-----------------------------------------------------
 	
 	/**
-	 * Creates a new empty abstractbank
+	 * Creates a new uninitialized abstractbank. The bank will be initialized 
+	 * when an object tries to get something from it.
 	 */
 	public AbstractBank()
 	{
@@ -40,7 +43,9 @@ public abstract class AbstractBank
 	
 	/**
 	 * A method that adds the needed objects into the bank using the addObject 
-	 * method or another similar method
+	 * method or another similar method.
+	 * 
+	 * @see addObject
 	 */
 	protected abstract void initialize();
 	
@@ -48,10 +53,12 @@ public abstract class AbstractBank
 	// OTHER METHODS	-------------------------------------------------
 	
 	/**
-	 * Tries to retrieve an object from the bank
+	 * Tries to retrieve an object from the bank. Calling this method initializes 
+	 * the bank if it hasn't yet been initialized
 	 *
 	 * @param objectname The name of the object in the bank
-	 * @return The object in the bank or null if no object with the given name was found
+	 * @return The object in the bank or null if no object with the given name 
+	 * was found
 	 */
 	protected BankObject getObject(String objectname)
 	{
@@ -78,6 +85,7 @@ public abstract class AbstractBank
 	 *
 	 * @param o The object to be added (must have the supported class)
 	 * @param name The name of the object in the bank
+	 * @see getSupportedClass
 	 */
 	protected void addObject(BankObject o, String name)
 	{
@@ -96,8 +104,9 @@ public abstract class AbstractBank
 	 * Uninitializes the contents of the bank. The bank will be reinitialized 
 	 * when something is tried to retrieve from it
 	 * 
-	 * NOTICE THAT THIS METHOD CAN CAUSE SERIOUS DAMAGE IF THE INSTANCES IN 
-	 * THE BANK ARE STILL IN USE WHEN THIS METHOD IS CALLED.
+	 * @warning calling this method while the objects in the bank are in use 
+	 * may crash the program depending on the circumstances. It would be safe 
+	 * to uninitialize the bank only when the content is not in use.
 	 */
 	public void uninitialize()
 	{

@@ -79,6 +79,7 @@ Testit / TODO
 	* Infinite loop & Release trackeille
 	* Lis‰‰ RoomBoundCamera (Ei mene edes osittain 
 	huoneen ulkopuolelle)
+	* FileReaderTest
 
 ALPHA READY
 

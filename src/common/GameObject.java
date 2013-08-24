@@ -7,25 +7,25 @@ import handleds.Handled;
  * handled and killed. Pretty much any visible or invisible object in a game 
  * that can become an 'object' of an action should inherit this class.
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 11.7.2013.
  */
 public abstract class GameObject implements Handled
 {
 	// ATTRIBUTES	-----------------------------------------------------
 	
-	private boolean alive;
+	private boolean dead;
 	
 	
 	// CONSTRUCTOR	-----------------------------------------------------
 	
 	/**
-	 * Creates a new gameobject that becomes alive until it is killed
+	 * Creates a new gameobject that is alive until it is killed
 	 */
 	public GameObject()
 	{
 		// Initializes attributes
-		this.alive = true;
+		this.dead = false;
 	}
 	
 	
@@ -34,13 +34,13 @@ public abstract class GameObject implements Handled
 	@Override
 	public boolean isDead()
 	{
-		return !this.alive;
+		return this.dead;
 	}
 
 	@Override
 	public boolean kill()
 	{
-		this.alive = true;
+		this.dead = true;
 		return true;
 	}
 }
