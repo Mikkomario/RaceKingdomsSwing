@@ -10,6 +10,8 @@ import listeners.SoundListener;
  */
 public class MidiMusicTrack extends Sound implements SoundListener
 {	
+	// TODO: Add other midi features
+	
 	// ATTRIBUTES	------------------------------------------------------
 	
 	private MidiMusic midi;

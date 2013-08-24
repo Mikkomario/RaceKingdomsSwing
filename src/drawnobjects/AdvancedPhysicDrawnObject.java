@@ -20,7 +20,7 @@ import helpAndEnums.Movement;
  * @author Gandalf.
  *         Created 1.7.2013.
  */
-public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
+public abstract class AdvancedPhysicDrawnObject extends BouncingBasicPhysicDrawnObject
 {
 	// ATTRIBUTES	------------------------------------------------------
 	
@@ -197,9 +197,6 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 			if (frictionmodifier > 0)
 				addWallFriction(oppmovement, frictionmodifier);
 		}
-		
-		// TODO: Also add same effect to the other object (a new method?)
-		// TODO: Add mass and density and height
 	}
 	
 	/**
@@ -323,29 +320,6 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		// TODO: Check whether the tangent should be +90 or -90. I'm too 
 		// confused right now
 		return Movement.movementSum(getMovement(), getPixelRotationMovement(pixel));
-		
-		/* Old version, use if the new one doesn't work
-		DoublePoint absolutestart = transform(pixel.x, pixel.y);
-		DoublePoint relativeend = new DoublePoint(pixel.getX(), pixel.getY());
-		// Moves the pixel according to rotations / moments
-		// Basic rotation
-		relativeend = HelpMath.getRotatedPosition(getOriginX(), getOriginY(), 
-				relativeend, getRotation());
-		// All moments
-		for (Point momentorigin: this.moments.keySet())
-		{
-			relativeend = HelpMath.getRotatedPosition(momentorigin.x, 
-					momentorigin.y, relativeend, this.moments.get(momentorigin));
-		}
-		// Transforms the point into an absolute value
-		DoublePoint absoluteend = transform(relativeend.getX(), relativeend.getY());
-		// Adds the object's speed
-		absoluteend = new DoublePoint(absoluteend.getX() + getMovement().getHSpeed(), 
-				absoluteend.getY() + getMovement().getVSpeed());
-		
-		return new DoublePoint(absoluteend.getX() - absolutestart.getX(), 
-				absoluteend.getY() - absolutestart.getY());
-		*/
 	}
 	
 	private Movement getPixelRotationMovement(DoublePoint pixel)
@@ -459,14 +433,10 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 			DoublePoint colpoint = colpoints[i];
 			// TODO: Try to come up with a way to always get nice numbers here
 			double moment = calculateMoment(forcedir, 
-					0.3*movementforce + 0.3*rotationforce, colpoint, colpixel);
+					0.4*movementforce + 0.4*rotationforce, colpoint, colpixel);
 			addMoment(negateTransformations(colpoint.getX(), colpoint.getY()), 
 					moment);
 		}
-		/*
-		addMoment(negateTransformations(pixel.getX(), 
-				pixel.getY()), modifier * calculateMoment(forcedir, force, pixel));
-		*/
 	}
 	
 	private double calculateMoment(double forcedir, double force, 
@@ -483,14 +453,6 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		// The moment also depends of the largest possible range of the object
 		return HelpMath.getDirectionalForce(forcedir, force, tangle) 
 				* r / getMaxRangeFromOrigin();
-	}
-	
-	private void addWallFriction(Movement oppmovement, double frictionmodifier)
-	{
-		double friction = oppmovement.getSpeed() * frictionmodifier;
-		// Diminishes the speed that was not affected by the oppposing force
-		setMovement(getMovement().getDirectionalllyDiminishedMovement(
-				oppmovement.getDirection() + 90, friction));
 	}
 	
 	private int getVolume()
