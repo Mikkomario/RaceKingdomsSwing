@@ -14,10 +14,10 @@ import helpAndEnums.HelpMath;
 import helpAndEnums.Movement;
 
 /**
- * In addition to physicobject's functions. Advanced physicobject also handles 
- * moments and bouncing from other objects
+ * In addition to bouncingbasicphysicobject's functions. Advanced physicobject 
+ * also handles moments
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 1.7.2013.
  */
 public abstract class AdvancedPhysicDrawnObject extends BouncingBasicPhysicDrawnObject
@@ -31,7 +31,7 @@ public abstract class AdvancedPhysicDrawnObject extends BouncingBasicPhysicDrawn
 	// CONSTRUCTOR	------------------------------------------------------
 	
 	/**
-	 * Creates a new advancedphysicobject with the given information
+	 * Creates a new advancedphysicobject with the given information.
 	 *
 	 * @param x The object's position's x-coordinate
 	 * @param y The object's position's y-coordinate
@@ -43,7 +43,8 @@ public abstract class AdvancedPhysicDrawnObject extends BouncingBasicPhysicDrawn
 	 * checking of the object (optional)
 	 * @param collisionhandler The collisionhandler that informs the object 
 	 * about collisions (optional)
-	 * @param actorhandler The actorhandler that informs the object about steps (optional)
+	 * @param actorhandler The actorhandler that informs the object about 
+	 * steps (optional)
 	 */
 	public AdvancedPhysicDrawnObject(int x, int y, int depth, boolean isSolid,
 			CollisionType collisiontype, DrawableHandler drawer,
@@ -63,14 +64,23 @@ public abstract class AdvancedPhysicDrawnObject extends BouncingBasicPhysicDrawn
 	/**
 	 * @return How high the object is in the third dimension (including scaling). 
 	 * Used for calculating the object's mass. Use a negative value for circular 
-	 * objects that are shaped like a 3-dimensional ball.
+	 * objects that are shaped like a 3-dimensional ball.<p>
+	 * 
+	 * This value is used when the object bounces interactively from other 
+	 * objects
+	 * @see bounceInteractivelyFrom
 	 */
 	public abstract int getZHeight();
 	
 	/**
 	 * @return The density of the object. Including how well the object fits 
 	 * into its "box" or "circle" depending on its collision type. So the density 
-	 * of a wooden half of a ball would be woods density * 0.5.
+	 * of a wooden half of a ball would be wood's density * 0.5.<p>
+	 * 
+	 * This value is used when the object bounces interactively from other 
+	 * objects
+	 * @see bounceInterActivelyFrom
+	 * @see Material
 	 */
 	public abstract int getDensity();
 	
@@ -91,10 +101,10 @@ public abstract class AdvancedPhysicDrawnObject extends BouncingBasicPhysicDrawn
 	// GETTERS & SETTERS	----------------------------------------------
 	
 	/**
-	 * Returns a momnet affecting the object from the given point
+	 * Returns a moment affecting the object from the given point
 	 *
-	 * @param origin The origin of the point returned
-	 * @return The amount of rotation around the point
+	 * @param origin The origin of the moment returned (relative pixel)
+	 * @return The amount of rotation around the point (degrees / step)
 	 */
 	protected double getMoment(Point origin)
 	{
@@ -107,8 +117,8 @@ public abstract class AdvancedPhysicDrawnObject extends BouncingBasicPhysicDrawn
 	/**
 	 * Sets a moment to a new value
 	 *
-	 * @param origin The origin of the moment
-	 * @param moment How much rotation the moment has
+	 * @param origin The origin of the moment (relative pixel)
+	 * @param moment How much rotation the moment has (degrees / step)
 	 */
 	protected void setMoment(Point origin, double moment)
 	{
@@ -121,7 +131,7 @@ public abstract class AdvancedPhysicDrawnObject extends BouncingBasicPhysicDrawn
 	/**
 	 * Adds a new moment to the object.
 	 *
-	 * @param p The point around which the object will rotate (relative)
+	 * @param p The point around which the object will rotate (relative pixel)
 	 * @param force How much the object rotates around the point (degrees / step)
 	 */
 	public void addMoment(Point p, double force)
@@ -151,8 +161,8 @@ public abstract class AdvancedPhysicDrawnObject extends BouncingBasicPhysicDrawn
 	 *
 	 * @param d The object collided with
 	 * @param collisionpoint The point in which the collision happens (absolute)
-	 * @param bounciness How much the object bounces away from the given object (1+)
-	 * @param frictionmodifier How much energy is lost during the collision (0-1)
+	 * @param bounciness How much the object bounces away from the given object (0+)
+	 * @param frictionmodifier How much energy is lost during the collision [0, 1]
 	 */
 	public void bounceFrom(DimensionalDrawnObject d, DoublePoint collisionpoint, 
 			double bounciness, double frictionmodifier)
@@ -203,10 +213,12 @@ public abstract class AdvancedPhysicDrawnObject extends BouncingBasicPhysicDrawn
 	 * Bounces from an object pushing it away at the same time
 	 *
 	 * @param d The object collided with
-	 * @param collisionpoint The point where the collision happens
+	 * @param collisionpoint The point where the collision happens (absolute)
 	 * @param bounciness How much additional speed is gained (0+)
 	 * @param frictionmodifier What is the friction modifier between the two 
-	 * objects
+	 * objects [0, 1]
+	 * @warning This method doesn't fully work yet and lots of speed is gained 
+	 * each time this method is called. The repairs are in progress.
 	 */
 	protected void bounceInteractivelyFrom(AdvancedPhysicDrawnObject d, 
 			DoublePoint collisionpoint, double bounciness, 
@@ -224,8 +236,6 @@ public abstract class AdvancedPhysicDrawnObject extends BouncingBasicPhysicDrawn
 		double speedthis = dirmovementthis.getSpeed();
 		double speedother = dirmovementother.getSpeed();
 		
-		//System.out.println(speedthis + " vs " + speedother);
-		
 		Movement rotationmovementthis = 
 				getPixelRotationMovement(collisionpoint).getDirectionalMovement(forcedir);
 		Movement rotationmovementother = 
@@ -241,7 +251,6 @@ public abstract class AdvancedPhysicDrawnObject extends BouncingBasicPhysicDrawn
 		
 		// Checks that the objects are actually colliding to each other and 
 		// not going to opposite directions
-		// TODO: Use dirmovement here
 		Movement pixmovementthis = Movement.movementSum(dirmovementthis, 
 				rotationmovementthis);
 		Movement pixmovementother = Movement.movementSum(dirmovementother, 
@@ -265,12 +274,6 @@ public abstract class AdvancedPhysicDrawnObject extends BouncingBasicPhysicDrawn
 		double momentumthis = (speedthis + rotationspeedthis)* massthis;
 		double momentumother = (speedother + rotationspeedother) * massother;
 		
-		// Also, if the objects are moving to the same direction with the same 
-		// speed, doesn't do anything
-		/*
-		else if (pixmovementthis.getSpeed() == pixmovementother.getSpeed())
-			return;
-		*/
 		// Calculates the maximum momentum the other may apply to the collided 
 		// object
 		// That is the momentum it would need to gain to start moving with the 
@@ -308,22 +311,22 @@ public abstract class AdvancedPhysicDrawnObject extends BouncingBasicPhysicDrawn
 		}
 	}
 	
-	// Calculates the speed of the relative pixel
 	/**
 	 * Calculates the speed of a single pixel in the object
 	 *
 	 * @param pixel The pixel's relative coordinates
-	 * @return The pixel's x- and y-movment (absolute)
+	 * @return The pixel's x- and y-movement (absolute pixels / step)
 	 */
 	protected Movement getPixelMovement(DoublePoint pixel)
 	{
-		// TODO: Check whether the tangent should be +90 or -90. I'm too 
-		// confused right now
-		return Movement.movementSum(getMovement(), getPixelRotationMovement(pixel));
+		return Movement.movementSum(getMovement(), 
+				getPixelRotationMovement(pixel));
 	}
 	
 	private Movement getPixelRotationMovement(DoublePoint pixel)
 	{
+		// TODO: Check if this should be +90 or -90
+		
 		// Adds the basic rotation
 		Movement pixelmovement = Movement.createMovement(
 						HelpMath.pointDirection(getX(), getY(), pixel.getX(), 
@@ -388,6 +391,10 @@ public abstract class AdvancedPhysicDrawnObject extends BouncingBasicPhysicDrawn
 	
 	private void checkMaxRotationForMoments()
 	{
+		// If the maxrotation is negative, no maxrotation is checked
+		if (getMaxRotation() < 0)
+			return;
+		
 		// limits the moment(s) if needed
 		for (Point momentorigin: this.moments.keySet())
 		{
@@ -421,7 +428,6 @@ public abstract class AdvancedPhysicDrawnObject extends BouncingBasicPhysicDrawn
 	private void addOpposingForce(double movementforce, double rotationforce, 
 			double forcedir, DoublePoint colpixel)
 	{
-		//System.out.println(movementforce);
 		// Applies the force to the object (only movementforce counts)
 		addMotion(forcedir, movementforce);
 		
@@ -451,6 +457,7 @@ public abstract class AdvancedPhysicDrawnObject extends BouncingBasicPhysicDrawn
 				forcepixel.getY()) - 90);
 		// Calculates the moment
 		// The moment also depends of the largest possible range of the object
+		// TODO: or should it be dependent on the mass of the object?
 		return HelpMath.getDirectionalForce(forcedir, force, tangle) 
 				* r / getMaxRangeFromOrigin();
 	}
