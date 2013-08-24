@@ -3,11 +3,10 @@ package sound;
 import java.io.FileNotFoundException;
 
 /**
- * Creates a HashMap containing some MidiMusics. The
- * class also allows access to these objects.
+ * Midimusicbank contains a group of midimusics and provides them for the 
+ * objects that need them
  * 
- * @author Unto Created 10.7.2013
- * 
+ * @author Unto Solala & Mikko Hilpinen. Created 10.7.2013
  */
 public abstract class MidiMusicBank extends SoundBank
 {
@@ -16,7 +15,7 @@ public abstract class MidiMusicBank extends SoundBank
 	/**
 	 * Creates Midis with the createMidi()-method.
 	 * 
-	 * @throws FileNotFoundException	if all of the midis couldn't be loaded.
+	 * @throws FileNotFoundException if all of the midis couldn't be loaded.
 	 */
 	public abstract void createMidis() throws FileNotFoundException;
 
@@ -30,9 +29,11 @@ public abstract class MidiMusicBank extends SoundBank
 		try
 		{
 			createMidis();
-		} catch (FileNotFoundException fnfe)
+		}
+		catch (FileNotFoundException fnfe)
 		{
 			System.err.println("Could not load all of the Midis!");
+			fnfe.printStackTrace();
 		}
 	}
 	
@@ -48,8 +49,8 @@ public abstract class MidiMusicBank extends SoundBank
 	/**
 	 * Creates a midi and stores it in the bank
 	 * 
-	 * @param fileName	File's name and location
-	 * @param midiName	Name of the song in the bank.
+	 * @param fileName	File's name and location (src/data/ is added by default)
+	 * @param midiName	Name of the new midi in the bank.
 	 */
 	protected void createMidiMusic(String fileName, String midiName)
 	{
@@ -61,8 +62,8 @@ public abstract class MidiMusicBank extends SoundBank
 	 * Returns a midi from the MidiMusicBank.
 	 * 
 	 * @param midiName	Name of the wanted midi
-	 * @return Returns the wanted midi if it is in the database, otherwise
-	 *         returns null.
+	 * @return Returns the wanted midi if it is in the database, otherwise 
+	 * returns null.
 	 */
 	@Override
 	public MidiMusic getSound(String midiName)

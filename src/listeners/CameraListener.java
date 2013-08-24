@@ -8,6 +8,7 @@ import handleds.LogicalHandled;
  *
  * @author Mikko Hilpinen.
  *         Created 7.12.2012.
+ * @see camera.BasicCamera
  */
 public interface CameraListener extends LogicalHandled
 {	

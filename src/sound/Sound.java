@@ -7,9 +7,10 @@ import listeners.SoundListener;
 
 /**
  * Sound is a sound or a music that can be played during the game. Each playable 
- * piece should extend this class
+ * piece should extend this class. This class handles the listener informing and 
+ * sets a standard for the subclasses.
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 19.8.2013.
  */
 public abstract class Sound implements BankObject
@@ -125,7 +126,7 @@ public abstract class Sound implements BankObject
 	 * Loops the sound continuously until stopped
 	 *
 	 * @param specificlistener a listener that will be informed specifically 
-	 * about the events caused by this play of the sound
+	 * about the events caused by this play of the sound (null if not needed)
 	 */
 	public void loop(SoundListener specificlistener)
 	{

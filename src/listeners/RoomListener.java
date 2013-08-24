@@ -9,6 +9,7 @@ import handleds.LogicalHandled;
  *
  * @author Mikko Hilpinen.
  *         Created 11.7.2013.
+ * @see worlds.Room
  */
 public interface RoomListener extends LogicalHandled
 {

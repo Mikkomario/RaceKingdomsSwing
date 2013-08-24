@@ -8,6 +8,7 @@ import handleds.LogicalHandled;
  *
  * @author Mikko Hilpinen.
  *         Created 19.8.2013.
+ * @see sound.Sound
  */
 public interface SoundListener extends LogicalHandled
 {

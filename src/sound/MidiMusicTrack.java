@@ -5,7 +5,7 @@ import listeners.SoundListener;
 /**
  * Midimusictrack plays a single midi using certain sets of start- and endpoints
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 23.8.2013.
  */
 public class MidiMusicTrack extends Sound implements SoundListener
@@ -189,8 +189,9 @@ public class MidiMusicTrack extends Sound implements SoundListener
 	 * LoopPointInformation holds the information about midimusic's loop's 
 	 * start- and endpoints.
 	 *
-	 * @author Gandalf.
+	 * @author Mikko Hilpinen.
 	 *         Created 23.8.2013.
+	 * @see sound.MidiMusicTrack
 	 */
 	public class LoopPointInformation
 	{
@@ -206,10 +207,10 @@ public class MidiMusicTrack extends Sound implements SoundListener
 		/**
 		 * Creates a new looppointinformation object holding the given information
 		 *
-		 * @param startpoint The loop's startpoint
-		 * @param endpoint The loop's endpoint
+		 * @param startpoint The loop's startpoint (tick)
+		 * @param endpoint The loop's endpoint (tick)
 		 * @param loopcount How many times the music is repeated between the 
-		 * given points
+		 * given points (0+)
 		 */
 		public LoopPointInformation(long startpoint, long endpoint, int loopcount)
 		{
@@ -232,7 +233,7 @@ public class MidiMusicTrack extends Sound implements SoundListener
 		/**
 		 * Changes the startpoint information
 		 *
-		 * @param startpoint The new held startpoint
+		 * @param startpoint The new held startpoint (tick)
 		 */
 		public void setStartPoint(long startpoint)
 		{
@@ -242,7 +243,7 @@ public class MidiMusicTrack extends Sound implements SoundListener
 		/**
 		 * Changes the endpoint information
 		 *
-		 * @param endpoint The new held endpoint
+		 * @param endpoint The new held endpoint (tick)
 		 */
 		public void setEndPoint(long endpoint)
 		{
@@ -252,7 +253,7 @@ public class MidiMusicTrack extends Sound implements SoundListener
 		/**
 		 * Changes how many times the interval is repeated
 		 *
-		 * @param loopcount How many times the interval is repeated
+		 * @param loopcount How many times the interval is repeated (0+)
 		 */
 		public void setLoopCount(int loopcount)
 		{

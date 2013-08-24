@@ -15,14 +15,13 @@ import listeners.SoundListener;
 
 
 /**
- * Musical objects which can be played.
+ * Midimusics are musical objects which can be played. Only one midimusic should 
+ * be played at a time.
  * 
- * @author Unto Created 10.7.2013
- * 
+ * @author Unto Solala & Mikko Hilpinen. Created 10.7.2013
  */
 public class MidiMusic extends Sound implements MetaEventListener
 {
-	
 	// ATTRIBUTES ---------------------------------------------------------
 
 	private String fileName;
@@ -36,7 +35,7 @@ public class MidiMusic extends Sound implements MetaEventListener
 	/**
 	 * Creates MidiMusic-object.
 	 * 
-	 * @param fileName	Where the midi's name and where it is located (src/data 
+	 * @param fileName Which midi file is used to play the music (src/data/ 
 	 * automatically included).
 	 * @param name The name of the midimusic (in the midimusicbank)
 	 */
@@ -134,7 +133,6 @@ public class MidiMusic extends Sound implements MetaEventListener
 	@Override
 	public void meta(MetaMessage event)
 	{
-		//System.out.println(event.getType());
 		// Checks if a midi ended and informs the listeners
 		if (event.getType() == 47)
 		{
@@ -149,7 +147,7 @@ public class MidiMusic extends Sound implements MetaEventListener
 	// METHODS ---------------------------------------------------
 	
 	/**
-	 * Starts playing the music-file from the given position.
+	 * Starts playing the music from the given position.
 	 * 
 	 * @param startPosition	 Playback's starting tick-position.
 	 * @param specificlistener A listener that will be informed about the 
@@ -169,7 +167,8 @@ public class MidiMusic extends Sound implements MetaEventListener
 	/**
 	 * @return Returns the length of a Midi-sequence in ticks.
 	 */
-	public long getSequenceLength() {
+	public long getSequenceLength()
+	{
 		return this.midiSequence.getTickLength();
 	}
 
@@ -201,27 +200,14 @@ public class MidiMusic extends Sound implements MetaEventListener
 		this.midiSequencer.start();
 	}
 
-	/*
-	public long pauseMusic()
-	{
-		if (this.midiSequencer.isRunning())
-		{
-			this.midiSequencer.stop();
-			long pausePosition = this.midiSequencer.getTickPosition();
-			return pausePosition;
-		}
-		else
-			return 0;
-	}
-	*/
-
 	/**
-	 * Sets how many times the song loops.
+	 * Sets how many times the music loops.
 	 * 
-	 * @param loopCount	How many times the song loops. If loopCount is negative, song
-	 *            will loop continuously.
+	 * @param loopCount	How many times the music loops. If loopCount is 
+	 * negative, the music will loop continuously.
 	 */
-	public void setLoopCount(int loopCount) {
+	public void setLoopCount(int loopCount)
+	{
 		if (loopCount < 0)
 		{
 			this.midiSequencer.setLoopCount(Sequencer.LOOP_CONTINUOUSLY);
@@ -235,49 +221,58 @@ public class MidiMusic extends Sound implements MetaEventListener
 	/**
 	 * Changes where the music's loop starts.
 	 * 
-	 * @param loopStartPoint	The tick where music's loop starts.
+	 * @param loopStartPoint The tick where music's loop starts.
 	 */
-	public void setLoopStart(long loopStartPoint) {
+	public void setLoopStart(long loopStartPoint)
+	{
 		this.midiSequencer.setLoopStartPoint(loopStartPoint);
 	}
 
 	/**
 	 * Changes where the music's loop ends.
 	 * 
-	 * @param loopEndPoint	The tick where music's loop ends. (0 means no end point, 
+	 * @param loopEndPoint The tick where music's loop ends. (0 means no end point, 
 	 * -1 means the end of the midi)
 	 */
-	public void setLoopEnd(long loopEndPoint) {
+	public void setLoopEnd(long loopEndPoint)
+	{
 		this.midiSequencer.setLoopEndPoint(loopEndPoint);
 	}
 	
-	/**Resets loop's start-point to 0 and end-point to the end of the sequence.
-	 * 
+	/**
+	 * Resets loop's start-point to 0 and end-point to the end of the sequence.
 	 */
-	public void setDefaultLoopPoints() {
+	public void setDefaultLoopPoints()
+	{
 		this.midiSequencer.setLoopStartPoint(0);
 		this.midiSequencer.setLoopEndPoint(this.getSequenceLength());
 	}
 	
-	/**Sets a new tempo for the midi. 1.0 is the default TempoFactor.
+	/**
+	 * Sets a new tempo for the midi. 1.0 is the default TempoFactor.
 	 * 
-	 * @param newTempoFactor	New tempoFactor for the midi.
+	 * @param newTempoFactor New tempoFactor for the midi (0+) (1.0 by default)
 	 */
-	public void setTempoFactor (float newTempoFactor){
+	public void setTempoFactor (float newTempoFactor)
+	{
 		this.midiSequencer.setTempoFactor(newTempoFactor);
 	}
 	
-	/**Sets the TempoFactor to 1.0, which is the default.
+	/**
+	 * Sets the TempoFactor to 1.0, which is the default.
 	 */
-	public void resetTempoFactor(){
+	public void resetTempoFactor()
+	{
 		this.midiSequencer.setTempoFactor(1);
 	}
 	
-	/**Returns the current TempoFactor.
+	/**
+	 * Returns the current TempoFactor.
 	 * 
 	 * @return	Returns the current TempoFactor as a float.
 	 */
-	public float getTempoFactor(){
+	public float getTempoFactor()
+	{
 		return this.midiSequencer.getTempoFactor();
 	}
 }
