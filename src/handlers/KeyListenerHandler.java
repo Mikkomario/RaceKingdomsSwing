@@ -4,14 +4,15 @@ import handleds.Handled;
 import listeners.AdvancedKeyListener;
 
 /**
- * This class handles a bunch of keylisteners
+ * This class informs a group of keylisteners about the key events
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 14.12.2012.
  */
 public class KeyListenerHandler extends LogicalHandler implements AdvancedKeyListener
 {
-
+	// CONSTRUCTOR	-----------------------------------------------------
+	
 	/**
 	 * Creates a new empty keylistenerhandler. Listeners must be added manually
 	 *
@@ -22,6 +23,9 @@ public class KeyListenerHandler extends LogicalHandler implements AdvancedKeyLis
 	{
 		super(autodeath, superhandler);
 	}
+	
+	
+	// IMPLEMENTED METHODS	---------------------------------------------
 
 	@Override
 	public void onKeyDown(int key, int keyCode, boolean coded)
@@ -86,7 +90,6 @@ public class KeyListenerHandler extends LogicalHandler implements AdvancedKeyLis
 	 */
 	public void addKeyListener(AdvancedKeyListener k)
 	{
-		//System.out.println("Adds a listener " + k.getClass().getName());
-		super.addHandled(k);
+		addHandled(k);
 	}
 }

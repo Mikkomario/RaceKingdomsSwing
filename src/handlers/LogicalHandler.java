@@ -8,7 +8,7 @@ import handleds.LogicalHandled;
  * This class provides some methods necessary for all subclasses and can be used as
  * a logical handled in other handlers.
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 8.12.2012.
  */
 public abstract class LogicalHandler extends Handler implements LogicalHandled

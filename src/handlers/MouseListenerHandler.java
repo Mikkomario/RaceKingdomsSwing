@@ -3,9 +3,9 @@ package handlers;
 import listeners.AdvancedMouseListener;
 
 /**
- * Informs multiple objects about mouse's movements and clicks
+ * Informs multiple mouselisteners about the mouse's movements and button status
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 28.12.2012.
  */
 public class MouseListenerHandler extends AbstractMouseListenerHandler 
@@ -16,9 +16,11 @@ public class MouseListenerHandler extends AbstractMouseListenerHandler
 	/**
 	 * Creates a new empty mouselistenerhandler
 	 *
-	 * @param autodeath Will the handler die when it runs out of living listeners
-	 * @param actorhandler The actorhandler that will handle this handler (optional)
-	 * @param superhandler The mouselistenerhandler that will handle this handler (optional)
+	 * @param autodeath Will the handler die when it runs out of listeners
+	 * @param actorhandler The actorhandler that will handle this handler 
+	 * (optional)
+	 * @param superhandler The mouselistenerhandler that will inform this 
+	 * handler (optional)
 	 */
 	public MouseListenerHandler(boolean autodeath, 
 			ActorHandler actorhandler, MouseListenerHandler superhandler)
@@ -36,51 +38,27 @@ public class MouseListenerHandler extends AbstractMouseListenerHandler
 	@Override
 	public void onLeftDown(int mouseX, int mouseY)
 	{
-		// Informs all listeners about left mouse
-		for (int i = 0; i < getHandledNumber(); i++)
-		{
-			if (this.getListener(i).listensPosition(mouseX, mouseY))
-				this.getListener(i).onLeftDown(mouseX, mouseY);
-		}
+		// Does nothing
 	}
 
 	@Override
 	public void onRightDown(int mouseX, int mouseY)
 	{
-		// Informs all listeners about the right mouse
-		for (int i = 0; i < getHandledNumber(); i++)
-		{
-			if (this.getListener(i).listensPosition(mouseX, mouseY))
-				this.getListener(i).onRightDown(mouseX, mouseY);
-		}
+		// Does nothing
 	}
 
 	@Override
 	public void onLeftPressed(int mouseX, int mouseY)
 	{
-		setMousePosition(mouseX, mouseY);
+		// Updates the mouse status
 		setLeftMouseDown(true);
-		
-		// Informs all listeners about the press
-		for (int i = 0; i < getHandledNumber(); i++)
-		{
-			if (this.getListener(i).listensPosition(mouseX, mouseY))
-				this.getListener(i).onLeftPressed(mouseX, mouseY);
-		}
 	}
 
 	@Override
 	public void onRightPressed(int mouseX, int mouseY)
 	{
-		setMousePosition(mouseX, mouseY);
+		// Updates the mouse status
 		setRightMouseDown(true);
-		
-		// Informs all listeners about the press
-		for (int i = 0; i < getHandledNumber(); i++)
-		{
-			if (this.getListener(i).listensPosition(mouseX, mouseY))
-				this.getListener(i).onRightPressed(mouseX, mouseY);
-		}
 	}
 
 	@Override
@@ -112,39 +90,23 @@ public class MouseListenerHandler extends AbstractMouseListenerHandler
 	@Override
 	public void onMouseMove(int mouseX, int mouseY)
 	{
+		// Updates mouse status
 		setMousePosition(mouseX, mouseY);
 	}
-
 
 	@Override
 	public void onLeftReleased(int mouseX, int mouseY)
 	{
-		setMousePosition(mouseX, mouseY);
+		// Updates mouse status
 		setLeftMouseDown(false);
-		
-		// Informs all listeners about the release
-		for (int i = 0; i < getHandledNumber(); i++)
-		{
-			if (this.getListener(i).listensPosition(mouseX, mouseY))
-				this.getListener(i).onLeftReleased(mouseX, mouseY);
-		}
 	}
-
 
 	@Override
 	public void onRightReleased(int mouseX, int mouseY)
 	{
-		setMousePosition(mouseX, mouseY);
+		// Updates mouse status
 		setRightMouseDown(false);
-		
-		// Informs all listeners about the release
-		for (int i = 0; i < getHandledNumber(); i++)
-		{
-			if (this.getListener(i).listensPosition(mouseX, mouseY))
-				this.getListener(i).onRightReleased(mouseX, mouseY);
-		}
 	}
-
 
 	@Override
 	public void onMouseOver(int mouseX, int mouseY)

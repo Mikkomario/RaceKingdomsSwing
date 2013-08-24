@@ -9,9 +9,10 @@ import listeners.AdvancedKeyListener;
 
 /**
  * This class unites the actor and keyListening interfaces so that keyevents are 
- * only called once in a step.
+ * only called once in a step. The handler informs all its listeners about the 
+ * events
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 2.12.2012.
  */
 public class MainKeyListenerHandler extends LogicalHandler implements Actor
@@ -62,33 +63,31 @@ public class MainKeyListenerHandler extends LogicalHandler implements Actor
 		{
 			AdvancedKeyListener listener = getListener(i);
 			
+			if (listener == null)
+				continue;
+			
 			// Informs if a key was pressed
 			for (int ik = 0; ik < this.keysPressed.size(); ik++)
 			{
 				listener.onKeyPressed(this.keysPressed.get(ik), 0, false);
-				//System.out.println("Pressed! (" + listener.getClass().getName() + ")");
 			}
 			
 			// Informs if a coded key was pressed
 			for (int ik = 0; ik < this.codesPressed.size(); ik++)
 			{
-				// TODO: This throws nullpointers every now and then
-				if (listener != null && this.codesPressed != null)
-					listener.onKeyPressed(0, this.codesPressed.get(ik), true);
+				listener.onKeyPressed(0, this.codesPressed.get(ik), true);
 			}
 			
 			// Informs if a key was released
 			for (int ik = 0; ik < this.keysReleased.size(); ik++)
 			{
 				listener.onKeyReleased(this.keysReleased.get(ik), 0, false);
-				//System.out.println("Released!");
 			}
 			
 			// Informs if a coded key was released
 			for (int ik = 0; ik < this.codesReleased.size(); ik++)
 			{
 				listener.onKeyReleased(0, this.codesReleased.get(ik), true);
-				//System.out.println("CodeReleased!");
 			}
 			
 			// Informs if a key is down
@@ -123,12 +122,11 @@ public class MainKeyListenerHandler extends LogicalHandler implements Actor
 	// OTHER METHODS	--------------------------------------------------
 	
 	/**
-	 * 
 	 * This method should be called at each keyPressed -event
 	 *
 	 * @param key The key that was pressed
 	 * @param code The key's keycode
-	 * @param coded Does the key use it's keycode
+	 * @param coded Does the key use its keycode
 	 */
 	public void onKeyPressed(int key, int code, boolean coded)
 	{
@@ -158,12 +156,11 @@ public class MainKeyListenerHandler extends LogicalHandler implements Actor
 	}
 	
 	/**
-	 * 
 	 * This method should be called at each keyReleased -event
 	 *
-	 * @param key The key that was pressed
+	 * @param key The key that was released
 	 * @param code The key's keycode
-	 * @param coded Does the key use it's keycode
+	 * @param coded Does the key use its keycode
 	 */
 	public void onKeyReleased(int key, int code, boolean coded)
 	{
@@ -193,7 +190,7 @@ public class MainKeyListenerHandler extends LogicalHandler implements Actor
 	 */
 	public void addListener(AdvancedKeyListener k)
 	{
-		super.addHandled(k);
+		addHandled(k);
 	}
 	
 	private AdvancedKeyListener getListener(int index)

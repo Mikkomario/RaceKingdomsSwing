@@ -135,7 +135,7 @@ public class Room extends Handler
 		removeHandled(g);
 		// If the object was a roomlistener, removes it from there as well
 		if (g instanceof RoomListener)
-			this.listenerhandler.removeRoomListener((RoomListener) g);
+			this.listenerhandler.removeHandled(g);
 	}
 	
 	/**

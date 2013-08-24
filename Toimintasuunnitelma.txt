@@ -82,6 +82,9 @@ Testit / TODO
 	* FileReaderTest
 	* Korjaa interaktiivinen törmäysfysiikka
 	* Testaa WALL collision type
+	* Sprite filterit
+	* toStringit
+	* Korjaa @see javadocit
 
 ALPHA READY
 

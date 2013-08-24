@@ -5,9 +5,10 @@ import handleds.Handled;
 import listeners.SoundListener;
 
 /**
- * Soundlistenerhandler informs multiple listeners about sound effects
+ * Soundlistenerhandler informs multiple listeners about sound events of sounds 
+ * it listens to
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 19.8.2013.
  */
 public class SoundListenerHandler extends LogicalHandler implements SoundListener
@@ -87,15 +88,5 @@ public class SoundListenerHandler extends LogicalHandler implements SoundListene
 	public void addListener(SoundListener s)
 	{
 		addHandled(s);
-	}
-	
-	/**
-	 * Removes a listener from the informed listeners
-	 *
-	 * @param s The listener no longer to be informed
-	 */
-	public void removeListener(SoundListener s)
-	{
-		removeHandled(s);
 	}
 }

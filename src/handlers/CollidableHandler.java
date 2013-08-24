@@ -4,9 +4,10 @@ import handleds.Collidable;
 import handleds.Handled;
 
 /**
- * This class handles multiple collidables
+ * This class handles multiple collidables. Any collision checks made for this 
+ * object are made for all the collidables.
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 18.6.2013.
  */
 public class CollidableHandler extends Handler implements Collidable
@@ -75,13 +76,14 @@ public class CollidableHandler extends Handler implements Collidable
 	}
 	
 	
-	// OTHER METHOD	-----------------------------------------------------
+	// OTHER METHODS	-----------------------------------------------------
 	
 	/**
 	 * Returns a collidable from the list of collidables
 	 *
 	 * @param index The index of the collidable
-	 * @return The collidable from the list (or null)
+	 * @return The collidable from the list (or null if no collidable was found 
+	 * from the index)
 	 */
 	protected Collidable getCollidable(int index)
 	{

@@ -193,7 +193,7 @@ public abstract class Sound implements BankObject
 	 */
 	public void removeListener(SoundListener s)
 	{
-		this.listenerhandler.removeListener(s);
+		this.listenerhandler.removeHandled(s);
 	}
 	
 	/**

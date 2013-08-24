@@ -7,10 +7,10 @@ import handleds.Handled;
 import listeners.AdvancedMouseListener;
 
 /**
- * This class handles the informing of mouselsteners, it does not actively find 
- * any new information though so it can't work on its own
+ * This class handles the informing of mouselsteners. It does not actively find 
+ * any new information though which must be done in the subclasses.
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 28.12.2012.
  */
 public abstract class AbstractMouseListenerHandler extends LogicalHandler 
@@ -33,7 +33,8 @@ implements Actor
 	 * Creates a new empty mouselistenerhandler
 	 *
 	 * @param autodeath Will the handler die when it runs out of living listeners
-	 * @param actorhandler The ActorHandler that will call the act-event (optional)
+	 * @param actorhandler The ActorHandler that will make the handler inform 
+	 * its listeners (optional)
 	 */
 	public AbstractMouseListenerHandler(boolean autodeath, ActorHandler actorhandler)
 	{
@@ -57,6 +58,9 @@ implements Actor
 	@Override
 	public void act()
 	{
+		// Removes the dead listeners
+		removeDeadHandleds();
+		
 		// Informs the listeners about the mouse's movements and buttons
 		for (int i = 0; i < getHandledNumber(); i++)
 		{
@@ -162,16 +166,12 @@ implements Actor
 	public void setMousePosition(int x, int y)
 	{		
 		if (getMouseX() != x || getMouseY() != y)
-		{
-			/*
-			int enterkokoennen = this.entered.size();
-			if (enterkokoennen > 0)
-				System.out.println("Populaa!");
-			*/
-			//System.out.println("Mousemoved!");
-			
+		{		
 			this.mouseX = x;
 			this.mouseY = y;
+			
+			// Removes any dead handleds
+			removeDeadHandleds();
 			
 			for (int i = 0; i < getHandledNumber(); i++)
 			{
@@ -184,17 +184,16 @@ implements Actor
 				if (l.listensMouseEnterExit())
 				{		
 					// Checks if entered
-					if (l.listensPosition(x, y) && !this.over.contains(l) 
-							&& !this.entered.contains(l))
+					if (!this.over.contains(l) && !this.entered.contains(l) 
+							&& l.listensPosition(x, y))
 					{
 						this.entered.add(l);
-						//System.out.println(this.entered.size());
 						continue;
 					}
 
 					// Checks if exited
-					if (!l.listensPosition(x, y) && this.over.contains(l) && 
-							!this.exited.contains(l))
+					if (this.over.contains(l) && !this.exited.contains(l) && 
+							!l.listensPosition(x, y))
 					{
 						this.over.remove(l);
 						this.exited.add(l);
@@ -247,7 +246,8 @@ implements Actor
 	 * Returns a mouselistener from the list of listeners
 	 *
 	 * @param index The index of the listener in the list
-	 * @return The listener from the given index
+	 * @return The listener from the given index (or null if no listener can 
+	 * be found from the given index)
 	 */
 	protected AdvancedMouseListener getListener(int index)
 	{
@@ -266,6 +266,6 @@ implements Actor
 	 */
 	public void addMouseListener(AdvancedMouseListener m)
 	{
-		super.addHandled(m);
+		addHandled(m);
 	}
 }

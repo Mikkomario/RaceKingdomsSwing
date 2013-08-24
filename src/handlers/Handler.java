@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Handlers specialise in handling certain types of objects. Each handler can 
+ * Handlers specialize in handling certain types of objects. Each handler can 
  * inform its subobjects and can be handled itself.
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 8.12.2012.
  */
 public abstract class Handler implements Handled
@@ -27,7 +27,7 @@ public abstract class Handler implements Handled
 	/**
 	 * Creates a new handler that is still empty. Handled objects must be added 
 	 * manually later. If autodeath is set on, the handled will be destroyed as 
-	 * soon as it becomes empty
+	 * soon as it becomes empty.
 	 *
 	 * @param autodeath Will the handler die automatically when it becomes empty
 	 * @param superhandler The handler that will handle the object (optional)
@@ -89,12 +89,12 @@ public abstract class Handler implements Handled
 				returnValue = false;
 		}
 		
-		// Removes the dead handleds from the handleds
-		removeDeadHandleds();
-		
-		// Also erases the memory if all the actors were killed
+		// Also erases the memory if all the handleds were killed
 		if (returnValue)
 			killWithoutKillingHandleds();
+		// Or just removes the dead handleds
+		else
+			removeDeadHandleds();
 		
 		return returnValue;
 	}
@@ -102,7 +102,7 @@ public abstract class Handler implements Handled
 	/**
 	 * Kills the handler but spares the handleds in the handler. This should 
 	 * be used instead of kill -method if, for example, the handleds are still 
-	 * used in another handler or if the handler was to change.
+	 * used in another handler.
 	 */
 	public void killWithoutKillingHandleds()
 	{
@@ -170,7 +170,7 @@ public abstract class Handler implements Handled
 	 *
 	 * @param h The handled object to be removed
 	 */
-	protected void removeHandled(Handled h)
+	public void removeHandled(Handled h)
 	{
 		if (h != null && this.handleds.contains(h))
 			this.handleds.remove(h);

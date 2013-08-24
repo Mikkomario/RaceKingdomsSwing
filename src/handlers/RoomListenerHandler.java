@@ -8,7 +8,7 @@ import listeners.RoomListener;
  * A roomlistenerhandler handles a group of roomlisteners and informs them 
  * about the events it receives
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 11.7.2013.
  */
 public class RoomListenerHandler extends LogicalHandler implements RoomListener
@@ -74,16 +74,6 @@ public class RoomListenerHandler extends LogicalHandler implements RoomListener
 	public void addRoomListener(RoomListener r)
 	{
 		addHandled(r);
-	}
-	
-	/**
-	 * Removes a roomlistener from the handled listeners
-	 *
-	 * @param r The roomlistener to be removed
-	 */
-	public void removeRoomListener(RoomListener r)
-	{
-		removeHandled(r);
 	}
 	
 	private RoomListener getListener(int index)

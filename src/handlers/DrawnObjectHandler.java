@@ -7,7 +7,7 @@ import handleds.Handled;
  * Drawnobjecthandler is a special drawablehandler that handles only drawn 
  * objects
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 17.6.2013.
  */
 public class DrawnObjectHandler extends DrawableHandler
@@ -47,14 +47,15 @@ public class DrawnObjectHandler extends DrawableHandler
 	 */
 	public void addDrawnObject(DrawnObject d)
 	{
-		super.addHandled(d);
+		addHandled(d);
 	}
 	
 	/**
 	 * Gets a handled from the list of handleds casted as a drawnobject
 	 *
 	 * @param index The index of the drawnobject
-	 * @return The drawnobject from the index
+	 * @return The drawnobject from the index (or null if no drawn object was 
+	 * found from the index)
 	 */
 	protected DrawnObject getDrawnObject(int index)
 	{

@@ -6,7 +6,7 @@ import listeners.CameraListener;
 /**
  * This class informs all its sublisteners about changes in camera's position
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 7.12.2012.
  */
 public class CameraListenerHandler extends LogicalHandler implements CameraListener
@@ -32,7 +32,7 @@ public class CameraListenerHandler extends LogicalHandler implements CameraListe
 	@Override
 	public void informCameraPosition(int posx, int posy, int w, int h, int angle)
 	{
-		// Cleans the unneeded handleds
+		// Cleans the unnecessary handleds
 		removeDeadHandleds();
 		
 		// Informs all sublisteners about the change

@@ -9,7 +9,7 @@ import handleds.Handled;
  * The object from this class will draw multiple drawables, calling their 
  * drawSelf-methods and removing them when necessary
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 27.11.2012.
  */
 public class DrawableHandler extends Handler implements Drawable
@@ -24,12 +24,12 @@ public class DrawableHandler extends Handler implements Drawable
 	
 	/**
 	 * Creates a new drawablehandler. Drawables must be added later manually.
-	 * If autodeath is on and no drawables are added, the handler will die.
 	 *
 	 * @param autodeath Will the handler die if it has no living drawables to handle
 	 * @param usesDepth Will the handler draw the objects in a depth-specific order
 	 * @param depth How 'deep' the objects in this handler are drawn
 	 * @param superhandler The drawablehandler that will draw this handler (optional)
+	 * @see depthConstants
 	 */
 	public DrawableHandler(boolean autodeath, boolean usesDepth, int depth, 
 			DrawableHandler superhandler)
@@ -61,7 +61,7 @@ public class DrawableHandler extends Handler implements Drawable
 	@Override
 	public boolean isVisible()
 	{
-		// Returns false only if all the actors are inactive
+		// Returns false only if all the handleds are invisible
 		for (int i = 0; i < getHandledNumber(); i++)
 		{
 			if (getDrawable(i).isVisible())
@@ -158,20 +158,21 @@ public class DrawableHandler extends Handler implements Drawable
 	// OTHER METHODS	---------------------------------------------------
 	
 	/**
-	 *Adds the given actor to the handled actors
+	 *Adds the given drawable to the handled drawables
 	 *
-	 * @param d The actor to be added
+	 * @param d The drawable to be added
 	 */
 	public void addDrawable(Drawable d)
 	{
-		super.addHandled(d);
+		addHandled(d);
 	}
 	
 	/**
 	 * Gets a handled from the list of handleds casted as a drawable
 	 *
 	 * @param index The index of the drawable
-	 * @return The drawable from the index
+	 * @return The drawable from the index (or null if no drawable was found 
+	 * from the index)
 	 */
 	private Drawable getDrawable(int index)
 	{

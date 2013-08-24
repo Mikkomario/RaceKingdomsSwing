@@ -13,12 +13,18 @@ import helpAndEnums.DoublePoint;
  * A handler that checks collisions between multiple collisionlisteners and 
  * Collidables
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 18.6.2013.
+ * @warning There might be some inaccuracies if CollidableHandlers are added 
+ * to the collidables
  */
 public class CollisionHandler extends LogicalHandler implements Actor
 {
-	// TODO: Add separate collisionListenerHandler class
+	// TODO: Add separate collisionListenerHandler class (difficult to implement 
+	// since the class needs to access the listeners directly and not through 
+	// a handler)
+	// TODO: If the collidablehandler contains collidablehandlers there will 
+	// be problems
 	
 	// ATTRIBUTES	-----------------------------------------------------
 	
@@ -87,7 +93,6 @@ public class CollisionHandler extends LogicalHandler implements Actor
 					
 					if (collider == null)
 						continue;
-						//System.out.println("Foundcollision");
 
 					// The arraylist may need to be initialized
 					if (!collidedpoints.containsKey(collider))
@@ -100,7 +105,6 @@ public class CollisionHandler extends LogicalHandler implements Actor
 			// Informs the listener about each object it collided with
 			for (Collidable c: collidedpoints.keySet())
 				listener.onCollision(collidedpoints.get(c), c);
-			//System.out.println("Informs listener");
 		}
 	}
 	
@@ -108,6 +112,14 @@ public class CollisionHandler extends LogicalHandler implements Actor
 	protected Class<?> getSupportedClass()
 	{
 		return CollisionListener.class;
+	}
+	
+	@Override
+	public boolean kill()
+	{
+		// In addition to the normal killing, kills the collidablehandler as well
+		getCollidableHandler().kill();
+		return super.kill();
 	}
 	
 	

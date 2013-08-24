@@ -3,11 +3,13 @@ package handlers;
 import java.awt.event.MouseEvent;
 
 /**
- * This class takes input straight from the applet and informs all mouselisteners 
- * 'below' it. There should be only one mainmouselistenerhandler created and / or used
+ * This class takes input straight from the gamewindow and informs all 
+ * mouselisteners 'below' it. There should be only one 
+ * mainmouselistenerhandler created and / or used at a time
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 29.12.2012.
+ * @see GameWindow
  */
 public class MainMouseListenerHandler extends AbstractMouseListenerHandler
 {
@@ -16,6 +18,7 @@ public class MainMouseListenerHandler extends AbstractMouseListenerHandler
 	/**
 	 * Creates a new empty mouselistenerhandler. The handler won't die 
 	 * automatically
+	 * 
 	 * @param actorhandler The handler that will handle this handler (optional)
 	 */
 	public MainMouseListenerHandler(ActorHandler actorhandler)
