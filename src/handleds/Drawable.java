@@ -3,17 +3,19 @@ package handleds;
 import java.awt.Graphics2D;
 
 /**
- * All objects which implement this class are drawn at some point
+ * All objects which implement this class can be drawn. Each also has a depth 
+ * that specifies the layer to which the object is drawn. Drawables can also be 
+ * made temporarily and permanently invisible.
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 26.11.2012.
  */
 public interface Drawable extends Handled
 {
 	/**
-	 *	Draws the object to the applet
+	 * Draws the object
 	 *
-	 *@param g2d The graphics object that will draw the objects
+	 * @param g2d The graphics object that will draw the object
 	 */
 	public void drawSelf(Graphics2D g2d);
 	
@@ -39,6 +41,7 @@ public interface Drawable extends Handled
 	/**
 	 * @return How deep should the object be drawn (object with positive depth 
 	 * are drawn to the bottom, objects with negative depth are drawn to the top)
+	 * @see depthConstants
 	 */
 	public int getDepth();
 	
@@ -47,6 +50,7 @@ public interface Drawable extends Handled
 	 * 
 	 * @param depth The object's new depth (negative = top, positive = bottom)
 	 * @return Was the object's depth successfully changed
+	 * @see depthConstants
 	 */
 	public boolean setDepth(int depth);
 }

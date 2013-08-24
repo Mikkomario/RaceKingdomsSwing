@@ -2,28 +2,28 @@ package handleds;
 
 
 /**
- * Logicalhandleds are all handled in the logic thread and each of them can 
+ * All handled in the logic thread are Logicalhandleds and each of them can 
  * be activated and inactivated if needed.
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 8.12.2012.
  */
 public interface LogicalHandled extends Handled
 {
 	/**
-	 * @return Is the object currently interested in logival events
+	 * @return Is the object currently interested in logical events
 	 */
 	public boolean isActive();
 	
 	/**
 	 * Tries to restart the objects logical processes
-	 * @return Were the processes started
+	 * @return Was the object made active
 	 */
 	public boolean activate();
 	
 	/**
 	 * Tries to stop the objects logical processes
-	 * @return Were the processes stopped
+	 * @return Was the object made inactive
 	 */
 	public boolean inactivate();
 }

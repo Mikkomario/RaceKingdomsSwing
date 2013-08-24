@@ -1,10 +1,11 @@
 package handleds;
 
 /**
- * This is the superinterface for all of the interfaces that can be handled
- * (actor, drawable, ect.) and has their most universal information
+ * This is the superinterface for all of the objects that can be handled
+ * (actor, drawable, ect.). Each handled can be killed at some point so that 
+ * it won't be handled anymore and its memory is released
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 8.12.2012.
  */
 public interface Handled
@@ -15,8 +16,9 @@ public interface Handled
 	public boolean isDead();
 	
 	/**
-	 * Tries to end the handleds all activities
-	 * @return Was the handled object permanently made inactive
+	 * Tries to end the objects all activities and release the memory used in the 
+	 * object
+	 * @return Was the object made permanently inactive
 	 */
 	public boolean kill();
 }
