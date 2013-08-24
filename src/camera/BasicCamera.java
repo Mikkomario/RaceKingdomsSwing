@@ -2,7 +2,6 @@ package camera;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 import listeners.CameraListener;
@@ -24,7 +23,7 @@ import drawnobjects.BasicPhysicDrawnObject;
  * This object acts as the camera of the game, drawing multiple elements from the 
  * world into a smaller screen
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 16.6.2013.
  */
 public class BasicCamera extends BasicPhysicDrawnObject
@@ -91,22 +90,7 @@ public class BasicCamera extends BasicPhysicDrawnObject
 	@Override
 	public void drawSelf(Graphics2D g2d)
 	{
-		AffineTransform trans = g2d.getTransform();
-		
-		// and translates the origin to the right position
-		g2d.translate((double) -getOriginX(), (double) -getOriginY());
-		// scales it depending on it's xscale and yscale
-		g2d.scale(getXscale(), getYscale());
-		// rotates it depending on its angle
-		g2d.rotate(Math.toRadians((360 - getAngle())));
-		// Translates the sprite to the object's position
-		g2d.translate(getX(), getY());
-		
-		// Finally draws the object
-		drawSelfBasic(g2d);
-		
-		// Loads the previous transformation
-		g2d.setTransform(trans);
+		drawSelfAsContainer(g2d);
 	}
 	
 	@Override
@@ -120,43 +104,6 @@ public class BasicCamera extends BasicPhysicDrawnObject
 	{
 		return this.screenHeight;
 	}
-	
-	/*
-	public boolean objectCollides(Collidable c)
-	{
-		DrawnObject2D d = null;
-		
-		// Only works with drawnobjects currently
-		if (c instanceof DrawnObject2D)
-			d = (DrawnObject2D) c;
-		else
-			return false;
-			
-		// Negates the transformations for both objects
-		Point negatedPosOther =
-				negateTransformations((int) d.getX(), (int) d.getY(), (int) -getX(), 
-						(int) -getY(), 1 / getXscale(), 1 / getYscale(), (int) -getAngle(), 
-						(int) -getOriginX(), (int) -getOriginY());
-		Point negatedPosThis =
-				d.negateTransformations((int) -getX(), (int) -getY());
-		
-		int widthThis = getWidth();
-		int widthOther = d.getWidth();
-		int heightThis = getHeight();
-		int heightOther = d.getHeight();
-		
-		if (negatedPosOther.x + widthOther < negatedPosThis.x)
-			return false;
-		else if (negatedPosOther.x > negatedPosThis.x + widthThis)
-			return false;
-		else if (negatedPosOther.y + heightOther < negatedPosThis.y)
-			return false;
-		else if (negatedPosOther.y > negatedPosThis.y + heightThis)
-			return false;
-		else
-			return true;
-	}
-	*/
 	
 	@Override
 	public Collidable pointCollides(int x, int y)
@@ -178,7 +125,8 @@ public class BasicCamera extends BasicPhysicDrawnObject
 	}
 	
 	@Override
-	public void onCollision(ArrayList<DoublePoint> collisionpoints, Collidable collided)
+	public void onCollision(ArrayList<DoublePoint> collisionpoints, 
+			Collidable collided)
 	{
 		// Doesn't do anything upon collision
 	}
@@ -208,8 +156,6 @@ public class BasicCamera extends BasicPhysicDrawnObject
 	
 	private void informStatus()
 	{
-		// Doesn't inform the "real" values but the more easily understandable 
-		// ones
 		this.listenerhandler.informCameraPosition(
 				(int) getX(), (int) getY(), 
 				(int) Math.abs(this.screenWidth * getXscale()), 
@@ -225,7 +171,8 @@ public class BasicCamera extends BasicPhysicDrawnObject
 	 */
 	protected boolean objectShouldBeDrawn(DrawnObject d)
 	{
-		// If the drawnobject is collidingdrawnobject, checks the drawing carefully
+		// If the drawnobject is collidingdrawnobject, checks the drawing more 
+		// carefully
 		if (d instanceof CollidingDrawnObject)
 		{
 			CollidingDrawnObject cd = (CollidingDrawnObject) d;
@@ -248,7 +195,7 @@ public class BasicCamera extends BasicPhysicDrawnObject
 			
 			return false;
 		}
-		// Dimensionalobjects are drawn if they are neat the camera
+		// Dimensionalobjects are drawn if they are near the camera
 		// Draws a bit more objects than necessary
 		else if (d instanceof DimensionalDrawnObject)
 		{

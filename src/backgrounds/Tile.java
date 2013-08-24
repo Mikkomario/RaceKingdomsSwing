@@ -5,10 +5,11 @@ import handlers.ActorHandler;
 import handlers.DrawableHandler;
 
 /**
- * Tiles are backgrounds that have certain proportions
+ * Tiles are backgrounds that have certain proportions.
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 6.7.2013.
+ * @see Background
  */
 public class Tile extends Background
 {
@@ -17,8 +18,8 @@ public class Tile extends Background
 	/**
 	 * Creates a new tile with the given information
 	 *
-	 * @param x The x-coordinate of the tile's position
-	 * @param y The y-coordinate of the tile's position
+	 * @param x The x-coordinate of the tile's top left position
+	 * @param y The y-coordinate of the tile's top left position
 	 * @param drawer The drawableHandler that will draw the tile
 	 * @param actorhandler The actorhandler that will animate the tile (optional, 
 	 * for animated tiles)

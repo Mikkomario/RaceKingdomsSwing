@@ -14,7 +14,7 @@ import drawnobjects.DrawnObject;
 /**
  * Background is a simple surface that can be drawn under other objects
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 1.7.2013.
  */
 public class Background extends DrawnObject
@@ -27,10 +27,11 @@ public class Background extends DrawnObject
 	// CONSTRUCTOR	-------------------------------------------------------
 	
 	/**
-	 * Creates a new background with the given information
+	 * Creates a new background to the given coordinates and adds it to the 
+	 * given handlers.
 	 *
-	 * @param x The backround's center's x-coordinate
-	 * @param y The backgound's center's y-coordinate
+	 * @param x The backround's top left x-coordinate
+	 * @param y The backgound's top left y-coordinate
 	 * @param drawer The drawablehandler that draws the background
 	 * @param actorhandler The actorhandler that animates the background 
 	 * (optional, for animated backgrounds)
@@ -53,7 +54,7 @@ public class Background extends DrawnObject
 	@Override
 	public int getOriginX()
 	{
-		//return this.texturedrawer.getSprite().getOriginX();
+		// TODO: Test if this origin works
 		// Background origins are always at the left top corner
 		return 0;
 	}
@@ -109,7 +110,8 @@ public class Background extends DrawnObject
 	 * @param miny The left-top y-coordinate of the surface
 	 * @param width The width of the surface (in pixels)
 	 * @param height The height of the surface (in pixels)
-	 * @param approximate Are the backgrounds scaled so that they all fit into the area
+	 * @param approximate Are the backgrounds scaled so that they all fit into the area. 
+	 * If false, the backgrounds may be placed partly outside the given area.
 	 * @param texturebank The spritebank that contains the texture used in the backgrounds
 	 * @param texturename The name of the texture used in the background
 	 * @param drawer The draweablehandler that will draw the backgrounds (optional)

@@ -13,9 +13,10 @@ import drawnobjects.DimensionalDrawnObject;
 
 /**
  * Tilemaps hold a certain number of tiles. Tilemaps can be created using tables 
- * telling which values to use
+ * that tell which values to use. Tilemaps must be initialized before use and 
+ * cleared or killed afterwards.
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 9.7.2013.
  */
 public class TileMap extends DimensionalDrawnObject
@@ -33,7 +34,7 @@ public class TileMap extends DimensionalDrawnObject
 	
 	/**
 	 * Creates a new uninitialized tilemap, giving it the information it 
-	 * needs to initialize itself. 
+	 * needs to initialize itself.
 	 *
 	 * @param x The tilemap's top-left x-coordinate
 	 * @param y The tilemap's top-left y-coordinate
@@ -46,12 +47,20 @@ public class TileMap extends DimensionalDrawnObject
 	 * @param tilewidth How wide the tiles are (in pixels)
 	 * @param tileheight How high the tiles are (in pixels)
 	 * @param bankindexes A table telling which index for a spritebank is 
-	 * used in which tile
-	 * @param rotations A table telling how much each tile is rotated
-	 * @param xscales A table telling how the tiles are flipped around the x-axis
-	 * @param yscales A table telling how the tiles are flipped around the y-axis
+	 * used in which tile (The size of the table must be the same as the number 
+	 * of tiles in the map (= <b>width</b> * <b>height</b>))
+	 * @param rotations A table telling how much each tile is rotated. 
+	 * (The size of the table must be the same as the number 
+	 * of tiles in the map (= <b>width</b> * <b>height</b>))
+	 * @param xscales A table telling how the tiles are flipped around the x-axis. 
+	 * (The size of the table must be the same as the number 
+	 * of tiles in the map (= <b>width</b> * <b>height</b>))
+	 * @param yscales A table telling how the tiles are flipped around the y-axis. 
+	 * (The size of the table must be the same as the number 
+	 * of tiles in the map (= <b>width</b> * <b>height</b>))
 	 * @param nameindexes A table telling which index is used for each tile to 
-	 * find their spritename in a spritebank
+	 * find their spritename in a spritebank (The size of the table must be the same as the number 
+	 * of tiles in the map (= <b>width</b> * <b>height</b>))
 	 */
 	public TileMap(int x, int y, DrawableHandler drawer, ActorHandler animator, 
 			CollidableHandler collidablehandler, 
@@ -89,14 +98,13 @@ public class TileMap extends DimensionalDrawnObject
 	@Override
 	public int getOriginX()
 	{
-		//return getWidth() / 2;
+		// TODO: Test if the top left origin works
 		return 0;
 	}
 
 	@Override
 	public int getOriginY()
 	{
-		//return getHeight() / 2;
 		return 0;
 	}
 
@@ -157,6 +165,8 @@ public class TileMap extends DimensionalDrawnObject
 	/**
 	 * Clears the map of tiles, freeing the used memory. 
 	 * The tiles can be recreated with the initialize method.
+	 * 
+	 * @see initialize
 	 */
 	public void clear()
 	{
@@ -171,11 +181,13 @@ public class TileMap extends DimensionalDrawnObject
 	
 	/**
 	 * Initializes the map so that it can be drawn. The map may be cleared 
-	 * after it's no longer needed.
+	 * after it's no longer needed. The map must be uninitialized for this 
+	 * method to work
 	 *
 	 * @param banks A list containing the spritebanks used in the map
 	 * @param texturenames A list containing the spritenames of the textures 
 	 * in the spritebanks
+	 * @see clear
 	 */
 	public void initialize(ArrayList<SpriteBank> banks, 
 			ArrayList<String> texturenames)
@@ -196,20 +208,22 @@ public class TileMap extends DimensionalDrawnObject
 			if (this.bankindexes[i] < 0 || this.nameindexes[i] < 0)
 				continue;
 			
-			//int x = (int) getX() - getOriginX() + (i % this.height) * this.tilewidth;
 			int x = (int) getX() + (i % this.height) * this.tilewidth;
-			//int y = (int) getY() - getOriginY() + (i / this.width) * this.tileheight;
 			int y = (int) getY() + (i / this.width) * this.tileheight;
+			
 			Tile newtile = new Tile(x, y, this.tiledrawer, this.tileanimator, 
 					banks.get(this.bankindexes[i]), 
 					texturenames.get(this.nameindexes[i]), 
 					this.tilewidth, this.tileheight);
+			
 			// Rotates and scales the tile
 			newtile.setAngle(this.rotations[i]);
 			newtile.scale(this.xscales[i], this.yscales[i]);
+			
 			// Also changes the object's position so that the starting position 
 			// becomes the left corner
-			//newtile.addPosition(-newtile.getOriginX(), -newtile.getOriginY());
+			if (newtile.getOriginX() != 0 || newtile.getOriginY() != 0)
+				newtile.addPosition(-newtile.getOriginX(), -newtile.getOriginY());
 		}
 	}
 }

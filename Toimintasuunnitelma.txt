@@ -48,6 +48,13 @@ Törmäys										(9)
 			4) Jos näin ei ollut
 				4.1) Pysäytetään objekti a (vastavoima)
 				4.2) Liikutetaan objektia b sen verran kuin a:lla oli liikemäärää (voima)
+Kartat
+	* Huoneet / solut										DONE
+	* Huoneiden muodostamat kokonaisuudet
+		- Niiden hallinta
+			* Lataus
+			* Oikean huoneen lataaminen ja vapauttaminen
+			
 Kartan luku									(8)
 	* VAATII SUUNNITTELUA
 	* Tarvitaan tilet										DONE
@@ -63,9 +70,15 @@ Karttageneraattori							(8)
 	* Solukohtaiset värikoodit vai universaalit?
 	* Tilekoko n. 50x (auto n. 100 px)
 Musiikin ja äänien soittaminen				(9)
-	* Taustamusiikki										...
-	* Äänet
-	* Äänenvoimakkuudet
+	* Taustamusiikki										DONE
+	* Äänet													DONE
+	* Äänenvoimakkuudet										...
+Testit / TODO
+	* Background origin test (tilemap)
+		- Sama tilemapille
+	* Infinite loop & Release trackeille
+	* Lisää RoomBoundCamera (Ei mene edes osittain 
+	huoneen ulkopuolelle)
 
 ALPHA READY
 

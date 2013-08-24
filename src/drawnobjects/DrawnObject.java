@@ -478,4 +478,33 @@ public abstract class DrawnObject extends GameObject implements Drawable
 		DoublePoint abspoint = transform(p.x, p.y);
 		rotateAroundPoint(angle, abspoint);
 	}
+	
+	/**
+	 * This is an alternate method for drawing the object (instead of DrawSelf) 
+	 * and works only with objects that draw multiple objects that then transform 
+	 * themselves normally (like cameras, for example). DrawSelf should be 
+	 * overwritten if this method is used
+	 *
+	 * @param g2d The graphics object that draws the content of the object
+	 * @see DrawSelf
+	 */
+	protected void drawSelfAsContainer(Graphics2D g2d)
+	{
+		AffineTransform trans = g2d.getTransform();
+		
+		// and translates the origin to the right position
+		g2d.translate((double) -getOriginX(), (double) -getOriginY());
+		// scales it depending on it's xscale and yscale
+		g2d.scale(getXscale(), getYscale());
+		// rotates it depending on its angle
+		g2d.rotate(Math.toRadians((360 - getAngle())));
+		// Translates the sprite to the object's position
+		g2d.translate(getX(), getY());
+		
+		// Finally draws the object
+		drawSelfBasic(g2d);
+		
+		// Loads the previous transformation
+		g2d.setTransform(trans);
+	}
 }
