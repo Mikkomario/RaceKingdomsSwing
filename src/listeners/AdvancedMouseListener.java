@@ -3,9 +3,9 @@ package listeners;
 import handleds.LogicalHandled;
 
 /**
- * Mouselisteners are interested in the mouse's movements and clicks
+ * Mouselisteners are interested in the mouse's movements and button presses
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 28.12.2012.
  */
 public interface AdvancedMouseListener extends LogicalHandled

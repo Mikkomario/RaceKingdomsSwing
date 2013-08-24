@@ -6,7 +6,7 @@ import handleds.LogicalHandled;
 /**
  * Soundlistener reacts to a start and/or end of a sound playing
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 19.8.2013.
  */
 public interface SoundListener extends LogicalHandled

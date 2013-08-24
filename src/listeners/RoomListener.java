@@ -7,7 +7,7 @@ import handleds.LogicalHandled;
  * Roomlisteners react to the start and / or end of the room they are listening 
  * to.
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 11.7.2013.
  */
 public interface RoomListener extends LogicalHandled
