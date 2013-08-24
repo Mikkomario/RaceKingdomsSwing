@@ -80,6 +80,8 @@ Testit / TODO
 	* Lisää RoomBoundCamera (Ei mene edes osittain 
 	huoneen ulkopuolelle)
 	* FileReaderTest
+	* Korjaa interaktiivinen törmäysfysiikka
+	* Testaa WALL collision type
 
 ALPHA READY
 

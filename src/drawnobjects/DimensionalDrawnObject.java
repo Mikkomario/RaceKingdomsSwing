@@ -12,7 +12,7 @@ import helpAndEnums.HelpMath;
  * This is a subclass of the drawnobject that can be used in collisionchecking 
  * and in situations that require the object to have dimensions
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 30.6.2013.
  */
 public abstract class DimensionalDrawnObject extends DrawnObject implements Collidable
@@ -32,11 +32,12 @@ public abstract class DimensionalDrawnObject extends DrawnObject implements Coll
 	 * @param x The x-coordinate of the object's position
 	 * @param y The y-coordinate of the object's position
 	 * @param depth How 'deep' the object is drawn
-	 * @param isSolid Is the object solid. In other words, can the object be collided with
+	 * @param isSolid Is the object solid. In other words, can the object be 
+	 * collided with
 	 * @param collisiontype What kind of shape the object is collisionwise
 	 * @param drawer The drawablehandler that draws the object (optional)
-	 * @param collidablehandler The collidablehandler that will handle the object's 
-	 * collision checking (optional)
+	 * @param collidablehandler The collidablehandler that will handle the 
+	 * object's collision checking (optional)
 	 */
 	public DimensionalDrawnObject(int x, int y, int depth, boolean isSolid, 
 			CollisionType collisiontype, DrawableHandler drawer, 
@@ -108,11 +109,19 @@ public abstract class DimensionalDrawnObject extends DrawnObject implements Coll
 			else
 				return null;
 		}
-		// Other types collide if the point is within them
-		else
+		// Boxes collide if the point is within them
+		else if (this.collisiontype == CollisionType.BOX)
 		{
 			if (HelpMath.pointIsInRange(negatedPoint, 0, 
 					getWidth(), 0, getHeight()))
+				return this;
+			else
+				return null;
+		}
+		// Walls collide if the point is on their left side (relatively)
+		else
+		{
+			if (negatedPoint.x < 0)
 				return this;
 			else
 				return null;
@@ -192,13 +201,12 @@ public abstract class DimensionalDrawnObject extends DrawnObject implements Coll
 		// Boxes are the most complicated
 		else if (this.collisiontype == CollisionType.BOX)
 		{
-			//System.out.println("Calculatingbox");
 			// Calculates the side which the object touches
 			Point relativepoint = negateTransformations(collisionpoint.x, 
 					collisionpoint.y);
 			double relxdiffer = -0.5 + relativepoint.x / (double) getWidth();
 			double relydiffer = -0.5 + relativepoint.y / (double) getHeight();
-			//System.out.println(relxdiffer + " / " + relydiffer);
+			
 			// Returns drection of one of the sides of the object
 			if (Math.abs(relxdiffer) >= Math.abs(relydiffer))
 			{
@@ -221,13 +229,15 @@ public abstract class DimensionalDrawnObject extends DrawnObject implements Coll
 	}
 	
 	/**
-	 * @return the longest possible radius of the object (from origin to a corner)
+	 * @return the longest possible radius of the object (from origin to a 
+	 * corner) (this includes scaling)
 	 */
 	public double getMaxRangeFromOrigin()
 	{
 		// For circular objects the process is more simple
 		if (getCollisionType() == CollisionType.CIRCLE)
-			return Math.max(getWidth(), getHeight()) / 2.0;
+			return Math.max(getWidth() * getYscale(), 
+					getHeight() * getXscale()) / 2.0;
 		
 		// First checks which sides are larger
 		double maxXDist = Math.max(getOriginX(), getWidth() - getOriginX());

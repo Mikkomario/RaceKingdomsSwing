@@ -11,9 +11,10 @@ import helpAndEnums.Movement;
 
 /**
  * This is a direct extension of the basicphysicobject class that can bounce 
- * from other objects (without moments)
+ * from other objects (without moments) but doesn't cause rotation upon 
+ * collision nor takes rotation speed into account.
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 24.8.2013.
  */
 public abstract class BouncingBasicPhysicDrawnObject extends BasicPhysicDrawnObject
@@ -49,11 +50,13 @@ public abstract class BouncingBasicPhysicDrawnObject extends BasicPhysicDrawnObj
 	// OTHER METHODS	--------------------------------------------------
 	
 	/**
-	 * Slows the objects directional (tangentual to the opposing force) 
-	 * movement with the given modifier
+	 * Slows the objects directional movement (tangentual to the opposing force) 
+	 * with the given modifier. Should be used upon collision and is for example, 
+	 * used in the bounce methods.
 	 *
 	 * @param oppmovement The opposing force (N) that causes the friction
 	 * @param frictionmodifier f with which the friction is calculated [0, 1]
+	 * @see bounceWithoutRotationFrom
 	 */
 	protected void addWallFriction(Movement oppmovement, double frictionmodifier)
 	{
@@ -64,13 +67,16 @@ public abstract class BouncingBasicPhysicDrawnObject extends BasicPhysicDrawnObj
 	}
 	
 	/**
-	 * The object bounces with a certain object it collides with This doesn't 
+	 * The object bounces from a certain object it collides with. This doesn't 
 	 * cause rotational movement.
 	 *
 	 * @param d The object collided with
 	 * @param collisionpoint The point in which the collision happens (absolute)
-	 * @param bounciness How much the object bounces away from the given object (0+)
-	 * @param frictionmodifier How much energy is lost during the collision (0-1)
+	 * @param bounciness How much the object bounces away from the given 
+	 * object (0+) (1 means that the object doesn't lose speed in the collision 
+	 * and a smaller number means that the object loses speed upon the collision)
+	 * @param frictionmodifier How much the collision affects speed that isn't 
+	 * directional to the opposing force (0+).
 	 */
 	public void bounceWithoutRotationFrom(DimensionalDrawnObject d, 
 			DoublePoint collisionpoint, double bounciness, 

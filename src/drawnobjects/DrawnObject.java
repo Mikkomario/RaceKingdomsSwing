@@ -14,9 +14,10 @@ import common.GameObject;
 
 
 /**
- * An object from this class is can be drawed on screen as an two dimensional object
+ * An object from this class is can be drawed on screen as an two dimensional 
+ * object. The object has a certain position, angle and scale.
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 26.11.2012.
  */
 public abstract class DrawnObject extends GameObject implements Drawable
@@ -31,13 +32,14 @@ public abstract class DrawnObject extends GameObject implements Drawable
 	// CONSTRUCTOR	-------------------------------------------------------
 	
 	/**
-	 * Creates a new drawnobject with the given position. The object is 
-	 * solid and active upon creation
+	 * Creates a new drawnobject with the given position. The object visible 
+	 * upon creation.
 	 *
 	 * @param x The new x-coordinate of the object (Game world Pxl)
 	 * @param y The new y-coordinate of the object (Game world Pxl)
 	 * @param depth How 'deep' the object is drawn
 	 * @param drawer The handler that draws the object (optional)
+	 * @see depthConstants
 	 */
 	public DrawnObject(int x, int y, int depth, DrawableHandler drawer)
 	{
@@ -49,7 +51,6 @@ public abstract class DrawnObject extends GameObject implements Drawable
 		this.visible = true;
 		this.angle = 0;
 		this.depth = depth;
-		//initializeCollisionPoints(1, 1);
 		
 		// Adds the object to the drawer (if possible)
 		if (drawer != null)
@@ -147,10 +148,10 @@ public abstract class DrawnObject extends GameObject implements Drawable
 	}
 	
 	/**
-	 * 
 	 * Changes how much the object is rotated before drawing
 	 *
-	 * @param angle The angle of the drawn sprite in degrees around the z-axis [0, 360[
+	 * @param angle The angle of the drawn sprite in degrees around the 
+	 * z-axis [0, 360[
 	 */
 	public void setAngle(double angle)
 	{
@@ -159,7 +160,6 @@ public abstract class DrawnObject extends GameObject implements Drawable
 	}
 	
 	/**
-	 * 
 	 * Increases the object's angle by the given amount
 	 *
 	 * @param rotation How much the angle around the z-axis is increased (degrees)
@@ -217,7 +217,7 @@ public abstract class DrawnObject extends GameObject implements Drawable
 	}
 	
 	/**
-	 * @return The position of the object in a point format
+	 * @return The position of the object in a DoublePoint format
 	 */
 	public DoublePoint getPosition()
 	{
@@ -225,7 +225,6 @@ public abstract class DrawnObject extends GameObject implements Drawable
 	}
 	
 	/**
-	 * 
 	 * Changes the object's position in the game world
 	 *
 	 * @param x The new position's x-coordinate (pxl)
@@ -279,45 +278,8 @@ public abstract class DrawnObject extends GameObject implements Drawable
 		setScale(getXscale() * xscale, getYscale() * yscale);
 	}
 	
-	/*
-	public boolean objectCollides(Collidable c)
-	{
-		DrawnObject2D d = null;
-		
-		// Only works with drawnobjects currently
-		if (c instanceof DrawnObject2D)
-			d = (DrawnObject2D) c;
-		else
-			return false;
-		
-		// Negates the transformations for both objects
-		Point negatedPosOther =
-				negateTransformations((int) d.getX(), (int) d.getY());
-		Point negatedPosThis =
-				d.negateTransformations((int) getX(), (int) getY());
-		
-		int widthThis = getWidth();
-		int widthOther = d.getWidth();
-		int heightThis = getHeight();
-		int heightOther = d.getHeight();
-		
-		//System.out.println(negatedPosThis + "; " + negatedPosOther);
-		
-		if (negatedPosOther.x + widthOther < negatedPosThis.x)
-			return false;
-		if (negatedPosOther.x > negatedPosThis.x + widthThis)
-			return false;
-		if (negatedPosOther.y + heightOther < negatedPosThis.y)
-			return false;
-		if (negatedPosOther.y > negatedPosThis.y + heightThis)
-			return false;
-		
-		return true;
-	}
-	*/
-	
 	/**
-	 * Transforms the point so that the collision can be checked without
+	 * Transforms the point so that collisions can be checked without
 	// transformations.
 	 *
 	 * @param x The x-coordinate of the point to be negated
@@ -332,17 +294,19 @@ public abstract class DrawnObject extends GameObject implements Drawable
 	
 	/**
 	 * Transforms the point so that the collision can be checked without
-	// transformations. Uses specific transformations.
-	 * @param x The x-coordinate in the transformed position
-	 * @param y The y-coordinate in the transformed position
-	 * @param px The x-coordinate of the point to be negated
-	 * @param py The y-coordinate of the point to be negated
+	 * transformations. Uses specific transformations.
+	 * 
+	 * @param x The x-coordinate of the transformed object's position (absolute pixel)
+	 * @param y The y-coordinate of the transformed object's position (absolute pixel)
+	 * @param px The x-coordinate of the point to be negated (absolute pixel)
+	 * @param py The y-coordinate of the point to be negated (absolute pixel)
 	 * @param xscale The x-scale in the transformation
 	 * @param yscale The y-scale in the transformation
-	 * @param angle The angle in the transformation (0-359)
-	 * @param originx The x-coordinate of the transformatio's origin
-	 * @param originy The y-coordinate of the transformatio's origin
-	 * @return The point where all of the object's transformations are negated
+	 * @param angle The angle in the transformation [0, 360[
+	 * @param originx The x-coordinate of the transformation's origin
+	 * @param originy The y-coordinate of the transformation's origin
+	 * @return The point where all of the object's transformations have been 
+	 * negated
 	 */
 	protected static Point negateTransformations(double px, double py, double x, 
 			double y, double xscale, double yscale, double angle, int originx, 
@@ -388,8 +352,8 @@ public abstract class DrawnObject extends GameObject implements Drawable
 	/**
 	 * Transforms the position depending on the object's current transformation
 	 *
-	 * @param x Position's x-coordinate relative to the object's origin
-	 * @param y Position's y-coordinate relative to the object's origin
+	 * @param x Position's x-coordinate relative to the object's origin (relative pixel)
+	 * @param y Position's y-coordinate relative to the object's origin (relative pixel)
 	 * @return Absolute position with transformations added
 	 */
 	protected DoublePoint transform(double x, double y)
@@ -401,15 +365,15 @@ public abstract class DrawnObject extends GameObject implements Drawable
 	/**
 	 * Transforms the position depending on the object's current transformation
 	 *
-	 * @param px Position's x-coordinate relative to the object's origin
-	 * @param py Position's y-coordinate relative to the object's origin
-	 * @param x The x-coordinate of the position transformation
-	 * @param y The y-coordinate of the position transformation
+	 * @param px Position's x-coordinate relative to the object's origin (relative pixel)
+	 * @param py Position's y-coordinate relative to the object's origin (relative pixel)
+	 * @param x The x-coordinate of the position transformation (absolute pixel)
+	 * @param y The y-coordinate of the position transformation (absolute pixel)
 	 * @param xscale The xscale transformation
 	 * @param yscale The yscale transformation
-	 * @param angle The angle transformation (0-360)
-	 * @param originx The x-coordinate of the origin transformation
-	 * @param originy The y-coordinate of the origin transformation
+	 * @param angle The angle transformation [0, 360[
+	 * @param originx The x-coordinate of the origin of the transformation (relative pixel)
+	 * @param originy The y-coordinate of the origin of the transformation (relative pixel)
 	 * @return Absolute position with transformations added
 	 */
 	protected DoublePoint transform(double px, double py, double x, double y, 
@@ -454,7 +418,7 @@ public abstract class DrawnObject extends GameObject implements Drawable
 	 * Rotates the object around a certain (absolute) position
 	 *
 	 * @param angle The amount of degrees the object rotates
-	 * @param p The point around which the object rotates
+	 * @param p The point around which the object rotates (absolute pixel)
 	 */
 	public void rotateAroundPoint(double angle, DoublePoint p)
 	{
@@ -482,8 +446,8 @@ public abstract class DrawnObject extends GameObject implements Drawable
 	/**
 	 * This is an alternate method for drawing the object (instead of DrawSelf) 
 	 * and works only with objects that draw multiple objects that then transform 
-	 * themselves normally (like cameras, for example). DrawSelf should be 
-	 * overwritten if this method is used
+	 * themselves normally (like cameras, for example). This method should 
+	 * replace drawSelf if it is used (not the drawSelfBasic method)
 	 *
 	 * @param g2d The graphics object that draws the content of the object
 	 * @see DrawSelf

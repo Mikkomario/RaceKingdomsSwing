@@ -12,7 +12,7 @@ import helpAndEnums.Movement;
  * In addition to CollidingDrawnObject's abilities Physicobject handles 
  * basic physical methods like moving and rotating
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 28.11.2012.
  */
 public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject 
@@ -28,9 +28,9 @@ public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject
 	// CONSTRUCTOR	------------------------------------------------------
 
 	/**
-	 * Creates a new physicobject with the given information. The object will
+	 * Creates a new physicobject with the given information. The object will 
 	 * be static until motion is applied. There's no friction or rotation friction 
-	 * either until those are added. The object is active at default.
+	 * until those are added. The object is active by default.
 	 *
 	 * @param x The ingame x-coordinate of the new object
 	 * @param y The ingame y-coordinate of the new object
@@ -40,8 +40,10 @@ public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject
 	 * @param drawer The drawablehandler that draws the object (optional)
 	 * @param collidablehandler The collidablehandler that handles the object's 
 	 * collision checking (optional)
-	 * @param collisionhandler Collisionhandler that informs the object about collisions (optional)
-	 * @param actorhandler The actorhandler that calls the object's act event (optional)
+	 * @param collisionhandler Collisionhandler that informs the object about 
+	 * collisions (optional)
+	 * @param actorhandler The actorhandler that calls the object's act 
+	 * event (optional)
 	 */
 	public BasicPhysicDrawnObject(int x, int y, int depth, boolean isSolid, 
 			CollisionType collisiontype, DrawableHandler drawer, 
@@ -108,7 +110,6 @@ public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject
 	}
 	
 	/**
-	 * 
 	 * Adds some horizontal and vertical motion to the object. The movement stacks 
 	 * with the previous movement speed.
 	 *
@@ -158,7 +159,7 @@ public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject
 	}
 	
 	/**
-	 * @return How much the rotation of the sprite is reduced at each step
+	 * @return How much the rotation of the object is reduced at each step
 	 */
 	public double getRotationFriction()
 	{
@@ -166,9 +167,10 @@ public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject
 	}
 	
 	/**
-	 * Changes how much the rotation of the sprite is reduced at each step
+	 * Changes how much the rotation of the object is reduced at each step
 	 * 
-	 * @param rotationFriction How much the rotation is reduced at each step (degrees / step)
+	 * @param rotationFriction How much the rotation is reduced at each step 
+	 * (degrees / step)
 	 */
 	public void setRotationFriction(double rotationFriction)
 	{
@@ -179,7 +181,8 @@ public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject
 	 *Changes how much the object rotates at each step. The rotation accelration 
 	 *stacks with the previous rotation speed.
 	 *
-	 * @param raccelration How much faster will the object be rotated (degrees / step)
+	 * @param raccelration How much faster will the object be rotated 
+	 * (degrees / step)
 	 */
 	public void addRotation(double raccelration)
 	{
@@ -189,7 +192,7 @@ public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject
 	/**
 	 * Adds the objects movement towards the given direction
 	 *
-	 * @param direction Direction towards wich the force is applied (degrees)
+	 * @param direction Direction towards which the force is applied (degrees)
 	 * @param force The amount of force applied to the object (pxl / step)
 	 */
 	public void addMotion(double direction, double force)
@@ -199,11 +202,10 @@ public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject
 	}
 	
 	/**
-	 * 
 	 * Makes the object move towards given direction with given speed
 	 *
-	 * @param direction Towards what direction will the object move (degrees)
-	 * @param speed How fast the objec will be moving (pxl / step)
+	 * @param direction Towards which direction will the object move (degrees)
+	 * @param speed How fast the object will be moving (pxl / step)
 	 */
 	public void setMotion(double direction, double speed)
 	{	
@@ -222,7 +224,7 @@ public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject
 	}
 	
 	/**
-	 * @return The maximum speed of the object (not used if negative)
+	 * @return The maximum speed of the object (negative if not limited)
 	 */
 	public double getMaxSpeed()
 	{
@@ -230,7 +232,7 @@ public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject
 	}
 	
 	/**
-	 * @return How fast the object can rotate
+	 * @return How fast the object can rotate at maximum (negative if not limited)
 	 */
 	public double getMaxRotation()
 	{
@@ -267,7 +269,6 @@ public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject
 	// Rotates teh object and handles the rotation friction
 	private void rotate()
 	{
-		//this.angle += getRotation();
 		addAngle(getRotation());
 		
 		if (getRotationFriction() == 0)
@@ -282,7 +283,7 @@ public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject
 		getMovement().diminishSpeed(getFriction());
 	}
 	
-	// Slows the rotation speed the amoutn of given friction
+	// Slows the rotation speed the amount of given friction
 	private void implyRotationFriction()
 	{	
 		// Slows down the object's rotation

@@ -15,7 +15,7 @@ import listeners.CollisionListener;
  * Collidingdrawnobject is a subclass of the drawnobject that can collide with 
  * other objects and may react to collisions
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 30.6.2013.
  */
 public abstract class CollidingDrawnObject extends DimensionalDrawnObject 
@@ -30,7 +30,9 @@ public abstract class CollidingDrawnObject extends DimensionalDrawnObject
 	// CONSTRUCTOR	------------------------------------------------------
 	
 	/**
-	 * Creates a new collidingdrawnobject with the given information
+	 * Creates a new collidingdrawnobject with the given information. The object 
+	 * is visible and static by default. A subclass should call one of the 
+	 * setCollisionPrecision methods.
 	 *
 	 * @param x The object's position's x-coordinate
 	 * @param y The object's position's y-coordinate
@@ -42,6 +44,9 @@ public abstract class CollidingDrawnObject extends DimensionalDrawnObject
 	 * collision checking (optional)
 	 * @param collisionhandler The collisionhandler that will handle the object's 
 	 * collision informing (optional)
+	 * @see setRelativeCollisionPoints
+	 * @see setBoxCollisionPrecision
+	 * @see setCircleCollisionPrecision
 	 */
 	public CollidingDrawnObject(int x, int y, int depth, boolean isSolid,
 			CollisionType collisiontype, DrawableHandler drawer, 
@@ -110,18 +115,6 @@ public abstract class CollidingDrawnObject extends DimensionalDrawnObject
 	 */
 	protected Point[] getRelativeCollisionPoints()
 	{
-		// If the collisionpoints have not yet been initialized, initializes them
-		/* Removed this since it cause some problems. Now each object must 
-		 * initialize their own collisionpoints
-		if (this.relativecollisionpoints == null)
-		{
-			if (getCollisionType() == CollisionType.CIRCLE)
-				initializeCircleCollisionPoints(getRadius(), 8, 2);
-			//if (getCollisionType() == CollisionType.BOX)
-			else
-				initializeBoxCollisionPoints(1, 1);
-		}
-		*/
 		return this.relativecollisionpoints;
 	}
 	
@@ -142,15 +135,17 @@ public abstract class CollidingDrawnObject extends DimensionalDrawnObject
 	/**
 	 * Changes how precisely the object checks collisions. More precision means 
 	 * slower checking and more precise results. Large and scaled objects should 
-	 * have higher precisions than small objects.
+	 * have higher precisions than small objects. This method is meant for objects 
+	 * that can be fit into a box, there is another method for circular objects.
 	 *
 	 * @param edgeprecision How precise is the collision checking on the edges 
 	 * of the object? 0 means no collision checking on edges, 1 means only corners 
-	 * and 2+ adds more (4*edgeprecision) collisionpoints to the edges.
+	 * and 2+ adds more (4*edgeprecision) collisionpoints on the edges.
 	 * @param insideprecision How precise is the collision checking inside the 
 	 * object? 0 means no collision checking inside the object, 1 means only 
 	 * the center of the object is checked and 2+ means alot more 
 	 * (insideprecision^2) collisionpoints inside the object.
+	 * @see setCircleCollisionPrecision
 	 */
 	protected void setBoxCollisionPrecision(int edgeprecision, int insideprecision)
 	{
@@ -162,11 +157,13 @@ public abstract class CollidingDrawnObject extends DimensionalDrawnObject
 	}
 	
 	/**
-	 * Changes how accurte the collisionpoints are. Works with circular collisiontype
+	 * Changes how accurte the collisionpoints are. Works with circular objects. 
+	 * There is another method for objects that can be fit inside a box.
 	 *
 	 * @param radius The maximum radius of the collision circle (from origin) (>= 0)
 	 * @param edgeprecision How many collisionpoints will be added to the outer edge (>= 0)
 	 * @param layers How many collisionpoint layers there will be? (>= 0)
+	 * @see setBoxCollisionPrecision
 	 */
 	protected void setCircleCollisionPrecision(int radius, int edgeprecision, int layers)
 	{
