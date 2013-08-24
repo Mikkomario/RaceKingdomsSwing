@@ -14,7 +14,7 @@ import common.BankObject;
  * meant to be used in multiple objects and those objects should handle the
  * animation (this class merely loads and provides all the neccessary images)
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 27.11.2012.
  */
 public class Sprite implements BankObject
@@ -24,7 +24,6 @@ public class Sprite implements BankObject
 	private BufferedImage[] images;
 	
 	private int origX, origY;
-	private String spritename;
 	private boolean dead;
 	
 	
@@ -35,18 +34,17 @@ public class Sprite implements BankObject
 	 * the caller. The images are loaded from a strip that contains one or more 
 	 * images.
 	 *
-	 * @param filename The location of the loaded image (data/...)
+	 * @param filename The location of the loaded image (src/data/ is added 
+	 * automatically to the beginning)
 	 * @param numberOfImages How many separate images does the strip contain?
 	 * @param originX the x-coordinate of the sprite's origin (Pxl)
 	 * @param originY the y-coordinate of the sprite's origin (Pxl)
-	 * @param spritename The name of the sprite. This is used in finding the sprite later
 	 * @throws FileNotFoundException If an image can't be loaded with the given 
 	 * filename, the constructor will throw this exception. It is advised to 
 	 * not use the sprite since the 
 	 * object can't function properly if this happens
 	 */
-	public Sprite(String filename, int numberOfImages, int originX, int originY,
-			String spritename)
+	public Sprite(String filename, int numberOfImages, int originX, int originY)
 	{
 		// Checks the variables
 		if (filename == null || numberOfImages <= 0)
@@ -55,7 +53,6 @@ public class Sprite implements BankObject
 		// Initializes attributes
 		this.origX = originX;
 		this.origY = originY;
-		this.spritename = spritename;
 		this.dead = false;
 		
 		// Loads the image
@@ -68,15 +65,9 @@ public class Sprite implements BankObject
 		}
 		catch (IOException ioe)
 		{
-			System.err.println("Failed to load the image " + filename);
+			System.err.println("Failed to load the image src/data/" + filename);
 			return;
 		}
-		
-		/*
-		this.strip = new BufferedImage(in.getWidth(), 
-				in.getHeight(), BufferedImage.TYPE_INT_ARGB);
-		*/
-		//this.strip = in;
 		
 		// Creates the subimages
 		this.images = new BufferedImage[numberOfImages];
@@ -100,10 +91,8 @@ public class Sprite implements BankObject
 	@Override
 	public boolean kill()
 	{
-		// Kills the object (clears the image data)
-		// TODO: This might cause problems in the other threads trying to draw 
-		// the sprite
-		this.images = null;
+		// Doesn't do much since the image information will be released 
+		// automatically once the sprite is not held anywhere anymore
 		this.dead = true;
 		return true;
 	}
@@ -126,7 +115,7 @@ public class Sprite implements BankObject
 	}
 	
 	/**
-	 * @return The x-coordinate of the origin of the sprite (Pxl)
+	 * @return The x-coordinate of the origin of the sprite (relative pixel)
 	 */
 	public int getOriginX()
 	{
@@ -134,7 +123,7 @@ public class Sprite implements BankObject
 	}
 	
 	/**
-	 * @return The y-coordinate of the origin of the sprite (Pxl)
+	 * @return The y-coordinate of the origin of the sprite (relative pixel)
 	 */
 	public int getOriginY()
 	{
@@ -142,7 +131,7 @@ public class Sprite implements BankObject
 	}
 	
 	/**
-	 * @return How wide a single subimage is (pxl)
+	 * @return How wide a single subimage is (pixels)
 	 */
 	public int getWidth()
 	{
@@ -150,20 +139,12 @@ public class Sprite implements BankObject
 	}
 	
 	/**
-	 * @return How tall a single subimage is (pxl)
+	 * @return How tall a single subimage is (pixels)
 	 */
 	public int getHeight()
 	{
 		//System.out.println(this.strip.height);
 		return getSubImage(0).getHeight();
-	}
-	
-	/**
-	 * @return The unique index / name of the sprite
-	 */
-	public String getName()
-	{
-		return this.spritename;
 	}
 	
 	
@@ -172,8 +153,9 @@ public class Sprite implements BankObject
 	/**
 	 * This method returns a single subimage from the sprite.
 	 *
-	 * @param imageIndex The index of the image to be drawn [0, numberOfImages]
+	 * @param imageIndex The index of the image to be drawn [0, numberOfImages[
 	 * @return The subimage from the given index
+	 * @see getImageNumber
 	 */
 	public BufferedImage getSubImage(int imageIndex)
 	{
@@ -186,11 +168,4 @@ public class Sprite implements BankObject
 	
 	// TODO: If you get bored, try to implement filters into the project
 	// check: http://docs.oracle.com/javase/tutorial/2d/images/drawimage.html
-	
-	/*
-	public BufferedImage getStrip()
-	{
-		return this.strip;
-	}
-	*/
 }

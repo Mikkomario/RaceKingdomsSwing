@@ -9,7 +9,7 @@ import handlers.ActorHandler;
  * Spritedrawer is able to draw animated sprites for an object. Object's can 
  * draw the sprite calling the drawSprite method.
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 2.7.2013.
  */
 public class SpriteDrawer implements Actor
@@ -27,9 +27,10 @@ public class SpriteDrawer implements Actor
 	 * Creates a new spritedrawer with the given sprite to draw.
 	 *
 	 * @param sprite The sprite which the drawer will draw
-	 * @param actorhandler The actorhandler that calls the drawer's animation
+	 * @param animator The actorhandler that calls the drawer's animation 
+	 * (optional)
 	 */
-	public SpriteDrawer(Sprite sprite, ActorHandler actorhandler)
+	public SpriteDrawer(Sprite sprite, ActorHandler animator)
 	{
 		// Initializes the attributes
 		this.sprite = sprite;
@@ -40,8 +41,8 @@ public class SpriteDrawer implements Actor
 		this.active = true;
 		
 		// Adds the spritedrawer to the handler, if possible
-		if (actorhandler != null)
-			actorhandler.addActor(this);
+		if (animator != null)
+			animator.addActor(this);
 	}
 	
 	
@@ -101,7 +102,7 @@ public class SpriteDrawer implements Actor
 	/**
 	 *This method changes the sprite with which the object is represented. The 
 	 *image index will be set to 0 in the process.
-	 * @param newSprite The new sprite
+	 * @param newSprite The new sprite that will be drawn
 	 */
 	public void setSprite(Sprite newSprite)
 	{
@@ -113,7 +114,8 @@ public class SpriteDrawer implements Actor
 	}
 	
 	/**
-	 * @return How fast the frames in the animation change (animframe / frame)
+	 * @return How fast the frames in the animation change (frames / step) 
+	 * (default at 0.1)
 	 */
 	public double getImageSpeed()
 	{
@@ -123,7 +125,7 @@ public class SpriteDrawer implements Actor
 	/**
 	 * Changes how fast the frames in the animation change
 	 * 
-	 * @param imageSpeed The new animation speed (animframes / frame)
+	 * @param imageSpeed The new animation speed (frames / step) (0.1 by default)
 	 */
 	public void setImageSpeed(double imageSpeed)
 	{
@@ -146,6 +148,8 @@ public class SpriteDrawer implements Actor
 	public void setImageIndex(int imageIndex)
 	{
 		this.imageIndex = imageIndex;
+		// Also checks the new index
+		checkImageIndex();
 	}
 	
 	
@@ -155,7 +159,7 @@ public class SpriteDrawer implements Actor
 	 * Draws the sprite. Should be called in the DrawnObject's drawSelfBasic 
 	 * method or in another similar method.
 	 * 
-	 * @param g2d The graphics object that does the actual drawing 
+	 * @param g2d The graphics object that does the actual drawing
 	 */
 	public void drawSprite(Graphics2D g2d)
 	{
@@ -167,6 +171,12 @@ public class SpriteDrawer implements Actor
 	private void animate()
 	{
 		this.imageIndex += getImageSpeed();
+		checkImageIndex();
+	}
+	
+	// Returns the imageindex to a valid value
+	private void checkImageIndex()
+	{
 		this.imageIndex = this.imageIndex % getSprite().getImageNumber();
 		
 		if (this.imageIndex < 0)

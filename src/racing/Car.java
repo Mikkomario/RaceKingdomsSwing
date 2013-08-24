@@ -246,7 +246,8 @@ public class Car extends AdvancedPhysicDrawnObject implements listeners.Advanced
 		if (collided == null)
 			return null;
 		
-		if (this.maskChecker.maskContainsRelativePoint(negateTransformations(x, y)))
+		if (this.maskChecker.maskContainsRelativePoint(
+				negateTransformations(x, y), 0))
 			return collided;
 		else
 			return null;
@@ -419,6 +420,6 @@ public class Car extends AdvancedPhysicDrawnObject implements listeners.Advanced
 	{
 		super.setRelativeCollisionPoints(
 				this.maskChecker.getRefinedRelativeCollisionPoints(
-						getRelativeCollisionPoints()));
+						getRelativeCollisionPoints(), 0));
 	}
 }
