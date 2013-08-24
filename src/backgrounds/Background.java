@@ -53,13 +53,16 @@ public class Background extends DrawnObject
 	@Override
 	public int getOriginX()
 	{
-		return this.texturedrawer.getSprite().getOriginX();
+		//return this.texturedrawer.getSprite().getOriginX();
+		// Background origins are always at the left top corner
+		return 0;
 	}
 
 	@Override
 	public int getOriginY()
 	{
-		return this.texturedrawer.getSprite().getOriginY();
+		//return this.texturedrawer.getSprite().getOriginY();
+		return 0;
 	}
 
 	@Override

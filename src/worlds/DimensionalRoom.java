@@ -53,7 +53,7 @@ public class DimensionalRoom extends TiledRoom implements Collidable
 	 * find their spritename in a spritebank
 	 * @param backgrounds The background(s) used in the room
 	 * @param tiletexturebanks A list of spritebanks containing the textures used in tiles
-	 * @param tiletexturenames
+	 * @param tiletexturenames A list of names of the tiletextures
 	 */
 	public DimensionalRoom(int x, int y, DrawableHandler drawer, 
 			ActorHandler animator, CollidableHandler collidablehandler, 
@@ -64,8 +64,9 @@ public class DimensionalRoom extends TiledRoom implements Collidable
 			ArrayList<SpriteBank> tiletexturebanks,
 			ArrayList<String> tiletexturenames)
 	{
-		super(backgrounds, new TileMap(x + width / 2, y + height / 2, drawer, 
-				animator, collidablehandler, xtiles, ytiles, width / xtiles, 
+		// TODO: Clear this up (I mean the tilemap origin business)
+		super(backgrounds, new TileMap(x, y, drawer, animator, 
+				collidablehandler, xtiles, ytiles, width / xtiles, 
 				height / ytiles, bankindexes, rotations, xscales, yscales, 
 				nameindexes), tiletexturebanks, tiletexturenames);
 		
@@ -129,7 +130,7 @@ public class DimensionalRoom extends TiledRoom implements Collidable
 	 */
 	public double getX()
 	{
-		return getTiles().getX() - getWidth() / 2;
+		return getTiles().getX();
 	}
 	
 	/**
@@ -137,7 +138,7 @@ public class DimensionalRoom extends TiledRoom implements Collidable
 	 */
 	public double getY()
 	{
-		return getTiles().getY() - getHeight() / 2;
+		return getTiles().getY();
 	}
 	
 	

@@ -63,7 +63,7 @@ public class Room extends Handler
 	}
 	
 	@Override
-	public boolean kill()
+	public void killWithoutKillingHandleds()
 	{
 		// In addition to the normal killing process, kills the 
 		// backgrounds as well
@@ -76,7 +76,7 @@ public class Room extends Handler
 			this.backgrounds = null;
 		}
 		
-		return super.kill();
+		super.killWithoutKillingHandleds();
 	}
 	
 	

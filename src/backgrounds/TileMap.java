@@ -89,13 +89,15 @@ public class TileMap extends DimensionalDrawnObject
 	@Override
 	public int getOriginX()
 	{
-		return getWidth() / 2;
+		//return getWidth() / 2;
+		return 0;
 	}
 
 	@Override
 	public int getOriginY()
 	{
-		return getHeight() / 2;
+		//return getHeight() / 2;
+		return 0;
 	}
 
 	@Override
@@ -194,8 +196,10 @@ public class TileMap extends DimensionalDrawnObject
 			if (this.bankindexes[i] < 0 || this.nameindexes[i] < 0)
 				continue;
 			
-			int x = (int) getX() - getOriginX() + (i % this.height) * this.tilewidth;
-			int y = (int) getY() - getOriginY() + (i / this.width) * this.tileheight;
+			//int x = (int) getX() - getOriginX() + (i % this.height) * this.tilewidth;
+			int x = (int) getX() + (i % this.height) * this.tilewidth;
+			//int y = (int) getY() - getOriginY() + (i / this.width) * this.tileheight;
+			int y = (int) getY() + (i / this.width) * this.tileheight;
 			Tile newtile = new Tile(x, y, this.tiledrawer, this.tileanimator, 
 					banks.get(this.bankindexes[i]), 
 					texturenames.get(this.nameindexes[i]), 
@@ -205,7 +209,7 @@ public class TileMap extends DimensionalDrawnObject
 			newtile.scale(this.xscales[i], this.yscales[i]);
 			// Also changes the object's position so that the starting position 
 			// becomes the left corner
-			newtile.addPosition(-newtile.getOriginX(), -newtile.getOriginY());
+			//newtile.addPosition(-newtile.getOriginX(), -newtile.getOriginY());
 		}
 	}
 }

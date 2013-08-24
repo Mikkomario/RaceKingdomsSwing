@@ -60,7 +60,7 @@ public class TiledRoom extends Room
 	// IMPLEMENTED METHODS	---------------------------------------------
 	
 	@Override
-	public boolean kill()
+	public void killWithoutKillingHandleds()
 	{
 		// In addition to the normal killing process, kills the tilemap as well
 		if (this.tilemap != null)
@@ -69,7 +69,7 @@ public class TiledRoom extends Room
 			this.tilemap = null;
 		}
 		
-		return super.kill();
+		super.killWithoutKillingHandleds();
 	}
 	
 	@Override
@@ -110,5 +110,21 @@ public class TiledRoom extends Room
 	public void setTiles(TileMap tiles)
 	{
 		this.tilemap = tiles;
+	}
+	
+	/**
+	 * @return A list containing all the spritebanks used in the tilemap
+	 */
+	protected ArrayList<SpriteBank> getTileTextureBanks()
+	{
+		return this.texturebanks;
+	}
+	
+	/**
+	 * @return A list containing all the spritenames used in the tilemap
+	 */
+	protected ArrayList<String> getTileTextureNames()
+	{
+		return this.texturenames;
 	}
 }
