@@ -1,6 +1,6 @@
 package tests;
 
-import camera.FollowerCamera;
+import camera.ZoomingFollowerCamera;
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
 import racing.Car;
@@ -17,7 +17,7 @@ public class CameraCarTest extends AbstractTest
 	// ATTRIBUTES	-----------------------------------------------------
 	
 	private Car testcar;
-	private FollowerCamera testcamera;
+	private ZoomingFollowerCamera testcamera;
 	
 	
 	// CONSTRUCTOR	-----------------------------------------------------
@@ -41,8 +41,8 @@ public class CameraCarTest extends AbstractTest
 		this.testcar = new Car(500, 225, null, null, null, actorhandler, 
 				keylistenerhandler, new CarSpriteBank(), "test", 
 				"testcarmask");
-		this.testcamera = new FollowerCamera(drawer, actorhandler, 1000, 550, 
-				this.testcar);
+		this.testcamera = new ZoomingFollowerCamera(drawer, actorhandler, 1000, 600, 
+				this.testcar, 2, 1);
 		
 		this.testcamera.inactivate();
 		this.testcamera.setInvisible();

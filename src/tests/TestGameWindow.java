@@ -91,10 +91,12 @@ public class TestGameWindow extends GameWindow
 		new WavSoundTrackTest(this.testactorhandler, this.testpanel.getDrawer(), 
 				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
 		*/
-		
+		/*
 		new CollisionTest(this.testactorhandler, this.testpanel.getDrawer(), 
 				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
-		
+		*/
+		new CameraCarTest(this.testactorhandler, this.testpanel.getDrawer(), 
+				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
 	}
 	
 	

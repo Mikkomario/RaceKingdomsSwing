@@ -67,8 +67,8 @@ public class ZoomingFollowerCamera extends FollowerCamera
 		double scale = 1;
 
 		if (getFollowedObject().getMovement().getSpeed() > this.minimumspeed + 1)
-				scale = 1 / ((1 + Math.log(getFollowedObject().getMovement().getSpeed()
-			- this.minimumspeed)) * this.zoommodifier);
+				scale = (1 + Math.log(getFollowedObject().getMovement().getSpeed()
+			- this.minimumspeed)) * this.zoommodifier;
 		setScale(scale, scale);
 	}
 	

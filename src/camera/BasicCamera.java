@@ -1,7 +1,7 @@
 package camera;
 
 import java.awt.Graphics2D;
-import java.awt.Point;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 import listeners.CameraListener;
@@ -72,13 +72,13 @@ public class BasicCamera extends BasicPhysicDrawnObject
 	@Override
 	public int getOriginX()
 	{
-		return -this.screenWidth / 2;
+		return this.screenWidth / 2;
 	}
 
 	@Override
 	public int getOriginY()
 	{
-		return -this.screenHeight / 2;
+		return this.screenHeight / 2;
 	}
 
 	@Override
@@ -90,7 +90,24 @@ public class BasicCamera extends BasicPhysicDrawnObject
 	@Override
 	public void drawSelf(Graphics2D g2d)
 	{
-		drawSelfAsContainer(g2d);
+		// Uses transformations that are opposite to the usual transformations
+		AffineTransform trans = g2d.getTransform();
+		
+		// and translates the origin to the right position
+		g2d.translate(getOriginX(), getOriginY());
+		// scales it depending on it's xscale and yscale
+		g2d.scale(1/getXscale(), 1/getYscale());
+		// rotates it depending on its angle
+		g2d.rotate(Math.toRadians((getAngle())));
+		// Translates the sprite to the object's position
+		g2d.translate(-getX(), -getY());
+		
+		// Finally draws the object
+		drawSelfBasic(g2d);
+		
+		// Loads the previous transformation
+		g2d.setTransform(trans);
+		//drawSelfAsContainer(g2d);
 	}
 	
 	@Override
@@ -103,25 +120,6 @@ public class BasicCamera extends BasicPhysicDrawnObject
 	public int getHeight()
 	{
 		return this.screenHeight;
-	}
-	
-	@Override
-	public Collidable pointCollides(int x, int y)
-	{
-		// In cameras, transformations are reversed so they need to be used 
-		// in a different manner (PS: I know it's not DRY)
-		
-		// Negates the transformation
-		Point negatedPoint = negateTransformations(x, y, -getX(), 
-				-getY(), 1 / getXscale(), 1 / getYscale(), 
-				-getAngle(), -getOriginX(), -getOriginY());
-		
-		// Returns the object if it collides with the point
-		if (HelpMath.pointIsInRange(negatedPoint, 0, 
-				getWidth(), 0, getHeight()))
-			return this;
-		else
-			return null;
 	}
 	
 	@Override
