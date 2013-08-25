@@ -1,24 +1,17 @@
 package sound;
 
-import listeners.SoundListener;
-
 /**
  * Midimusictrack plays a single midi using certain sets of start- and endpoints
  *
  * @author Mikko Hilpinen.
  *         Created 23.8.2013.
  */
-public class MidiMusicTrack extends Sound implements SoundListener
-{	
-	// TODO: Add other midi features
-	// TODO: ALso, if possible, try to make this class extend soundtrack
-	
+public class MidiMusicTrack extends AbstractSoundTrack
+{
 	// ATTRIBUTES	------------------------------------------------------
 	
 	private MidiMusic midi;
 	private LoopPointInformation[] loopinformations;
-	private int currentindex, currentloopsleft;
-	private boolean looping, paused, released;
 	
 	
 	// CONSTRUCTOR	------------------------------------------------------
@@ -38,166 +31,43 @@ public class MidiMusicTrack extends Sound implements SoundListener
 		// Initializes attributes
 		this.midi = midi;
 		this.loopinformations = loopinformations;
-		this.currentindex = 0;
-		this.currentloopsleft = 0;
-		this.looping = false;
-		this.paused = false;
-		this.released = false;
 	}
 	
 	
 	// IMPLEMENTED METHODS	----------------------------------------------
-
-	@Override
-	protected void playSound()
-	{
-		// Resets the position and loopcount
-		this.currentindex = 0;
-		this.currentloopsleft = 
-				this.loopinformations[this.currentindex].getLoopCount();
-		this.released = false;
-		playMidi();
-	}
-
-	@Override
-	protected void loopSound()
-	{
-		// Plays and sets the track to loop
-		playSound();
-		this.looping = true;
-	}
-
-	@Override
-	protected void stopSound()
-	{
-		// Stops the midi from playing
-		this.midi.stop();
-		this.paused = false;
-		this.looping = false;
-		this.released = false;
-	}
-
-	@Override
-	public void pause()
-	{
-		// Pauses the midi (only works if the sound is playing)
-		if (isPlaying())
-		{
-			this.paused = true;
-			this.midi.pause();
-		}
-	}
-
-	@Override
-	public void unpause()
-	{
-		// Continues the midi from the last point (only works if paused)
-		if (this.paused)
-		{
-			this.paused = false;
-			this.midi.unpause();
-		}
-	}
 	
 	@Override
-	public boolean isActive()
+	protected Sound playPhase(int index)
 	{
-		// Tracks are always active
-		return true;
+		// Plays the midi with the settings of the given phase
+		playMidi(index);
+		return this.midi;
 	}
 
 	@Override
-	public boolean activate()
+	protected int getLoopCount(int index)
 	{
-		// Tracks are always acive
-		return true;
+		return this.loopinformations[index].getLoopCount();
 	}
 
 	@Override
-	public boolean inactivate()
+	protected int getMaxPhase()
 	{
-		// Tracks are always active
-		return false;
-	}
-
-	@Override
-	public void onSoundStart(Sound source)
-	{
-		// Does nothing
-	}
-
-	@Override
-	public void onSoundEnd(Sound source)
-	{
-		// When the sound ends (and the track is still playing), either loops 
-		// or continues to the next seqment
-		if (!isPlaying())
-			return;
-
-		// Checks if the current seqment should loop
-		if (this.currentloopsleft > 0 || 
-				(this.currentloopsleft < 0 && !this.released))
-		{
-			this.currentloopsleft --;
-			// Plays the seqment again
-			this.midi.startMusic(
-					this.loopinformations[this.currentindex].getStartPoint(), 
-					this);
-			this.midi.setLoopEnd(
-					this.loopinformations[this.currentindex].getEndPoint());
-		}
-		// Or if a  new phase should be played
-		else
-		{
-			// If the track was released from an infinite loop, remembers it
-			if (this.currentloopsleft < 0)
-				this.released = false;
-			
-			this.currentindex ++;
-			// Checks if the end of the track was reached
-			if (this.currentindex >= this.loopinformations.length)
-			{
-				// Either loops the track
-				if (this.looping)
-				{
-					this.currentindex = 0;
-					playMidi();
-				}
-				// Or ends it
-				else
-				{
-					this.currentindex = 0;
-					this.paused = false;
-					informSoundEnd();
-				}
-			}
-			// If not, just plays the new phase
-			else
-				playMidi();
-		}
+		return this.loopinformations.length;
 	}
 	
 	
 	// OTHER METHODS	-------------------------------------------------
 	
-	
-	/**
-	 * Releases the track from the next infinite loop it starts
-	 */
-	public void release()
-	{
-		this.released = true;
-	}
-	
 	// Plays the midi using the start- and endpoints indicated by the current 
 	// index
-	private void playMidi()
+	private void playMidi(int index)
 	{
 		// Starts the first midi seqment
 		this.midi.startMusic(
-				this.loopinformations[this.currentindex].getStartPoint(), this);
+				this.loopinformations[index].getStartPoint(), this);
 		// Sets the endpoint
-		this.midi.setLoopEnd(this.loopinformations[this.currentindex].getEndPoint());
+		this.midi.setLoopEnd(this.loopinformations[index].getEndPoint());
 	}
 	
 	

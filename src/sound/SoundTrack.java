@@ -1,7 +1,5 @@
 package sound;
 
-import listeners.SoundListener;
-
 /**
  * SoundTrack is a class that plays multiple sounds in order, forming a 
  * track.
@@ -9,16 +7,13 @@ import listeners.SoundListener;
  * @author Mikko Hilpinen.
  *         Created 19.8.2013.
  */
-public class SoundTrack extends Sound implements SoundListener
+public class SoundTrack extends AbstractSoundTrack
 {
 	// ATTRIBUTES	------------------------------------------------------
 	
 	private String[] soundnames;
 	private int[] loopcounts;
 	private SoundBank soundbank;
-	private int currentindex, currentloopcount;
-	private Sound currentsound;
-	private boolean paused, delayed, loops, released;
 	
 	
 	// CONSTRUCTROR	------------------------------------------------------
@@ -46,134 +41,33 @@ public class SoundTrack extends Sound implements SoundListener
 		this.soundbank = soundbank;
 		this.soundnames = soundnames;
 		this.loopcounts = loopcounts;
-		this.currentindex = 0;
-		this.currentloopcount = 0;
-		this.currentsound = null;
-		this.paused = false;
-		this.delayed = false;
-		this.loops = false;
-		this.released = false;
 	}
 	
 	
 	// IMPLEMENTED METHODS	---------------------------------------------
 	
 	@Override
-	public boolean isActive()
+	protected Sound playPhase(int index)
 	{
-		// The track is always active so it doesn't break (inactivating is done 
-		// by pausing)
-		return true;
+		// Plays a sound from the bank
+		Sound newphase = this.soundbank.getSound(this.soundnames[index]);
+		newphase.play(this);
+		return newphase;
 	}
 
 	@Override
-	public boolean activate()
+	protected int getLoopCount(int index)
 	{
-		// The track is always active
-		return true;
+		// Returns a loopcount from the loopcounts table
+		return this.loopcounts[index];
 	}
 
 	@Override
-	public boolean inactivate()
+	protected int getMaxPhase()
 	{
-		// The track is always active
-		return false;
-	}
-
-	@Override
-	public void onSoundStart(Sound source)
-	{
-		// Does nothing
-	}
-
-	@Override
-	public void onSoundEnd(Sound source)
-	{
-		// If the sound was stopped, doesn't do anything
-		if (!isPlaying())
-			return;
-		// Plays the next sound (if not paused, in which case delays the sound)
-		if (this.paused)
-		{
-			this.delayed = true;
-			System.out.println("Delays");
-		}
-		else
-			playnextsound();
-	}
-	
-	/**
-	 * Stops the track from playing
-	 */
-	@Override
-	public void stopSound()
-	{
-		// Stops the current sound and the track
-		this.delayed = false;
-		this.paused = false;
-		this.released = false;
-		this.currentsound.stop();
-	}
-	
-	/**
-	 * Pauses the track. The track can be continued from the same spot with 
-	 * unpause method
-	 */
-	@Override
-	public void pause()
-	{
-		this.paused = true;
-		this.currentsound.pause();
-	}
-	
-	/**
-	 * Unpauses the track from the last state
-	 */
-	@Override
-	public void unpause()
-	{
-		// TODO: Unpausing doesn't always seem to work (when not delayed)
-		this.paused = false;
-		// Continues the track if it was delayed
-		if (this.delayed)
-			playnextsound();
-		// Otherwise just continues the former sound
-		else
-			this.currentsound.unpause();
-	}
-	
-	/**
-	 * Plays through the track once
-	 */
-	@Override
-	public void playSound()
-	{
-		// Doesn't work if the track was killed
-		if (isDead())
-			return;
-		
-		// Updates information
-		this.currentindex = 0;
-		this.currentloopcount = this.loopcounts[this.currentindex];
-		this.currentsound = 
-				this.soundbank.getSound(this.soundnames[this.currentindex]);
-		this.paused = false;
-		this.delayed = false;
-		this.loops = false;
-		this.released = false;
-		
-		// Plays the first sound
-		this.currentsound.play(this);
-	}
-	
-	/**
-	 * Plays through the track repeatedly until stopped
-	 */
-	@Override
-	public void loopSound()
-	{
-		playSound();
-		this.loops = true;
+		// The length of the track is limited by the length of the soundnames 
+		// and loopcounts tables
+		return Math.min(this.soundnames.length, this.loopcounts.length);
 	}
 	
 	
@@ -215,69 +109,5 @@ public class SoundTrack extends Sound implements SoundListener
 	public void setLoopCounts(int[] loopcounts)
 	{
 		this.loopcounts = loopcounts;
-	}	
-	
-	
-	// OTHER METHODS	--------------------------------------------------
-	
-	/**
-	 * Releases the track from the next infinite loop when it starts.
-	 */
-	public void release()
-	{
-		this.released = true;
-	}
-	
-	private void playnextsound()
-	{
-		// Only plays the next sound if the track is still playing
-		if (!isPlaying())
-			return;
-		
-		// The sound is no longer delayed
-		this.delayed = false;
-		
-		// Checks whether more loops are needed
-		// Loops the current sound if needed
-		if (this.currentloopcount > 0 || 
-				(this.currentloopcount < 0 && !this.released))
-		{
-			this.currentloopcount --;
-			this.currentsound = this.soundbank.getSound(
-					this.soundnames[this.currentindex]);
-			this.currentsound.play(this);
-		}
-		// Or plays the next sound
-		else
-		{
-			// If the track was released from an infinite loop, remembers it
-			if (this.currentloopcount < 0)
-				this.released = false;
-			
-			// Gathers the information
-			this.currentindex ++;
-			
-			// If the end of the track was reached, either repeats or stops
-			if (this.currentindex >= this.soundnames.length 
-					|| this.currentindex >= this.loopcounts.length)
-			{
-				if (this.loops)
-					this.currentindex = 0;
-				else
-				{
-					this.delayed = false;
-					this.paused = false;
-					informSoundEnd();
-					return;
-				}
-			}
-			
-			this.currentloopcount = this.loopcounts[this.currentindex];
-			this.currentsound = 
-					this.soundbank.getSound(this.soundnames[this.currentindex]);
-			
-			// And plays the new sound
-			this.currentsound.play(this);
-		}
 	}
 }
