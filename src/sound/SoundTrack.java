@@ -18,7 +18,7 @@ public class SoundTrack extends Sound implements SoundListener
 	private SoundBank soundbank;
 	private int currentindex, currentloopcount;
 	private Sound currentsound;
-	private boolean paused, delayed, loops;
+	private boolean paused, delayed, loops, released;
 	
 	
 	// CONSTRUCTROR	------------------------------------------------------
@@ -30,7 +30,11 @@ public class SoundTrack extends Sound implements SoundListener
 	 * the track (in a specific order)
 	 * @param loopcounts A table containing the numbers about how many times 
 	 * each sound is repeated in a row (should have as many indexes as the 
-	 * soundnames table)
+	 * soundnames table) 
+	 * (0 means that the music is played once, -1 means that 
+	 * the music is played until released but at least once, -2 or smaller 
+	 * means that the music is played until released but not neccessarily 
+	 * once)
 	 * @param soundbank The soundbank that contains each of the sounds used 
 	 * in the track
 	 * @param name The name of the track
@@ -50,6 +54,7 @@ public class SoundTrack extends Sound implements SoundListener
 		this.paused = false;
 		this.delayed = false;
 		this.loops = false;
+		this.released = false;
 	}
 	
 	
@@ -108,6 +113,7 @@ public class SoundTrack extends Sound implements SoundListener
 		// Stops the current sound and the track
 		this.delayed = false;
 		this.paused = false;
+		this.released = false;
 		this.currentsound.stop();
 	}
 	
@@ -151,10 +157,12 @@ public class SoundTrack extends Sound implements SoundListener
 		// Updates information
 		this.currentindex = 0;
 		this.currentloopcount = this.loopcounts[this.currentindex];
-		this.currentsound = this.soundbank.getSound(this.soundnames[this.currentindex]);
+		this.currentsound = 
+				this.soundbank.getSound(this.soundnames[this.currentindex]);
 		this.paused = false;
 		this.delayed = false;
 		this.loops = false;
+		this.released = false;
 		
 		// Plays the first sound
 		this.currentsound.play(this);
@@ -200,7 +208,11 @@ public class SoundTrack extends Sound implements SoundListener
 	/**
 	 * Changes the loopcounts used in the track. This can be done in the midle 
 	 * of playing a track and the change will take place once the current sound 
-	 * stops
+	 * stops.
+	 * (0 means that the music is played once, -1 means that 
+	 * the music is played until released but at least once, -2 or smaller 
+	 * means that the music is played until released but not neccessarily 
+	 * once)
 	 *
 	 * @param loopcounts The set of loopcounts to be used
 	 */
@@ -211,6 +223,14 @@ public class SoundTrack extends Sound implements SoundListener
 	
 	
 	// OTHER METHODS	--------------------------------------------------
+	
+	/**
+	 * Releases the track from the next infinite loop when it starts.
+	 */
+	public void release()
+	{
+		this.released = true;
+	}
 	
 	private void playnextsound()
 	{
@@ -223,7 +243,8 @@ public class SoundTrack extends Sound implements SoundListener
 		
 		// Checks whether more loops are needed
 		// Loops the current sound if needed
-		if (this.currentloopcount > 0)
+		if (this.currentloopcount > 0 || 
+				(this.currentloopcount < -1 && !this.released))
 		{
 			this.currentloopcount --;
 			this.currentsound = this.soundbank.getSound(
@@ -233,6 +254,10 @@ public class SoundTrack extends Sound implements SoundListener
 		// Or plays the next sound
 		else
 		{
+			// If the track was released from an infinite loop, remembers it
+			if (this.currentloopcount < 0)
+				this.released = false;
+			
 			// Gathers the information
 			this.currentindex ++;
 			
@@ -253,7 +278,8 @@ public class SoundTrack extends Sound implements SoundListener
 			}
 			
 			this.currentloopcount = this.loopcounts[this.currentindex];
-			this.currentsound = this.soundbank.getSound(this.soundnames[this.currentindex]);
+			this.currentsound = 
+					this.soundbank.getSound(this.soundnames[this.currentindex]);
 			
 			// And plays the new sound
 			this.currentsound.play(this);

@@ -11,13 +11,14 @@ import listeners.SoundListener;
 public class MidiMusicTrack extends Sound implements SoundListener
 {	
 	// TODO: Add other midi features
+	// TODO: ALso, if possible, try to make this class extend soundtrack
 	
 	// ATTRIBUTES	------------------------------------------------------
 	
 	private MidiMusic midi;
 	private LoopPointInformation[] loopinformations;
 	private int currentindex, currentloopsleft;
-	private boolean looping, paused;
+	private boolean looping, paused, released;
 	
 	
 	// CONSTRUCTOR	------------------------------------------------------
@@ -41,6 +42,7 @@ public class MidiMusicTrack extends Sound implements SoundListener
 		this.currentloopsleft = 0;
 		this.looping = false;
 		this.paused = false;
+		this.released = false;
 	}
 	
 	
@@ -53,6 +55,7 @@ public class MidiMusicTrack extends Sound implements SoundListener
 		this.currentindex = 0;
 		this.currentloopsleft = 
 				this.loopinformations[this.currentindex].getLoopCount();
+		this.released = false;
 		playMidi();
 	}
 
@@ -71,6 +74,7 @@ public class MidiMusicTrack extends Sound implements SoundListener
 		this.midi.stop();
 		this.paused = false;
 		this.looping = false;
+		this.released = false;
 	}
 
 	@Override
@@ -131,10 +135,11 @@ public class MidiMusicTrack extends Sound implements SoundListener
 			return;
 
 		// Checks if the current seqment should loop
-		if (this.currentloopsleft > 0)
+		if (this.currentloopsleft > 0 || 
+				(this.currentloopsleft < -1 && !this.released))
 		{
 			this.currentloopsleft --;
-			// Plays the sqment again
+			// Plays the seqment again
 			this.midi.startMusic(
 					this.loopinformations[this.currentindex].getStartPoint(), 
 					this);
@@ -144,6 +149,10 @@ public class MidiMusicTrack extends Sound implements SoundListener
 		// Or if a  new phase should be played
 		else
 		{
+			// If the track was released from an infinite loop, remembers it
+			if (this.currentloopsleft < 0)
+				this.released = false;
+			
 			this.currentindex ++;
 			// Checks if the end of the track was reached
 			if (this.currentindex >= this.loopinformations.length)
@@ -210,7 +219,10 @@ public class MidiMusicTrack extends Sound implements SoundListener
 		 * @param startpoint The loop's startpoint (tick)
 		 * @param endpoint The loop's endpoint (tick)
 		 * @param loopcount How many times the music is repeated between the 
-		 * given points (0+)
+		 * given points (0 means that the music is played once, -1 means that 
+		 * the music is played until released but at least once, -2 or smaller 
+		 * means that the music is played until released but not neccessarily 
+		 * once)
 		 */
 		public LoopPointInformation(long startpoint, long endpoint, int loopcount)
 		{
@@ -253,7 +265,11 @@ public class MidiMusicTrack extends Sound implements SoundListener
 		/**
 		 * Changes how many times the interval is repeated
 		 *
-		 * @param loopcount How many times the interval is repeated (0+)
+		 * @param loopcount How many times the interval is repeated 
+		 * (0 means that the music is played once, -1 means that 
+		 * the music is played until released but at least once, -2 or smaller 
+		 * means that the music is played until released but not neccessarily 
+		 * once)
 		 */
 		public void setLoopCount(int loopcount)
 		{
