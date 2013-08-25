@@ -54,23 +54,28 @@ public class Background extends DrawnObject
 	@Override
 	public int getOriginX()
 	{
-		// TODO: Test if this origin works
-		// Background origins are always at the left top corner
-		return 0;
+		// Background's origin is always in the middle
+		if (this.texturedrawer != null)
+			return this.texturedrawer.getSprite().getWidth() / 2;
+		else
+			return 0;
 	}
 
 	@Override
 	public int getOriginY()
 	{
-		//return this.texturedrawer.getSprite().getOriginY();
-		return 0;
+		if (this.texturedrawer != null)
+			return this.texturedrawer.getSprite().getHeight() / 2;
+		else
+			return 0;
 	}
 
 	@Override
 	public void drawSelfBasic(Graphics2D g2d)
 	{
 		// Draws the sprite
-		this.texturedrawer.drawSprite(g2d);
+		if (this.texturedrawer != null)
+			this.texturedrawer.drawSprite(g2d);
 	}
 	
 	
@@ -152,9 +157,9 @@ public class Background extends DrawnObject
 			{
 				Background newback = new Background(
 						minx + (int) (ix * backbasewidth * xscale) + 
-						(int) (xscale * texture.getOriginX()), 
+						(int) (xscale * backbasewidth/2), 
 						miny + (int) (iy * backbaseheight * yscale) + 
-						(int) (yscale * texture.getOriginY()), 
+						(int) (yscale * backbaseheight/2), 
 						drawer, animator, texturebank, texturename);
 				newback.scale(xscale, yscale);
 				backs.add(newback);

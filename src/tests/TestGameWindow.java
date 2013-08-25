@@ -99,7 +99,11 @@ public class TestGameWindow extends GameWindow
 		new CameraCarTest(this.testactorhandler, this.testpanel.getDrawer(), 
 				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
 		*/
+		/*
 		new FileReaderTest(this.testactorhandler, this.testpanel.getDrawer(), 
+				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
+		*/
+		new TileMapTest(this.testactorhandler, this.testpanel.getDrawer(), 
 				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
 	}
 	

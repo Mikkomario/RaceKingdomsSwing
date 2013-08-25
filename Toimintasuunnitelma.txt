@@ -76,9 +76,9 @@ Musiikin ja äänien soittaminen				(9)
 Testit / TODO
 	* Background origin test (tilemap)
 		- Sama tilemapille
-	* Infinite loop & Release trackeille					UNTESTED
+	* Infinite loop & Release trackeille					DONE
 		- Parempi työnjako soundtrackin ja miditrackin 
-		välillä
+		välillä												DONE
 	* Lisää RoomBoundCamera (Ei mene edes osittain 
 	huoneen ulkopuolelle)									FAILED
 	* FileReaderTest
@@ -89,10 +89,13 @@ Testit / TODO
 	* Korjaa @see javadocit
 	* Lisää friction modifierit maeriaaleihin?
 	* Tee loppuun soundtrack ja midisoundtrack
-	* Vaihda kameraluokan transformaatioita käänteisiksi?
-		- Checkkaa myös, että kameralistenereille annetaan oikea tieto
+	* Vaihda kameraluokan transformaatioita käänteisiksi?	DONE
+		- Checkkaa myös, että kameralistenereille annetaan 
+		oikea tieto											DONE
 	* Testaa soundtracking unpause metodia
-	* Muuta testisysteemiä niin, että kaikkiin ei tarvi kaikkia tietoja
+	* Muuta testisysteemiä niin, että kaikkiin ei tarvi 
+	kaikkia tietoja
+	* Jonkinlainen inputreader
 
 ALPHA READY
 

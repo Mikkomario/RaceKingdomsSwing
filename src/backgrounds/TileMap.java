@@ -176,6 +176,31 @@ public class TileMap extends DimensionalDrawnObject
 	}
 	
 	
+	// GETTERS & SETTERS	---------------------------------------------
+	
+	/**
+	 * Changes the width of the tile in the map. The change only takes place 
+	 * after the map has been reinitialized
+	 *
+	 * @param tilewidth The new width of a tile (pixels)
+	 */
+	public void setTileWidth(int tilewidth)
+	{
+		this.tilewidth = tilewidth;
+	}
+	
+	/**
+	 * Changes the height of the tile in the map. The change only takes place 
+	 * after the map has been reinitialized
+	 *
+	 * @param tileheight The new height of a tile (pixels)
+	 */
+	public void setTileHeight(int tileheight)
+	{
+		this.tileheight = tileheight;
+	}
+	
+	
 	// OTHER METHODS	-------------------------------------------------
 	
 	/**
@@ -224,8 +249,10 @@ public class TileMap extends DimensionalDrawnObject
 			if (this.bankindexes[i] < 0 || this.nameindexes[i] < 0)
 				continue;
 			
-			int x = (int) getX() + (i % this.height) * this.tilewidth;
-			int y = (int) getY() + (i / this.width) * this.tileheight;
+			int x = (int) getX() + (i % this.height) * this.tilewidth + 
+					this.tilewidth / 2;
+			int y = (int) getY() + (i / this.width) * this.tileheight + 
+					this.tileheight / 2;
 			
 			Tile newtile = new Tile(x, y, this.tiledrawer, this.tileanimator, 
 					banks.get(this.bankindexes[i]), 
