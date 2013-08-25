@@ -74,11 +74,9 @@ public class TestGameWindow extends GameWindow
 		/*
 		new MouseTest(this.testactorhandler, this.testpanel.getDrawer(), 
 				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
+		*/
 		new InputTest(this.testactorhandler, this.testpanel.getDrawer(), 
 				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
-		new CollisionTest(this.testactorhandler, this.testpanel.getDrawer(), 
-				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
-		*/
 		/*
 		new WavSoundTest(this.testactorhandler, this.testpanel.getDrawer(), 
 				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
@@ -103,8 +101,10 @@ public class TestGameWindow extends GameWindow
 		new FileReaderTest(this.testactorhandler, this.testpanel.getDrawer(), 
 				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
 		*/
+		/*
 		new TileMapTest(this.testactorhandler, this.testpanel.getDrawer(), 
 				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
+		*/
 	}
 	
 	

@@ -112,7 +112,7 @@ public class CollisionTestCar extends Car
 	}
 	
 	@Override
-	public void onKeyDown(int key, int keyCode, boolean coded)
+	public void onKeyDown(char key, int keyCode, boolean coded)
 	{
 		// Scales the object with W and S
 		super.onKeyDown(key, keyCode, coded);
@@ -136,7 +136,7 @@ public class CollisionTestCar extends Car
 	}
 	
 	@Override
-	public void onKeyPressed(int key, int keyCode, boolean coded)
+	public void onKeyPressed(char key, int keyCode, boolean coded)
 	{
 		System.out.println(key);
 	}

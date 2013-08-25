@@ -28,7 +28,7 @@ public class KeyListenerHandler extends LogicalHandler implements AdvancedKeyLis
 	// IMPLEMENTED METHODS	---------------------------------------------
 
 	@Override
-	public void onKeyDown(int key, int keyCode, boolean coded)
+	public void onKeyDown(char key, int keyCode, boolean coded)
 	{
 		// Cleans unnecessary handleds
 		removeDeadHandleds();
@@ -40,7 +40,7 @@ public class KeyListenerHandler extends LogicalHandler implements AdvancedKeyLis
 	}
 
 	@Override
-	public void onKeyPressed(int key, int keyCode, boolean coded)
+	public void onKeyPressed(char key, int keyCode, boolean coded)
 	{
 		// Cleans unnecessary handleds
 		removeDeadHandleds();
@@ -52,7 +52,7 @@ public class KeyListenerHandler extends LogicalHandler implements AdvancedKeyLis
 	}
 
 	@Override
-	public void onKeyReleased(int key, int keyCode, boolean coded)
+	public void onKeyReleased(char key, int keyCode, boolean coded)
 	{
 		// Cleans unnecessary handleds
 		removeDeadHandleds();

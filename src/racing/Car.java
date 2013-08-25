@@ -111,7 +111,7 @@ public class Car extends AdvancedPhysicDrawnObject implements listeners.Advanced
 	// IMPLEMENTED METHODS	---------------------------------------------
 
 	@Override
-	public void onKeyDown(int key, int keyCode, boolean coded)
+	public void onKeyDown(char key, int keyCode, boolean coded)
 	{
 		if (coded)
 		{
@@ -146,7 +146,7 @@ public class Car extends AdvancedPhysicDrawnObject implements listeners.Advanced
 	}
 
 	@Override
-	public void onKeyPressed(int key, int keyCode, boolean coded)
+	public void onKeyPressed(char key, int keyCode, boolean coded)
 	{
 		if (!coded)
 		{
@@ -167,7 +167,7 @@ public class Car extends AdvancedPhysicDrawnObject implements listeners.Advanced
 	}
 
 	@Override
-	public void onKeyReleased(int key, int keyCode, boolean coded)
+	public void onKeyReleased(char key, int keyCode, boolean coded)
 	{
 		if (!coded)
 		{

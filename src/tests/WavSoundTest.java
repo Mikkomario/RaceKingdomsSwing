@@ -97,13 +97,13 @@ public class WavSoundTest extends AbstractTest implements AdvancedKeyListener
 	}
 
 	@Override
-	public void onKeyDown(int key, int keyCode, boolean coded)
+	public void onKeyDown(char key, int keyCode, boolean coded)
 	{
 		// Does nothing
 	}
 
 	@Override
-	public void onKeyPressed(int key, int keyCode, boolean coded)
+	public void onKeyPressed(char key, int keyCode, boolean coded)
 	{
 		// Tests the functions of the wavsound
 		if (!coded)
@@ -142,7 +142,7 @@ public class WavSoundTest extends AbstractTest implements AdvancedKeyListener
 	}
 
 	@Override
-	public void onKeyReleased(int key, int keyCode, boolean coded)
+	public void onKeyReleased(char key, int keyCode, boolean coded)
 	{
 		// Does nothing
 	}

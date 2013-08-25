@@ -19,11 +19,11 @@ public class MainKeyListenerHandler extends LogicalHandler implements Actor
 {
 	// ATTRIBUTES	------------------------------------------------------
 	
-	private ArrayList<Integer> keysDown;
+	private ArrayList<Character> keysDown;
 	private ArrayList<Integer> codesDown;
-	private ArrayList<Integer> keysPressed;
+	private ArrayList<Character> keysPressed;
 	private ArrayList<Integer> codesPressed;
-	private ArrayList<Integer> keysReleased;
+	private ArrayList<Character> keysReleased;
 	private ArrayList<Integer> codesReleased;
 	
 	
@@ -41,10 +41,10 @@ public class MainKeyListenerHandler extends LogicalHandler implements Actor
 		super(false, actorhandler);
 		
 		// Initializes the attributes
-		this.keysDown = new ArrayList<Integer>();
+		this.keysDown = new ArrayList<Character>();
 		this.codesDown = new ArrayList<Integer>();
-		this.keysPressed = new ArrayList<Integer>();
-		this.keysReleased = new ArrayList<Integer>();
+		this.keysPressed = new ArrayList<Character>();
+		this.keysReleased = new ArrayList<Character>();
 		this.codesPressed = new ArrayList<Integer>();
 		this.codesReleased = new ArrayList<Integer>();
 	}
@@ -75,7 +75,7 @@ public class MainKeyListenerHandler extends LogicalHandler implements Actor
 			// Informs if a coded key was pressed
 			for (int ik = 0; ik < this.codesPressed.size(); ik++)
 			{
-				listener.onKeyPressed(0, this.codesPressed.get(ik), true);
+				listener.onKeyPressed((char) 0, this.codesPressed.get(ik), true);
 			}
 			
 			// Informs if a key was released
@@ -87,7 +87,7 @@ public class MainKeyListenerHandler extends LogicalHandler implements Actor
 			// Informs if a coded key was released
 			for (int ik = 0; ik < this.codesReleased.size(); ik++)
 			{
-				listener.onKeyReleased(0, this.codesReleased.get(ik), true);
+				listener.onKeyReleased((char) 0, this.codesReleased.get(ik), true);
 			}
 			
 			// Informs if a key is down
@@ -101,7 +101,7 @@ public class MainKeyListenerHandler extends LogicalHandler implements Actor
 			{
 				// For some reason, this check is needed...?
 				if (icd < this.codesDown.size())
-					listener.onKeyDown(0, this.codesDown.get(icd), true);
+					listener.onKeyDown((char) 0, this.codesDown.get(icd), true);
 			}
 		}
 		
@@ -128,7 +128,7 @@ public class MainKeyListenerHandler extends LogicalHandler implements Actor
 	 * @param code The key's keycode
 	 * @param coded Does the key use its keycode
 	 */
-	public void onKeyPressed(int key, int code, boolean coded)
+	public void onKeyPressed(char key, int code, boolean coded)
 	{
 		if (coded)
 		{
@@ -162,7 +162,7 @@ public class MainKeyListenerHandler extends LogicalHandler implements Actor
 	 * @param code The key's keycode
 	 * @param coded Does the key use its keycode
 	 */
-	public void onKeyReleased(int key, int code, boolean coded)
+	public void onKeyReleased(char key, int code, boolean coded)
 	{
 		if (coded)
 		{

@@ -73,14 +73,14 @@ public class InputTest extends AbstractTest implements AdvancedKeyListener{
 	//--------------------------------------------------------
 	
 	@Override
-	public void onKeyDown(int key, int keyCode, boolean coded) {
+	public void onKeyDown(char key, int keyCode, boolean coded) {
 		//Worked fine
 		//System.out.println("Pidit pohjassa keyta: "+key+"ja keyCodea: "+keyCode+", coded oli '"+coded+"'.");
 		
 	}
 
 	@Override
-	public void onKeyPressed(int key, int keyCode, boolean coded) {
+	public void onKeyPressed(char key, int keyCode, boolean coded) {
 		//Worked fine
 		System.out.println("Painoit keyta: "+key+" ja keyCodea: "+keyCode+", coded oli '"+coded+"'.");
 		
@@ -89,7 +89,7 @@ public class InputTest extends AbstractTest implements AdvancedKeyListener{
 	}
 
 	@Override
-	public void onKeyReleased(int key, int keyCode, boolean coded) {
+	public void onKeyReleased(char key, int keyCode, boolean coded) {
 		//Worked fine
 		System.out.println("Paastit irti keysta: "+key+" ja keyCodesta: "+keyCode+", coded oli '"+coded+"'.");
 		

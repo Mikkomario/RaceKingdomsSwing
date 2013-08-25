@@ -84,13 +84,13 @@ public class MidiTest extends AbstractTest implements AdvancedKeyListener
 	}
 
 	@Override
-	public void onKeyDown(int key, int keyCode, boolean coded) {
+	public void onKeyDown(char key, int keyCode, boolean coded) {
 		// Not needed
 		
 	}
 
 	@Override
-	public void onKeyPressed(int key, int keyCode, boolean coded) {
+	public void onKeyPressed(char key, int keyCode, boolean coded) {
 		if(!coded){
 			if(key == KeyEvent.VK_ENTER){
 				//Starts playing the midi
@@ -147,7 +147,7 @@ public class MidiTest extends AbstractTest implements AdvancedKeyListener
 	}
 
 	@Override
-	public void onKeyReleased(int key, int keyCode, boolean coded) {
+	public void onKeyReleased(char key, int keyCode, boolean coded) {
 		// Not needed
 		
 	}
