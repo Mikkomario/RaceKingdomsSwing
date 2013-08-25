@@ -17,9 +17,12 @@ import backgrounds.Background;
 /**
  * Room represents a single restricted area in a game. A room contains a 
  * background and a group of objects. A room can start 
- * and end and it will inform objects about such events.
+ * and end and it will inform objects about such events.<p>
+ * 
+ * A room has to be initialized before it is used but can also be uninitialized 
+ * to save memory when it is not needed.
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 11.7.2013.
  */
 public class Room extends Handler
@@ -39,6 +42,8 @@ public class Room extends Handler
 	 *
 	 * @param backgrounds The background(s) used in the room. Use empty list or 
 	 * null if no backgrounds will be used.
+	 * @see #end()
+	 * @see #start()
 	 */
 	public Room(ArrayList<Background> backgrounds)
 	{
@@ -50,6 +55,7 @@ public class Room extends Handler
 		this.active = true;
 		this.listenerhandler = new RoomListenerHandler(false, null);
 		
+		// Uninitializes the room
 		uninitialize();
 	}
 	
@@ -113,7 +119,8 @@ public class Room extends Handler
 	// OTHER METHODS	-------------------------------------------------
 	
 	/**
-	 * Adds a new object to the room
+	 * Adds a new object to the room. If the object is an (active) roomlistener, 
+	 * it will be automatically informed about the events in the room.
 	 *
 	 * @param g The object to be added
 	 */
@@ -140,6 +147,8 @@ public class Room extends Handler
 	
 	/**
 	 * Starts the room, activating all the objects and backgrounds in it
+	 * 
+	 * @see #end()
 	 */
 	public void start()
 	{
@@ -156,6 +165,8 @@ public class Room extends Handler
 	
 	/**
 	 * Ends the room, deactivating all the objects and backgrounds in it
+	 * 
+	 * @see #start()
 	 */
 	public void end()
 	{
@@ -172,6 +183,8 @@ public class Room extends Handler
 	
 	/**
 	 * Here the room (re)initializes all its content
+	 * 
+	 * @see #uninitialize()
 	 */
 	protected void initialize()
 	{
@@ -199,6 +212,8 @@ public class Room extends Handler
 	
 	/**
 	 * Here the room uninitializes its content
+	 * 
+	 * @see #initialize()
 	 */
 	protected void uninitialize()
 	{

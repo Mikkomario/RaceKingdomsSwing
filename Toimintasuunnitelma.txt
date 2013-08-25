@@ -90,6 +90,7 @@ Testit / TODO
 	* Vaihda kameraluokan transformaatioita käänteisiksi?
 		- Checkkaa myös, että kameralistenereille annetaan oikea tieto
 	* Testaa soundtracking unpause metodia
+	* Muuta testisysteemiä niin, että kaikkiin ei tarvi kaikkia tietoja
 
 ALPHA READY
 

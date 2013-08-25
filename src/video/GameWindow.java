@@ -24,9 +24,11 @@ import listeners.AdvancedMouseListener;
 
 
 /**
- * Creates the main window frame.
+ * GameWindow is the main frame of the program in which all the drawing is done. 
+ * The window should hold at least one gamepanel.
  * 
- * @author Unto Created 8.8.2013
+ * @author Unto Solala & Mikko Hilpinen. Created 8.8.2013
+ * @see video.GamePanel
  */
 public class GameWindow extends JFrame
 {	
@@ -47,10 +49,11 @@ public class GameWindow extends JFrame
 	
 	// CONSTRUCTOR ---------------------------------------------------------
 	
-	/**Creates a new window frame with given width and height.
+	/**
+	 * Creates a new window frame with given width and height.
 	 * 
-	 * @param width		Window's width.
-	 * @param height	Window's height.
+	 * @param width	Window's width (in pixels).
+	 * @param height Window's height (in pixels).
 	 * @param title The title shown in the window's border
 	 */
 	public GameWindow(int width, int height, String title)
@@ -109,6 +112,7 @@ public class GameWindow extends JFrame
 	 * @param newPanel	The GamePanel you want to add to the window.
 	 * @param direction	The direction where you want to place the panel. (For
 	 * example Borderlayout.NORTH)
+	 * @see BorderLayout
 	 */
 	public void addGamePanel(GamePanel newPanel, String direction)
 	{
@@ -197,7 +201,7 @@ public class GameWindow extends JFrame
 	/**
 	 * Main window's helper class, which listens to what the mouse does.
 	 * 
-	 * @author Unto	Created 8.8.2013
+	 * @author Unto Solala. Created 8.8.2013
 	 */
 	private class BasicMouseListener implements MouseListener
 	{
@@ -237,7 +241,7 @@ public class GameWindow extends JFrame
 	/**
 	 * Main window's helper class, which listens to what the keyboard does.
 	 * 
-	 * @author Unto	Created 8.8.2013
+	 * @author Unto Solala. Created 8.8.2013
 	 */
 	private class BasicKeyListener implements KeyListener
 	{

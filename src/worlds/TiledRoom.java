@@ -8,11 +8,10 @@ import backgrounds.Background;
 import backgrounds.TileMap;
 
 /**
- * Room represents a single restricted area in a game. A room contains a 
- * background and a tilemap as well as a group of objects. A room can start 
- * and end and it will inform objects about such events.
+ * TiledRoom is a room that contains a tilemap in addition to just objects and 
+ * backgrounds.
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 11.7.2013.
  */
 public class TiledRoom extends Room
@@ -37,7 +36,9 @@ public class TiledRoom extends Room
 	 * @param tiletexturebanks A list of spritebanks that contained the textures 
 	 * used in the tilemap
 	 * @param tiletexturenames A list of the names of the textures used in the 
-	 * tilemap 
+	 * tilemap
+	 * @see worlds.Room#end()
+	 * @see worlds.Room#start()
 	 */
 	public TiledRoom(ArrayList<Background> backgrounds, 
 			TileMap tilemap, ArrayList<SpriteBank> tiletexturebanks, 
@@ -50,10 +51,8 @@ public class TiledRoom extends Room
 		this.texturebanks = tiletexturebanks;
 		this.texturenames = tiletexturenames;
 		
-		// TODO: An error will propably occur since attributes aren't fully 
-		// initialized at the time when the room is uninitialized in the 
-		// super constructor
-		//uninitialize();
+		// Uninitializes the tilemap
+		uninitialize();
 	}
 	
 	
