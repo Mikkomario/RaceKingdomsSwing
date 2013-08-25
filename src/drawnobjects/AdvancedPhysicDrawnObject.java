@@ -476,11 +476,11 @@ public abstract class AdvancedPhysicDrawnObject extends BouncingBasicPhysicDrawn
 		if (getCollisionType() == CollisionType.CIRCLE)
 		{
 			// PI * r^2 for a circle
-			int radius = (int) (getRadius() * (getXscale() + getYscale()) / 2);
+			int radius = (int) (getRadius() * (getXScale() + getYScale()) / 2);
 			area = (int) (2 * Math.PI * Math.pow(radius, 2));
 		}
 		else
-			area = (int) (getXscale() * getWidth() * getYscale() * getHeight()); 
+			area = (int) (getXScale() * getWidth() * getYScale() * getHeight()); 
 		// And returns that multiplied with the height
 		return area * getZHeight();
 	}

@@ -61,12 +61,12 @@ public abstract class DimensionalDrawnObject extends DrawnObject implements Coll
 	// ABSTRACT METHODS	--------------------------------------------------
 	
 	/**
-	 * @return The width of the object
+	 * @return The width of the object (doesn't include scaling)
 	 */
 	public abstract int getWidth();
 	
 	/**
-	 * @return The height of the object
+	 * @return The height of the object (doesn't include scaling)
 	 */
 	public abstract int getHeight();
 	
@@ -236,16 +236,16 @@ public abstract class DimensionalDrawnObject extends DrawnObject implements Coll
 	{
 		// For circular objects the process is more simple
 		if (getCollisionType() == CollisionType.CIRCLE)
-			return Math.max(getWidth() * getYscale(), 
-					getHeight() * getXscale()) / 2.0;
+			return Math.max(getWidth() * getYScale(), 
+					getHeight() * getXScale()) / 2.0;
 		
 		// First checks which sides are larger
 		double maxXDist = Math.max(getOriginX(), getWidth() - getOriginX());
 		double maxYDist = Math.max(getOriginY(), getHeight() - getOriginY());
 		
 		// Scales the values according to the object's scaling
-		maxXDist *= getXscale();
-		maxYDist *= getYscale();
+		maxXDist *= getXScale();
+		maxYDist *= getYScale();
 		
 		// Calculates the length from origin to the corner of those sides
 		return HelpMath.pointDistance(0, 0, maxXDist, maxYDist);

@@ -271,7 +271,7 @@ public class Car extends AdvancedPhysicDrawnObject implements listeners.Advanced
 	@Override
 	public int getZHeight()
 	{
-		return (int) (getHeight() * getYscale() * 0.8);
+		return (int) (getHeight() * getYScale() * 0.8);
 	}
 
 	@Override

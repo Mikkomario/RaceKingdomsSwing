@@ -38,6 +38,7 @@ public class FollowerCamera extends BasicCamera
 		super((int) (followed.getX()), (int) (followed.getY()), 
 				screenWidth, screenHeight, drawer, actorhandler);
 
+		// Initializes attributes
 		this.followed = followed;
 	}
 

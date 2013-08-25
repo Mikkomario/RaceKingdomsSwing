@@ -112,7 +112,7 @@ public abstract class DrawnObject extends GameObject implements Drawable
 		// rotates it depending on its angle
 		g2d.rotate(Math.toRadians((360 - getAngle())));
 		// scales it depending on it's xscale and yscale
-		g2d.scale(getXscale(), getYscale());
+		g2d.scale(getXScale(), getYScale());
 		// and translates the origin to the right position
 		g2d.translate(-getOriginX(), -getOriginY());
 		
@@ -144,7 +144,7 @@ public abstract class DrawnObject extends GameObject implements Drawable
 			status = "visible ";
 		return status + super.toString() + " position: (" + getX() + ", " + 
 					getY() + "), angle: " + getAngle() + ", scaling: (" + 
-					getXscale() + ", " + getYscale() + "), depth: " + getDepth();
+					getXScale() + ", " + getYScale() + "), depth: " + getDepth();
 	}
 	
 	
@@ -184,7 +184,7 @@ public abstract class DrawnObject extends GameObject implements Drawable
 	 * @return How much the sprite is scaled horizontally (from the original 
 	 * angle) (default at 1)
 	 */
-	public double getXscale()
+	public double getXScale()
 	{
 		return this.xscale;
 	}
@@ -193,9 +193,29 @@ public abstract class DrawnObject extends GameObject implements Drawable
 	 * @return How much the sprite is scaled vertically (from the original 
 	 * angle) (default at 1)
 	 */
-	public double getYscale()
+	public double getYScale()
 	{
 		return this.yscale;
+	}
+	
+	/**
+	 * Changes the object's scaling on the x-axis
+	 *
+	 * @param xscale The object's new horizontal scaling
+	 */
+	public void setXScale(double xscale)
+	{
+		this.xscale = xscale;
+	}
+	
+	/**
+	 * Changes the object's scaling on the y-axis
+	 *
+	 * @param yscale The object's new vertical scaling
+	 */
+	public void setYScale(double yscale)
+	{
+		this.yscale = yscale;
 	}
 	
 	/**
@@ -248,6 +268,26 @@ public abstract class DrawnObject extends GameObject implements Drawable
 	}
 	
 	/**
+	 * Changes the object's position on the x-axis
+	 *
+	 * @param x The object's new x-coordinate
+	 */
+	public void setX(double x)
+	{
+		this.x = x;
+	}
+	
+	/**
+	 * Changes the object's position on the y-axis
+	 *
+	 * @param y The object's new y-coordinate
+	 */
+	public void setY(double y)
+	{
+		this.y = y;
+	}
+	
+	/**
 	 * Changes the object's position by the given amount
 	 *
 	 * @param hspeed How much the object is moved horizontally
@@ -286,7 +326,7 @@ public abstract class DrawnObject extends GameObject implements Drawable
 	 */
 	public void scale(double xscale, double yscale)
 	{
-		setScale(getXscale() * xscale, getYscale() * yscale);
+		setScale(getXScale() * xscale, getYScale() * yscale);
 	}
 	
 	/**
@@ -299,8 +339,8 @@ public abstract class DrawnObject extends GameObject implements Drawable
 	 */
 	public Point negateTransformations(double x, double y)
 	{
-		return negateTransformations(x, y, getX(), getY(), getXscale(), 
-				getYscale(), getAngle(), getOriginX(), getOriginY());
+		return negateTransformations(x, y, getX(), getY(), getXScale(), 
+				getYScale(), getAngle(), getOriginX(), getOriginY());
 	}
 	
 	/**
@@ -369,7 +409,7 @@ public abstract class DrawnObject extends GameObject implements Drawable
 	 */
 	protected DoublePoint transform(double x, double y)
 	{	
-		return transform(x, y, getX(), getY(), getXscale(), getYscale(), 
+		return transform(x, y, getX(), getY(), getXScale(), getYScale(), 
 				getAngle(), getOriginX(), getOriginY());
 	}
 	
@@ -470,7 +510,7 @@ public abstract class DrawnObject extends GameObject implements Drawable
 		// and translates the origin to the right position
 		g2d.translate((double) -getOriginX(), (double) -getOriginY());
 		// scales it depending on it's xscale and yscale
-		g2d.scale(getXscale(), getYscale());
+		g2d.scale(getXScale(), getYScale());
 		// rotates it depending on its angle
 		g2d.rotate(Math.toRadians((360 - getAngle())));
 		// Translates the sprite to the object's position

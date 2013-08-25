@@ -96,7 +96,7 @@ public class BasicCamera extends BasicPhysicDrawnObject
 		// and translates the origin to the right position
 		g2d.translate(getOriginX(), getOriginY());
 		// scales it depending on it's xscale and yscale
-		g2d.scale(1/getXscale(), 1/getYscale());
+		g2d.scale(1/getXScale(), 1/getYScale());
 		// rotates it depending on its angle
 		g2d.rotate(Math.toRadians((getAngle())));
 		// Translates the sprite to the object's position
@@ -156,8 +156,8 @@ public class BasicCamera extends BasicPhysicDrawnObject
 	{
 		this.listenerhandler.informCameraPosition(
 				(int) getX(), (int) getY(), 
-				(int) Math.abs(this.screenWidth * getXscale()), 
-				(int) Math.abs(this.screenHeight * getYscale()), 
+				(int) Math.abs(this.screenWidth * getXScale()), 
+				(int) Math.abs(this.screenHeight * getYScale()), 
 				(int) HelpMath.checkDirection(getAngle()));
 	}
 	
