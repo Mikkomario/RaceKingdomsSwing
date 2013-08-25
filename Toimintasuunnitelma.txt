@@ -78,7 +78,7 @@ Testit / TODO
 		- Sama tilemapille
 	* Infinite loop & Release trackeille
 	* Lisää RoomBoundCamera (Ei mene edes osittain 
-	huoneen ulkopuolelle)
+	huoneen ulkopuolelle)									FAILED
 	* FileReaderTest
 	* Korjaa interaktiivinen törmäysfysiikka
 	* Testaa WALL collision type
