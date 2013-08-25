@@ -17,9 +17,11 @@ import listeners.SoundListener;
 
 /**
  * WavSound represents a single sound that can be played during the program. 
- * Each sound has a name so it can be differentiated from other wavsounds.
+ * Each sound has a name so it can be differentiated from other wavsounds. 
+ * Wavsounds often serve as shorter sound effects since the filesize is rather 
+ * large
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 17.8.2013.
  */
 public class WavSound extends Sound
@@ -40,8 +42,8 @@ public class WavSound extends Sound
 	 * automatically included)
 	 * @param name The name of the sound that differentiates it from other 
 	 * sounds
-	 * @param defaultvolume How many desibels the volyme is adjusted at default
-	 * @param defaultpan How much pan is added at default [-1, 1]
+	 * @param defaultvolume How many desibels the volume is adjusted by default
+	 * @param defaultpan How much pan is added by default [-1, 1]
 	 */
 	public WavSound(String filename, String name, float defaultvolume, 
 			float defaultpan)
@@ -127,7 +129,7 @@ public class WavSound extends Sound
 	}
 	
 	/**
-	 * Plays the sound using the give settings
+	 * Plays the sound using the given settings
 	 *
 	 * @param volume How many desibels the sound's volume is increased / decreased
 	 * @param pan How much the sound is panned [-1, 1]
@@ -141,7 +143,7 @@ public class WavSound extends Sound
 	}
 	
 	/**
-	 * Loops the sound using the give settings
+	 * Loops the sound using the given settings
 	 *
 	 * @param volume How many desibels the sound's volume is increased / decreased
 	 * @param pan How much the sound is panned [-1, 1]
@@ -209,7 +211,7 @@ public class WavSound extends Sound
 		// If the sound should loop, plays it again
 		if (source.looping)
 			loop(source.volume, source.pan, source.listener);
-		// Otherwise, informs the listeners (if the sound stopped naturally
+		// Otherwise, informs the listeners (if the sound stopped naturally)
 		else if (!source.stopped)
 			informSoundEnd();
 	}
@@ -218,10 +220,10 @@ public class WavSound extends Sound
 	// SUBCLASSES	-----------------------------------------------------
 	
 	/**
-	 * An external class that answers for playing the sound effects in this game.
+	 * WavPlayer loads and plays wav files with the given settings
 	 * 
 	 * @author http://www.anyexample.com/programming/java/java_play_wav_sound_file.xml
-	 * Modified by: Gandalf
+	 * Modified by: Mikko Hilpinen
 	 */
 	private class WavPlayer extends Thread
 	{  
@@ -236,10 +238,10 @@ public class WavSound extends Sound
 	    // CONSTRUCTOR	-----------------------------------------------------
 		
 		/**
-		 * Creates a new playwave with custom settings
+		 * Creates a new wavplayer with custom settings
 		 *
 		 * @param pan How much the sound is panned [-1 (left speaker only), 
-		 * 1 (right speaker only)] (0 by default)
+		 * 1 (right speaker only)] (0 default)
 		 * @param volume How much the volume is adjusted in desibels (default 0)
 		 * @param loops Should the sound be looped after it ends?
 		 */
@@ -258,23 +260,10 @@ public class WavSound extends Sound
 	    @Override
 		public void run()
 	    {
-	    	/*
-	    	// Checks whether the file exists
-	        File soundFile = new File(WavSound.this.filename);
-
-	        if (!soundFile.exists()) { 
-	            System.err.println("Wave file not found: " + 
-	            		WavSound.this.filename);
-	            return;
-	        }
-	        */
-	    
 	        // Reads the file as an audioinputstream
 	        AudioInputStream audioInputStream = null;
 	        try
 	        {
-	        	//System.out.println("Loads the file " + WavSound.this.filename);
-	            //System.out.println(WavSound.this.getClass().getResourceAsStream(WavSound.this.filename));
 	        	audioInputStream = AudioSystem.getAudioInputStream(
 	            		this.getClass().getResourceAsStream(WavSound.this.filename));
 	        }
@@ -314,13 +303,6 @@ public class WavSound extends Sound
 	            e.printStackTrace();
 	            return;
 	        }
-	        /*
-	        catch (Exception e)
-	        { 
-	            e.printStackTrace();
-	            return;
-	        }
-	        */
 	 
 	        // Tries to set the correct pan (if needed)
 	        if (this.pan != 0 && auline.isControlSupported(FloatControl.Type.PAN))

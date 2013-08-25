@@ -1,15 +1,13 @@
 package sound;
 
-import common.AbstractBank;
-
 /**
- * This class holds multiple wavsoundtracks in it and offers them to those who 
+ * This class holds multiple soundtracks in it and offers them to those who 
  * need them
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 19.8.2013.
  */
-public abstract class WavSoundTrackBank extends AbstractBank
+public abstract class SoundTrackBank extends SoundBank
 {
 	// IMPLEMENTED METHODS	---------------------------------------------
 	
@@ -23,12 +21,12 @@ public abstract class WavSoundTrackBank extends AbstractBank
 	// OTHER METHODS	-------------------------------------------------
 	
 	/**
-	 * Creates a new wavsoundtrack and adds it to the bank
+	 * Creates a new soundtrack and adds it to the bank
 	 *
 	 * @param soundnames A table containing the names of the sounds forming the track
 	 * @param loopcounts A table containing the information about how many times 
 	 * each sound is looped
-	 * @param soundbank A wavsoundbank containing the sounds used in the track
+	 * @param soundbank A soundbank containing the sounds used in the track
 	 * @param trackname The name of the new track in the bank
 	 */
 	protected void createTrack(String[] soundnames, int[] loopcounts, 

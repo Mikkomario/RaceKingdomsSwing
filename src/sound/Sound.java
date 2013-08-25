@@ -169,7 +169,7 @@ public abstract class Sound implements BankObject
 	}
 	
 	/**
-	 * @return Is the sound currently playing (or paused)
+	 * @return Is the sound currently playing or paused (true) or stopped (false)
 	 */
 	public boolean isPlaying()
 	{

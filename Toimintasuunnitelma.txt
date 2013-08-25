@@ -86,6 +86,10 @@ Testit / TODO
 	* toStringit
 	* Korjaa @see javadocit
 	* Lisää friction modifierit maeriaaleihin?
+	* Tee loppuun soundtrack ja midisoundtrack
+	* Vaihda kameraluokan transformaatioita käänteisiksi?
+		- Checkkaa myös, että kameralistenereille annetaan oikea tieto
+	* Testaa soundtracking unpause metodia
 
 ALPHA READY
 

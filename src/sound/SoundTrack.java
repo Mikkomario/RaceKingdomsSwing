@@ -3,10 +3,10 @@ package sound;
 import listeners.SoundListener;
 
 /**
- * WavSoundTrack is a class that plays multiple wavsounds in order, forming a 
- * track
+ * SoundTrack is a class that plays multiple sounds in order, forming a 
+ * track.
  *
- * @author Gandalf.
+ * @author Mikko Hilpinen.
  *         Created 19.8.2013.
  */
 public class SoundTrack extends Sound implements SoundListener
@@ -24,14 +24,14 @@ public class SoundTrack extends Sound implements SoundListener
 	// CONSTRUCTROR	------------------------------------------------------
 	
 	/**
-	 * Creates a new wavsoundtrack with the given information
+	 * Creates a new soundtrack with the given information
 	 *
 	 * @param soundnames A table containing the names of the sounds that create 
 	 * the track (in a specific order)
 	 * @param loopcounts A table containing the numbers about how many times 
 	 * each sound is repeated in a row (should have as many indexes as the 
 	 * soundnames table)
-	 * @param soundbank The Wavsoundbank that contains each of the sounds used 
+	 * @param soundbank The soundbank that contains each of the sounds used 
 	 * in the track
 	 * @param name The name of the track
 	 */
