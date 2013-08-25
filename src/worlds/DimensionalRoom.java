@@ -18,6 +18,9 @@ import backgrounds.TileMap;
  *
  * @author Mikko Hilpinen.
  *         Created 12.7.2013.
+ * @warning Changing the position of the room doesn't work well if the room 
+ * is active. Please end the room before moving it. Also remember to move 
+ * the map, background and the objects in the room as well
  */
 public class DimensionalRoom extends TiledRoom implements Collidable
 {

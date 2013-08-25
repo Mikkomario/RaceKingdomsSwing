@@ -159,6 +159,22 @@ public class TileMap extends DimensionalDrawnObject
 		return this.height * this.tileheight;
 	}
 	
+	@Override
+	public String toString()
+	{
+		String status = "uninitialized ";
+		if (this.initialized)
+			status = "initialized ";
+		if (isVisible())
+			status += "visible ";
+		else
+			status += "invisible ";
+		String sizes = " width: " + getWidth() + " (" + this.width + "*" + 
+			this.tilewidth + "), " + "height: " + getHeight() + " (" + 
+				this.height + "*" + this.tileheight + ")";
+		return status + getClass().getName() + sizes;
+	}
+	
 	
 	// OTHER METHODS	-------------------------------------------------
 	

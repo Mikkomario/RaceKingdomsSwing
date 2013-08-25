@@ -43,4 +43,13 @@ public abstract class GameObject implements Handled
 		this.dead = true;
 		return true;
 	}
+	
+	@Override
+	public String toString()
+	{
+		String status = "alive ";
+		if (isDead())
+			status = "dead ";
+		return status + getClass().getName();
+	}
 }

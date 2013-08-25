@@ -25,6 +25,15 @@ public abstract class FileReader
 	protected abstract void onLine(String line);
 	
 	
+	// IMPLEMENTED METHODS	----------------------------------------------
+	
+	@Override
+	public String toString()
+	{
+		return getClass().getName();
+	}
+	
+	
 	// OTHER METHODS	--------------------------------------------------
 	
 	/**

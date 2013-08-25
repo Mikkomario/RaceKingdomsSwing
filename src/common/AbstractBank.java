@@ -9,7 +9,7 @@ import java.util.HashMap;
  *
  * @author Mikko Hilpinen.
  *         Created 17.8.2013.
- * @see BankObject
+ * @see common.BankObject
  */
 public abstract class AbstractBank
 {
@@ -48,6 +48,26 @@ public abstract class AbstractBank
 	 * @see addObject
 	 */
 	protected abstract void initialize();
+	
+	
+	// IMPLEMENTED METHODS	---------------------------------------------
+	
+	@Override
+	public String toString()
+	{
+		String status = "uninitialized ";
+		String includes = "";
+		// If the bank has been initialized, prints the content of the bank
+		if (this.initialized)
+		{
+			status = "initialized ";
+			includes = "including:";
+			for (String name: this.bank.keySet())
+				includes += " " + name;
+		}
+		
+		return status + getClass().getName() + includes;
+	}
 	
 	
 	// OTHER METHODS	-------------------------------------------------
