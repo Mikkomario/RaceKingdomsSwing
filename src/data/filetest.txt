@@ -1,0 +1,10 @@
+Tasta alkaa uusi tiedosto muutamalla tyhjalla rivilla.
+
+
+asdasdjkjg aksdjkji !!d  skskd
+Lrem ipsum aslddk
+
+askdjfndnfjdgnn ,,,,,,, sdsdkj
+:)
+
+Sitten viela hyvin nihkeita merkkeja kuten rivinvaihto: \n. Huh, se oli paha!

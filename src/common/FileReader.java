@@ -58,7 +58,7 @@ public abstract class FileReader
 	 * automatically to the beginning)
 	 * @see onLine
 	 */
-	protected void readFile(String filename)
+	public void readFile(String filename)
 	{
 		// First checks if the file actually exists
 		File file = new File("src/data/" + filename);
