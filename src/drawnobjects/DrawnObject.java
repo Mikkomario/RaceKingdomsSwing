@@ -136,6 +136,17 @@ public abstract class DrawnObject extends GameObject implements Drawable
 		return true;
 	}
 	
+	@Override
+	public String toString()
+	{
+		String status = "invisible ";
+		if (isVisible())
+			status = "visible ";
+		return status + super.toString() + " position: (" + getX() + ", " + 
+					getY() + "), angle: " + getAngle() + ", scaling: (" + 
+					getXscale() + ", " + getYscale() + "), depth: " + getDepth();
+	}
+	
 	
 	// GETTERS & SETTERS	-----------------------------------------------
 	
