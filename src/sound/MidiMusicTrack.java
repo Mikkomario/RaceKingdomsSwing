@@ -136,7 +136,7 @@ public class MidiMusicTrack extends Sound implements SoundListener
 
 		// Checks if the current seqment should loop
 		if (this.currentloopsleft > 0 || 
-				(this.currentloopsleft < -1 && !this.released))
+				(this.currentloopsleft < 0 && !this.released))
 		{
 			this.currentloopsleft --;
 			// Plays the seqment again
@@ -180,6 +180,15 @@ public class MidiMusicTrack extends Sound implements SoundListener
 	
 	// OTHER METHODS	-------------------------------------------------
 	
+	
+	/**
+	 * Releases the track from the next infinite loop it starts
+	 */
+	public void release()
+	{
+		this.released = true;
+	}
+	
 	// Plays the midi using the start- and endpoints indicated by the current 
 	// index
 	private void playMidi()
@@ -219,10 +228,8 @@ public class MidiMusicTrack extends Sound implements SoundListener
 		 * @param startpoint The loop's startpoint (tick)
 		 * @param endpoint The loop's endpoint (tick)
 		 * @param loopcount How many times the music is repeated between the 
-		 * given points (0 means that the music is played once, -1 means that 
-		 * the music is played until released but at least once, -2 or smaller 
-		 * means that the music is played until released but not neccessarily 
-		 * once)
+		 * given points (0 means that the music is played once, a negative 
+		 * number means that the music is played until released but at least once)
 		 */
 		public LoopPointInformation(long startpoint, long endpoint, int loopcount)
 		{

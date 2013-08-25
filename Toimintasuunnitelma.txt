@@ -76,7 +76,9 @@ Musiikin ja äänien soittaminen				(9)
 Testit / TODO
 	* Background origin test (tilemap)
 		- Sama tilemapille
-	* Infinite loop & Release trackeille
+	* Infinite loop & Release trackeille					UNTESTED
+		- Parempi työnjako soundtrackin ja miditrackin 
+		välillä
 	* Lisää RoomBoundCamera (Ei mene edes osittain 
 	huoneen ulkopuolelle)									FAILED
 	* FileReaderTest

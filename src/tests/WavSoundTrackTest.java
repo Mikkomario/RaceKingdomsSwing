@@ -15,11 +15,7 @@ import handlers.DrawableHandler;
  *         Created 18.8.2013.
  */
 public class WavSoundTrackTest extends AbstractTest implements AdvancedKeyListener
-{
-	// TODO: also create a track that plays tracks and wavsounds alike. Try creating 
-	// one for midis as well. Oh, and also create a 'release' function with 
-	// which a sound or a track can be released from an infinite loop (loopcount < 0)
-	
+{	
 	// ATTRIBUTES	-----------------------------------------------------
 	
 	private boolean dead, active;
@@ -27,7 +23,7 @@ public class WavSoundTrackTest extends AbstractTest implements AdvancedKeyListen
 	private SoundTrack testtrack;
 	private static String[] soundnames = {"qrq", "darkness", "unit", 
 										"darkness", "noo"};
-	private static int[] loopcounts = {1, 0, 2, 1, 0};
+	private static int[] loopcounts = {1, -1, 2, 1, -1};
 	
 	
 	// CONSTRUCTOR	----------------------------------------------------
@@ -65,7 +61,7 @@ public class WavSoundTrackTest extends AbstractTest implements AdvancedKeyListen
 	{
 		// Activates the test
 		activate();
-		System.out.println("Test started (press q, w, e, a, s or d");
+		System.out.println("Test started (press q, w, e, a, s, d or r");
 	}
 
 	@Override
@@ -145,6 +141,12 @@ public class WavSoundTrackTest extends AbstractTest implements AdvancedKeyListen
 			{
 				this.testtrack.unpause();
 				System.out.println("Unpauses the track");
+			}
+			// On r releases the track from a loop
+			else if (key == 'r')
+			{
+				this.testtrack.release();
+				System.out.println("Releases the track");
 			}
 		}
 	}

@@ -31,10 +31,8 @@ public class SoundTrack extends Sound implements SoundListener
 	 * @param loopcounts A table containing the numbers about how many times 
 	 * each sound is repeated in a row (should have as many indexes as the 
 	 * soundnames table) 
-	 * (0 means that the music is played once, -1 means that 
-	 * the music is played until released but at least once, -2 or smaller 
-	 * means that the music is played until released but not neccessarily 
-	 * once)
+	 * (0 means that the music is played once, a negative number means that 
+	 * the music is played until released but at least once)
 	 * @param soundbank The soundbank that contains each of the sounds used 
 	 * in the track
 	 * @param name The name of the track
@@ -209,10 +207,8 @@ public class SoundTrack extends Sound implements SoundListener
 	 * Changes the loopcounts used in the track. This can be done in the midle 
 	 * of playing a track and the change will take place once the current sound 
 	 * stops.
-	 * (0 means that the music is played once, -1 means that 
-	 * the music is played until released but at least once, -2 or smaller 
-	 * means that the music is played until released but not neccessarily 
-	 * once)
+	 * (0 means that the music is played once, a negative number means that 
+	 * the music is played until released but at least once)
 	 *
 	 * @param loopcounts The set of loopcounts to be used
 	 */
@@ -244,7 +240,7 @@ public class SoundTrack extends Sound implements SoundListener
 		// Checks whether more loops are needed
 		// Loops the current sound if needed
 		if (this.currentloopcount > 0 || 
-				(this.currentloopcount < -1 && !this.released))
+				(this.currentloopcount < 0 && !this.released))
 		{
 			this.currentloopcount --;
 			this.currentsound = this.soundbank.getSound(
@@ -269,7 +265,6 @@ public class SoundTrack extends Sound implements SoundListener
 					this.currentindex = 0;
 				else
 				{
-					// TODO: Check if this still works (was stop() previously)
 					this.delayed = false;
 					this.paused = false;
 					informSoundEnd();
